@@ -1,0 +1,9 @@
+{
+    "diagnostics.globals": [
+        "vim",
+        "lvim",
+        "reload",
+        "icons",
+        "builtin"
+    ]
+}

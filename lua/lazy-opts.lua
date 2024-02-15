@@ -1,0 +1,6 @@
+return {
+    ui = {
+        border = "rounded",
+    }
+}
+
