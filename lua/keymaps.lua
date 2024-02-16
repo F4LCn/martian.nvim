@@ -43,6 +43,16 @@ local keymap = {
     ["]q"] = ":cnext<CR>",
     ["[q"] = ":cprev<CR>",
     ["<C-q>"] = ":call QuickFixToggle()<CR>",
+
+    -- Diagnostics
+    ["<F12>"] = {
+      "<cmd>lua vim.diagnostic.goto_next()<cr>",
+      "Next Diagnostic",
+    },
+    ["<S-F12>"] = {
+      "<cmd>lua vim.diagnostic.goto_prev()<cr>",
+      "Prev Diagnostic",
+    },
   },
 
   term_mode = {
