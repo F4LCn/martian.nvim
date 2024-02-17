@@ -15,7 +15,7 @@ M.servers = {
 }
 
 local function add_lsp_buffer_options(bufnr)
-  for k, v in pairs(lsp.buffer_options) do
+  for k, v in pairs(Lsp.buffer_options) do
     vim.api.nvim_buf_set_option(bufnr, k, v)
   end
 end
@@ -28,7 +28,7 @@ local function add_lsp_buffer_keybindings(bufnr)
   }
 
   for mode_name, mode_char in pairs(mappings) do
-    for key, remap in pairs(lsp.buffer_mappings[mode_name]) do
+    for key, remap in pairs(Lsp.buffer_mappings[mode_name]) do
       local opts = { buffer = bufnr, desc = remap[2], noremap = true, silent = true }
       vim.keymap.set(mode_char, key, remap[1], opts)
     end
@@ -55,32 +55,32 @@ function M.common_capabilities()
 end
 
 function M.common_on_exit(_, _)
-  if lsp.document_highlight then
+  if Lsp.document_highlight then
     autocmds.clear_augroup "lsp_document_highlight"
   end
-  if lsp.code_lens_refresh then
+  if Lsp.code_lens_refresh then
     autocmds.clear_augroup "lsp_code_lens_refresh"
   end
 end
 
 function M.common_on_init(client, bufnr)
-  if lsp.on_init_callback then
-    lsp.on_init_callback(client, bufnr)
+  if Lsp.on_init_callback then
+    Lsp.on_init_callback(client, bufnr)
     Log:debug "Called lsp.on_init_callback"
     return
   end
 end
 
 function M.common_on_attach(client, bufnr)
-  if lsp.on_attach_callback then
-    lsp.on_attach_callback(client, bufnr)
+  if Lsp.on_attach_callback then
+    Lsp.on_attach_callback(client, bufnr)
     Log:debug "Called lsp.on_attach_callback"
   end
   local lu = require "lsp.utils"
-  if lsp.document_highlight then
+  if Lsp.document_highlight then
     lu.setup_document_highlight(client, bufnr)
   end
-  if lsp.code_lens_refresh then
+  if Lsp.code_lens_refresh then
     lu.setup_codelens_refresh(client, bufnr)
   end
   add_lsp_buffer_keybindings(bufnr)

@@ -1,7 +1,7 @@
 local M = {}
 
 M.config = function()
-  builtin["terminal"] = {
+  Builtin["terminal"] = {
     active = true,
     on_config_done = nil,
     -- size can be a number or function which is passed the current terminal
@@ -65,7 +65,7 @@ end
 ---@param size number
 ---@return integer
 local function get_dynamic_terminal_size(direction, size)
-  size = size or builtin.terminal.size
+  size = size or Builtin.terminal.size
   if direction ~= "float" and tostring(size):find(".", 1, true) then
     size = math.min(size, 1.0)
     local buf_sizes = get_buf_size()
@@ -77,11 +77,11 @@ local function get_dynamic_terminal_size(direction, size)
 end
 
 M.init = function()
-  for i, exec in pairs(builtin.terminal.execs) do
-    local direction = exec[4] or builtin.terminal.direction
+  for i, exec in pairs(Builtin.terminal.execs) do
+    local direction = exec[4] or Builtin.terminal.direction
 
     local opts = {
-      cmd = exec[1] or builtin.terminal.shell or vim.o.shell,
+      cmd = exec[1] or Builtin.terminal.shell or vim.o.shell,
       keymap = exec[2],
       label = exec[3],
       -- NOTE: unable to consistently bind id/count <= 9, see #2146
@@ -98,9 +98,9 @@ end
 
 M.setup = function()
   local terminal = require "toggleterm"
-  terminal.setup(builtin.terminal)
-  if builtin.terminal.on_config_done then
-    builtin.terminal.on_config_done(terminal)
+  terminal.setup(Builtin.terminal)
+  if Builtin.terminal.on_config_done then
+    Builtin.terminal.on_config_done(terminal)
   end
 end
 
@@ -126,7 +126,7 @@ end
 M.toggle_log_view = function(logfile)
   local log_viewer = "less +F"
   log_viewer = log_viewer .. " " .. logfile
-  local term_opts = vim.tbl_deep_extend("force", builtin.terminal, {
+  local term_opts = vim.tbl_deep_extend("force", Builtin.terminal, {
     cmd = log_viewer,
     open_mapping = "",
     direction = "horizontal",

@@ -7,9 +7,9 @@ end
 local function diagnostics_indicator(num, _, diagnostics, _)
   local result = {}
   local symbols = {
-    error = icons.diagnostics.Error,
-    warning = icons.diagnostics.Warning,
-    info = icons.diagnostics.Information,
+    error = Icons.diagnostics.Error,
+    warning = Icons.diagnostics.Warning,
+    info = Icons.diagnostics.Information,
   }
   for name, count in pairs(diagnostics) do
     if symbols[name] and count > 0 then
@@ -38,7 +38,7 @@ local function custom_filter(buf, buf_nums)
 end
 
 M.config = function()
-  builtin.bufferline = {
+  Builtin.bufferline = {
     active = true,
     on_config_done = nil,
     keymap = {
@@ -62,14 +62,14 @@ M.config = function()
       left_mouse_command = "buffer %d",        -- can be a string | function, see "Mouse actions"
       middle_mouse_command = nil,              -- can be a string | function, see "Mouse actions"
       indicator = {
-        icon = icons.ui.BoldLineLeft,          -- this should be omitted if indicator style is not 'icon'
+        icon = Icons.ui.BoldLineLeft,          -- this should be omitted if indicator style is not 'icon'
         style = "icon",                        -- can also be 'underline'|'none',
       },
-      buffer_close_icon = icons.ui.Close,
-      modified_icon = icons.ui.Circle,
-      close_icon = icons.ui.BoldClose,
-      left_trunc_marker = icons.ui.ArrowCircleLeft,
-      right_trunc_marker = icons.ui.ArrowCircleRight,
+      buffer_close_icon = Icons.ui.Close,
+      modified_icon = Icons.ui.Circle,
+      close_icon = Icons.ui.BoldClose,
+      left_trunc_marker = Icons.ui.ArrowCircleLeft,
+      right_trunc_marker = Icons.ui.ArrowCircleRight,
       --- name_formatter can be used to change the buffer's label in the bufferline.
       --- Please note some names can/will break the
       --- bufferline so use this at your discretion knowing that it has
@@ -153,12 +153,12 @@ M.setup = function()
   vim.opt.showtabline = 2
 
   bufferline.setup {
-    options = builtin.bufferline.options,
-    highlights = builtin.bufferline.highlights,
+    options = Builtin.bufferline.options,
+    highlights = Builtin.bufferline.highlights,
   }
 
-  if builtin.bufferline.on_config_done then
-    builtin.bufferline.on_config_done()
+  if Builtin.bufferline.on_config_done then
+    Builtin.bufferline.on_config_done()
   end
 end
 

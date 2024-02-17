@@ -2,7 +2,7 @@ local M = {}
 
 function M.config()
   local dashboard = require "core.alpha.dashboard"
-  builtin.alpha = {
+  Builtin.alpha = {
     dashboard = {
       config = {},
       section = dashboard.get_sections(),
@@ -40,7 +40,7 @@ end
 local function resolve_config(theme_name)
   local selected_theme = require("alpha.themes." .. theme_name)
   local resolved_section = selected_theme.section
-  local section = builtin.alpha[theme_name].section
+  local section = Builtin.alpha[theme_name].section
 
   for name, el in pairs(section) do
     for k, v in pairs(el) do
@@ -54,7 +54,7 @@ local function resolve_config(theme_name)
     resolved_section[name].opts = el.opts or {}
   end
 
-  local opts = builtin.alpha[theme_name].opts or {}
+  local opts = Builtin.alpha[theme_name].opts or {}
   selected_theme.config.opts = vim.tbl_extend("force", selected_theme.config.opts, opts)
 
   return selected_theme.config
@@ -65,8 +65,8 @@ function M.setup()
   if not status_ok then
     return
   end
-  local mode = builtin.alpha.mode
-  local config = builtin.alpha[mode].config
+  local mode = Builtin.alpha.mode
+  local config = Builtin.alpha[mode].config
 
   -- this makes it easier to use a completely custom configuration
   if vim.tbl_isempty(config) then

@@ -51,10 +51,10 @@ function M.init()
     signs = {
       active = true,
       values = {
-        { name = "DiagnosticSignError", text = icons.diagnostics.Error },
-        { name = "DiagnosticSignWarn",  text = icons.diagnostics.Warning },
-        { name = "DiagnosticSignHint",  text = icons.diagnostics.Hint },
-        { name = "DiagnosticSignInfo",  text = icons.diagnostics.Information },
+        { name = "DiagnosticSignError", text = Icons.diagnostics.Error },
+        { name = "DiagnosticSignWarn",  text = Icons.diagnostics.Warning },
+        { name = "DiagnosticSignHint",  text = Icons.diagnostics.Hint },
+        { name = "DiagnosticSignInfo",  text = Icons.diagnostics.Information },
       },
     },
     virtual_text = false,

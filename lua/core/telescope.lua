@@ -2,14 +2,14 @@ local M = {}
 
 function M.config()
   local actions = require("utils.modules").require_on_exported_call "telescope.actions"
-  builtin.telescope = {
+  Builtin.telescope = {
     ---@usage disable telescope completely [not recommended]
     active = true,
     on_config_done = nil,
     theme = "dropdown", ---@type telescope_themes
     defaults = {
-      prompt_prefix = icons.ui.Telescope .. " ",
-      selection_caret = icons.ui.Forward .. " ",
+      prompt_prefix = Icons.ui.Telescope .. " ",
+      selection_caret = Icons.ui.Forward .. " ",
       entry_prefix = "  ",
       initial_mode = "insert",
       selection_strategy = "reset",
@@ -107,34 +107,34 @@ function M.setup()
   local previewers = require "telescope.previewers"
   local sorters = require "telescope.sorters"
 
-  builtin.telescope = vim.tbl_extend("keep", {
+  Builtin.telescope = vim.tbl_extend("keep", {
     file_previewer = previewers.vim_buffer_cat.new,
     grep_previewer = previewers.vim_buffer_vimgrep.new,
     qflist_previewer = previewers.vim_buffer_qflist.new,
     file_sorter = sorters.get_fuzzy_file,
     generic_sorter = sorters.get_generic_fuzzy_sorter,
-  }, builtin.telescope)
+  }, Builtin.telescope)
 
   local telescope = require "telescope"
 
-  local theme = require("telescope.themes")["get_" .. (builtin.telescope.theme or "")]
+  local theme = require("telescope.themes")["get_" .. (Builtin.telescope.theme or "")]
   if theme then
-    builtin.telescope.defaults = theme(builtin.telescope.defaults)
+    Builtin.telescope.defaults = theme(Builtin.telescope.defaults)
   end
 
-  telescope.setup(builtin.telescope)
+  telescope.setup(Builtin.telescope)
 
-  if builtin.project.active then
+  if Builtin.project.active then
     pcall(function()
       require("telescope").load_extension "projects"
     end)
   end
 
-  if builtin.telescope.on_config_done then
-    builtin.telescope.on_config_done(telescope)
+  if Builtin.telescope.on_config_done then
+    Builtin.telescope.on_config_done(telescope)
   end
 
-  if builtin.telescope.extensions and builtin.telescope.extensions.fzy_native then
+  if Builtin.telescope.extensions and Builtin.telescope.extensions.fzy_native then
     pcall(function()
       require("telescope").load_extension "fzy_native"
     end)

@@ -45,14 +45,8 @@ local keymap = {
     ["<C-q>"] = ":call QuickFixToggle()<CR>",
 
     -- Diagnostics
-    ["<F12>"] = {
-      "<cmd>lua vim.diagnostic.goto_next()<cr>",
-      "Next Diagnostic",
-    },
-    ["<S-F12>"] = {
-      "<cmd>lua vim.diagnostic.goto_prev()<cr>",
-      "Prev Diagnostic",
-    },
+    ["<F12>"] = "<cmd>lua vim.diagnostic.goto_next()<cr>",
+    ["<S-F12>"] = "<cmd>lua vim.diagnostic.goto_prev()<cr>",
   },
 
   term_mode = {
@@ -141,12 +135,6 @@ end
 -- Load the default keymappings
 function M.load_keymap()
   M.load(M.get_keymap())
-  lvim.keys = lvim.keys or {}
-  for idx, _ in pairs(keymap) do
-    if not lvim.keys[idx] then
-      lvim.keys[idx] = {}
-    end
-  end
 end
 
 -- Get the default keymappings

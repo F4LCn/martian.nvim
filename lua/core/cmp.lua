@@ -130,7 +130,7 @@ M.config = function()
   local cmp_window = require "cmp.config.window"
   local cmp_mapping = require "cmp.config.mapping"
 
-  builtin.cmp = {
+  Builtin.cmp = {
     active = true,
     on_config_done = nil,
     enabled = function()
@@ -138,7 +138,7 @@ M.config = function()
       if buftype == "prompt" then
         return false
       end
-      return builtin.cmp.active
+      return Builtin.cmp.active
     end,
     confirm_opts = {
       behavior = ConfirmBehavior.Replace,
@@ -155,7 +155,7 @@ M.config = function()
     formatting = {
       fields = { "kind", "abbr", "menu" },
       max_width = 0,
-      kind_icons = icons.kind,
+      kind_icons = Icons.kind,
       source_names = {
         nvim_lsp = "(LSP)",
         emoji = "(Emoji)",
@@ -177,41 +177,41 @@ M.config = function()
       },
       duplicates_default = 0,
       format = function(entry, vim_item)
-        local max_width = builtin.cmp.formatting.max_width
+        local max_width = Builtin.cmp.formatting.max_width
         if max_width ~= 0 and #vim_item.abbr > max_width then
-          vim_item.abbr = string.sub(vim_item.abbr, 1, max_width - 1) .. icons.ui.Ellipsis
+          vim_item.abbr = string.sub(vim_item.abbr, 1, max_width - 1) .. Icons.ui.Ellipsis
         end
         if use_icons then
-          vim_item.kind = builtin.cmp.formatting.kind_icons[vim_item.kind]
+          vim_item.kind = Builtin.cmp.formatting.kind_icons[vim_item.kind]
 
           if entry.source.name == "copilot" then
-            vim_item.kind = icons.git.Octoface
+            vim_item.kind = Icons.git.Octoface
             vim_item.kind_hl_group = "CmpItemKindCopilot"
           end
 
           if entry.source.name == "cmp_tabnine" then
-            vim_item.kind = icons.misc.Robot
+            vim_item.kind = Icons.misc.Robot
             vim_item.kind_hl_group = "CmpItemKindTabnine"
           end
 
           if entry.source.name == "crates" then
-            vim_item.kind = icons.misc.Package
+            vim_item.kind = Icons.misc.Package
             vim_item.kind_hl_group = "CmpItemKindCrate"
           end
 
           if entry.source.name == "lab.quick_data" then
-            vim_item.kind = icons.misc.CircuitBoard
+            vim_item.kind = Icons.misc.CircuitBoard
             vim_item.kind_hl_group = "CmpItemKindConstant"
           end
 
           if entry.source.name == "emoji" then
-            vim_item.kind = icons.misc.Smiley
+            vim_item.kind = Icons.misc.Smiley
             vim_item.kind_hl_group = "CmpItemKindEmoji"
           end
         end
-        vim_item.menu = builtin.cmp.formatting.source_names[entry.source.name]
-        vim_item.dup = builtin.cmp.formatting.duplicates[entry.source.name]
-            or builtin.cmp.formatting.duplicates_default
+        vim_item.menu = Builtin.cmp.formatting.source_names[entry.source.name]
+        vim_item.dup = Builtin.cmp.formatting.duplicates[entry.source.name]
+            or Builtin.cmp.formatting.duplicates_default
         return vim_item
       end,
     },
@@ -321,7 +321,7 @@ M.config = function()
       ["<C-e>"] = cmp_mapping.abort(),
       ["<CR>"] = cmp_mapping(function(fallback)
         if cmp.visible() then
-          local confirm_opts = vim.deepcopy(builtin.cmp.confirm_opts) -- avoid mutating the original opts below
+          local confirm_opts = vim.deepcopy(Builtin.cmp.confirm_opts) -- avoid mutating the original opts below
           local is_insert_mode = function()
             return vim.api.nvim_get_mode().mode:sub(1, 1) == "i"
           end
@@ -364,10 +364,10 @@ end
 
 function M.setup()
   local cmp = require "cmp"
-  cmp.setup(builtin.cmp)
+  cmp.setup(Builtin.cmp)
 
-  if builtin.cmp.cmdline.enable then
-    for _, option in ipairs(builtin.cmp.cmdline.options) do
+  if Builtin.cmp.cmdline.enable then
+    for _, option in ipairs(Builtin.cmp.cmdline.options) do
       cmp.setup.cmdline(option.type, {
         mapping = cmp.mapping.preset.cmdline(),
         sources = option.sources,
@@ -375,8 +375,8 @@ function M.setup()
     end
   end
 
-  if builtin.cmp.on_config_done then
-    builtin.cmp.on_config_done(cmp)
+  if Builtin.cmp.on_config_done then
+    Builtin.cmp.on_config_done(cmp)
   end
 end
 

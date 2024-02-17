@@ -5,7 +5,7 @@ M.config = function()
   local actions = utils.require_on_exported_call "lir.actions"
   local clipboard_actions = utils.require_on_exported_call "lir.clipboard.actions"
 
-  builtin.lir = {
+  Builtin.lir = {
     active = true,
     on_config_done = nil,
     icon = "",
@@ -92,7 +92,7 @@ function M.icon_setup()
 
   devicons.set_icon {
     lir_folder_icon = {
-      icon = builtin.lir.icon,
+      icon = Builtin.lir.icon,
       color = icon_hl,
       name = "LirFolderNode",
     },
@@ -105,11 +105,11 @@ function M.setup()
     return
   end
 
-  lir.setup(builtin.lir)
+  lir.setup(Builtin.lir)
   M.icon_setup()
 
-  if builtin.lir.on_config_done then
-    builtin.lir.on_config_done(lir)
+  if Builtin.lir.on_config_done then
+    Builtin.lir.on_config_done(lir)
   end
 end
 

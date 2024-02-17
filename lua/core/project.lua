@@ -1,7 +1,7 @@
 local M = {}
 
 function M.config()
-  builtin.project = {
+  Builtin.project = {
     ---@usage set to false to disable project.nvim.
     --- This is on by default since it's currently the expected behavior.
     active = true,
@@ -54,9 +54,9 @@ function M.setup()
     return
   end
 
-  project.setup(builtin.project)
-  if builtin.project.on_config_done then
-    builtin.project.on_config_done(project)
+  project.setup(Builtin.project)
+  if Builtin.project.on_config_done then
+    Builtin.project.on_config_done(project)
   end
 end
 

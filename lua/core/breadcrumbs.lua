@@ -1,9 +1,9 @@
 local M = {}
 
-local icons = icons.kind
+local icons = Icons.kind
 
 M.config = function()
-  builtin.breadcrumbs = {
+  Builtin.breadcrumbs = {
     active = true,
     on_config_done = nil,
     winbar_filetype_exclude = {
@@ -71,7 +71,7 @@ M.config = function()
         Variable = icons.Variable .. " ",
       },
       highlight = true,
-      separator = " " .. icons.ui.ChevronRight .. " ",
+      separator = " " .. Icons.ui.ChevronRight .. " ",
       depth_limit = 0,
       depth_limit_indicator = "..",
     },
@@ -85,10 +85,10 @@ M.setup = function()
   end
 
   M.create_winbar()
-  navic.setup(builtin.breadcrumbs.options)
+  navic.setup(Builtin.breadcrumbs.options)
 
-  if builtin.breadcrumbs.on_config_done then
-    builtin.breadcrumbs.on_config_done()
+  if Builtin.breadcrumbs.on_config_done then
+    Builtin.breadcrumbs.on_config_done()
   end
 end
 
@@ -163,7 +163,7 @@ local get_gps = function()
 end
 
 local excludes = function()
-  return vim.tbl_contains(builtin.breadcrumbs.winbar_filetype_exclude or {}, vim.bo.filetype)
+  return vim.tbl_contains(Builtin.breadcrumbs.winbar_filetype_exclude or {}, vim.bo.filetype)
 end
 
 M.get_winbar = function()
@@ -219,7 +219,7 @@ M.create_winbar = function()
   }, {
     group = "_winbar",
     callback = function()
-      if builtin.breadcrumbs.active then
+      if Builtin.breadcrumbs.active then
         local status_ok, _ = pcall(vim.api.nvim_buf_get_var, 0, "lsp_floating_window")
         if not status_ok then
           -- TODO:

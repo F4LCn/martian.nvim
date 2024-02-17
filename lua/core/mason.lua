@@ -1,7 +1,7 @@
 local M = {}
 
 function M.config()
-  builtin.mason = {
+  Builtin.mason = {
     ui = {
       border = "rounded",
     },
@@ -24,10 +24,10 @@ function M.setup()
     return
   end
 
-  mason.setup(builtin.mason)
+  mason.setup(Builtin.mason)
 
-  if builtin.mason.on_config_done then
-    builtin.mason.on_config_done(mason)
+  if Builtin.mason.on_config_done then
+    Builtin.mason.on_config_done(mason)
   end
 end
 

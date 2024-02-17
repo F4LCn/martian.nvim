@@ -1,7 +1,7 @@
 local M = {}
 
 M.config = function()
-  builtin.theme = {
+  Builtin.theme = {
     name = "oxocharcoal",
     options = {},
   }
@@ -12,14 +12,14 @@ M.setup = function()
     return
   end
 
-  local selected_theme = builtin.theme.name
+  local selected_theme = Builtin.theme.name
 
   local status_ok, plugin = pcall(require, selected_theme)
   if not status_ok then
     return
   end
   pcall(function()
-    plugin.setup(builtin.theme[selected_theme].options)
+    plugin.setup(Builtin.theme[selected_theme].options)
   end)
 
   vim.g.colors_name = selected_theme

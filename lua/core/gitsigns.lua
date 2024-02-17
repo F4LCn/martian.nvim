@@ -1,38 +1,38 @@
 local M = {}
 
 M.config = function()
-  builtin.gitsigns = {
+  Builtin.gitsigns = {
     active = true,
     on_config_done = nil,
     opts = {
       signs = {
         add = {
           hl = "GitSignsAdd",
-          text = icons.ui.BoldLineLeft,
+          text = Icons.ui.BoldLineLeft,
           numhl = "GitSignsAddNr",
           linehl = "GitSignsAddLn",
         },
         change = {
           hl = "GitSignsChange",
-          text = icons.ui.BoldLineLeft,
+          text = Icons.ui.BoldLineLeft,
           numhl = "GitSignsChangeNr",
           linehl = "GitSignsChangeLn",
         },
         delete = {
           hl = "GitSignsDelete",
-          text = icons.ui.Triangle,
+          text = Icons.ui.Triangle,
           numhl = "GitSignsDeleteNr",
           linehl = "GitSignsDeleteLn",
         },
         topdelete = {
           hl = "GitSignsDelete",
-          text = icons.ui.Triangle,
+          text = Icons.ui.Triangle,
           numhl = "GitSignsDeleteNr",
           linehl = "GitSignsDeleteLn",
         },
         changedelete = {
           hl = "GitSignsChange",
-          text = icons.ui.BoldLineLeft,
+          text = Icons.ui.BoldLineLeft,
           numhl = "GitSignsChangeNr",
           linehl = "GitSignsChangeLn",
         },
@@ -74,9 +74,9 @@ end
 M.setup = function()
   local gitsigns = reload "gitsigns"
 
-  gitsigns.setup(builtin.gitsigns.opts)
-  if builtin.gitsigns.on_config_done then
-    builtin.gitsigns.on_config_done(gitsigns)
+  gitsigns.setup(Builtin.gitsigns.opts)
+  if Builtin.gitsigns.on_config_done then
+    Builtin.gitsigns.on_config_done(gitsigns)
   end
 end
 

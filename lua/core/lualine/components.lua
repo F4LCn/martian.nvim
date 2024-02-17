@@ -11,12 +11,12 @@ local function diff_source()
   end
 end
 
-local branch = icons.git.Branch
+local branch = Icons.git.Branch
 
 return {
   mode = {
     function()
-      return " " .. icons.ui.Target .. " "
+      return " " .. Icons.ui.Target .. " "
     end,
     padding = { left = 0, right = 0 },
     color = {},
@@ -36,9 +36,9 @@ return {
     "diff",
     source = diff_source,
     symbols = {
-      added = icons.git.LineAdded .. " ",
-      modified = icons.git.LineModified .. " ",
-      removed = icons.git.LineRemoved .. " ",
+      added = Icons.git.LineAdded .. " ",
+      modified = Icons.git.LineModified .. " ",
+      removed = Icons.git.LineRemoved .. " ",
     },
     padding = { left = 2, right = 1 },
     diff_color = {
@@ -55,7 +55,7 @@ return {
         local venv = os.getenv "CONDA_DEFAULT_ENV" or os.getenv "VIRTUAL_ENV"
         if venv then
           local icons = require "nvim-web-devicons"
-          local py_icon, _ = icons.get_icon ".py"
+          local py_icon, _ = Icons.get_icon ".py"
           return string.format(" " .. py_icon .. " (%s)", utils.env_cleanup(venv))
         end
       end
@@ -67,15 +67,15 @@ return {
     "diagnostics",
     sources = { "nvim_diagnostic" },
     symbols = {
-      error = icons.diagnostics.BoldError .. " ",
-      warn = icons.diagnostics.BoldWarning .. " ",
-      info = icons.diagnostics.BoldInformation .. " ",
-      hint = icons.diagnostics.BoldHint .. " ",
+      error = Icons.diagnostics.BoldError .. " ",
+      warn = Icons.diagnostics.BoldWarning .. " ",
+      info = Icons.diagnostics.BoldInformation .. " ",
+      hint = Icons.diagnostics.BoldHint .. " ",
     },
   },
   treesitter = {
     function()
-      return icons.ui.Tree
+      return Icons.ui.Tree
     end,
     color = function()
       local buf = vim.api.nvim_get_current_buf()
@@ -119,7 +119,7 @@ return {
       local language_servers = string.format("[%s]", unique_client_names)
 
       if copilot_active then
-        language_servers = language_servers .. "%#SLCopilot#" .. " " .. icons.git.Octoface .. "%*"
+        language_servers = language_servers .. "%#SLCopilot#" .. " " .. Icons.git.Octoface .. "%*"
       end
 
       return language_servers
@@ -138,7 +138,7 @@ return {
   spaces = {
     function()
       local shiftwidth = vim.api.nvim_get_option_value("shiftwidth", { buf = 0 })
-      return icons.ui.Tab .. " " .. shiftwidth
+      return Icons.ui.Tab .. " " .. shiftwidth
     end,
     padding = 1,
   },

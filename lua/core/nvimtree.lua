@@ -1,7 +1,7 @@
 local M = {}
 
 function M.config()
-  builtin.nvimtree = {
+  Builtin.nvimtree = {
     active = true,
     on_config_done = nil,
     setup = {
@@ -70,27 +70,27 @@ function M.config()
             git = true,
           },
           glyphs = {
-            default = icons.ui.Text,
-            symlink = icons.ui.FileSymlink,
-            bookmark = icons.ui.BookMark,
+            default = Icons.ui.Text,
+            symlink = Icons.ui.FileSymlink,
+            bookmark = Icons.ui.BookMark,
             folder = {
-              arrow_closed = icons.ui.TriangleShortArrowRight,
-              arrow_open = icons.ui.TriangleShortArrowDown,
-              default = icons.ui.Folder,
-              open = icons.ui.FolderOpen,
-              empty = icons.ui.EmptyFolder,
-              empty_open = icons.ui.EmptyFolderOpen,
-              symlink = icons.ui.FolderSymlink,
-              symlink_open = icons.ui.FolderOpen,
+              arrow_closed = Icons.ui.TriangleShortArrowRight,
+              arrow_open = Icons.ui.TriangleShortArrowDown,
+              default = Icons.ui.Folder,
+              open = Icons.ui.FolderOpen,
+              empty = Icons.ui.EmptyFolder,
+              empty_open = Icons.ui.EmptyFolderOpen,
+              symlink = Icons.ui.FolderSymlink,
+              symlink_open = Icons.ui.FolderOpen,
             },
             git = {
-              unstaged = icons.git.FileUnstaged,
-              staged = icons.git.FileStaged,
-              unmerged = icons.git.FileUnmerged,
-              renamed = icons.git.FileRenamed,
-              untracked = icons.git.FileUntracked,
-              deleted = icons.git.FileDeleted,
-              ignored = icons.git.FileIgnored,
+              unstaged = Icons.git.FileUnstaged,
+              staged = Icons.git.FileStaged,
+              unmerged = Icons.git.FileUnmerged,
+              renamed = Icons.git.FileRenamed,
+              untracked = Icons.git.FileUntracked,
+              deleted = Icons.git.FileDeleted,
+              ignored = Icons.git.FileIgnored,
             },
           },
         },
@@ -117,10 +117,10 @@ function M.config()
           max = vim.diagnostic.severity.ERROR,
         },
         icons = {
-          hint = icons.diagnostics.BoldHint,
-          info = icons.diagnostics.BoldInformation,
-          warning = icons.diagnostics.BoldWarning,
-          error = icons.diagnostics.BoldError,
+          hint = Icons.diagnostics.BoldHint,
+          info = Icons.diagnostics.BoldInformation,
+          warning = Icons.diagnostics.BoldWarning,
+          error = Icons.diagnostics.BoldError,
         },
       },
       filters = {
@@ -268,22 +268,22 @@ function M.setup()
   end
 
   -- Implicitly update nvim-tree when project module is active
-  if builtin.project.active then
-    builtin.nvimtree.setup.respect_buf_cwd = true
-    builtin.nvimtree.setup.update_cwd = true
-    builtin.nvimtree.setup.update_focused_file.enable = true
-    builtin.nvimtree.setup.update_focused_file.update_cwd = true
+  if Builtin.project.active then
+    Builtin.nvimtree.setup.respect_buf_cwd = true
+    Builtin.nvimtree.setup.update_cwd = true
+    Builtin.nvimtree.setup.update_focused_file.enable = true
+    Builtin.nvimtree.setup.update_focused_file.update_cwd = true
   end
 
   -- Add useful keymaps
-  if builtin.nvimtree.setup.on_attach == "default" then
-    builtin.nvimtree.setup.on_attach = on_attach
+  if Builtin.nvimtree.setup.on_attach == "default" then
+    Builtin.nvimtree.setup.on_attach = on_attach
   end
 
-  nvim_tree.setup(builtin.nvimtree.setup)
+  nvim_tree.setup(Builtin.nvimtree.setup)
 
-  if builtin.nvimtree.on_config_done then
-    builtin.nvimtree.on_config_done(nvim_tree)
+  if Builtin.nvimtree.on_config_done then
+    Builtin.nvimtree.on_config_done(nvim_tree)
   end
 end
 

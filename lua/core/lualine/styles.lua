@@ -59,10 +59,10 @@ M.style = {
 }
 
 function M.update()
-  builtin.lualine = vim.tbl_deep_extend("keep", builtin.lualine, M.style)
+  Builtin.lualine = vim.tbl_deep_extend("keep", Builtin.lualine, M.style)
 
   local color_template = vim.g.colors_name
-  builtin.lualine.options.theme = color_template
+  Builtin.lualine.options.theme = color_template
 end
 
 return M

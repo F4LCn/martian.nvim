@@ -1,9 +1,6 @@
 -- TODO: split plugins with big configs into their own files
 return {
-  {
-    "F4LCn/oxocharcoal.nvim",
-    lazy = false
-  },
+  "F4LCn/oxocharcoal.nvim",
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
   'tpope/vim-sleuth',
@@ -31,7 +28,7 @@ return {
     "williamboman/mason-lspconfig.nvim",
     cmd = { "LspInstall", "LspUninstall" },
     config = function()
-      require("mason-lspconfig").setup(lsp.setup)
+      require("mason-lspconfig").setup(Lsp.setup)
     end,
     lazy = true,
     event = "User FileOpened",
@@ -63,14 +60,14 @@ return {
     dependencies = { "telescope-fzy-native.nvim" },
     lazy = true,
     cmd = "Telescope",
-    enabled = builtin.telescope.active,
+    enabled = Builtin.telescope.active,
   },
-  { "nvim-telescope/telescope-fzy-native.nvim", build = "make", lazy = true, enabled = builtin.telescope.active },
+  { "nvim-telescope/telescope-fzy-native.nvim", build = "make", lazy = true, enabled = Builtin.telescope.active },
   -- Install nvim-cmp, and buffer source as a dependency
   {
     "hrsh7th/nvim-cmp",
     config = function()
-      if builtin.cmp then
+      if Builtin.cmp then
         require("core.cmp").setup()
       end
     end,
@@ -92,7 +89,7 @@ return {
   {
     "hrsh7th/cmp-cmdline",
     lazy = true,
-    enabled = builtin.cmp and builtin.cmp.cmdline.enable or false,
+    enabled = Builtin.cmp and Builtin.cmp.cmdline.enable or false,
   },
   {
     "L3MON4D3/LuaSnip",
@@ -122,7 +119,7 @@ return {
     config = function()
       require("core.autopairs").setup()
     end,
-    enabled = builtin.autopairs.active,
+    enabled = Builtin.autopairs.active,
     dependencies = { "nvim-treesitter/nvim-treesitter", "hrsh7th/nvim-cmp" },
   },
   -- Treesitter
@@ -157,7 +154,7 @@ return {
     config = function()
       require("core.nvimtree").setup()
     end,
-    enabled = builtin.nvimtree.active,
+    enabled = Builtin.nvimtree.active,
     cmd = { "NvimTreeToggle", "NvimTreeOpen", "NvimTreeFocus", "NvimTreeFindFileToggle" },
     event = "User DirOpened",
   },
@@ -167,7 +164,7 @@ return {
     config = function()
       require("core.lir").setup()
     end,
-    enabled = builtin.lir.active,
+    enabled = Builtin.lir.active,
     event = "User DirOpened",
   },
   {
@@ -177,7 +174,7 @@ return {
     end,
     event = "User FileOpened",
     cmd = "Gitsigns",
-    enabled = builtin.gitsigns.active,
+    enabled = Builtin.gitsigns.active,
   },
   -- Whichkey
   {
@@ -187,7 +184,7 @@ return {
     end,
     cmd = "WhichKey",
     event = "VeryLazy",
-    enabled = builtin.which_key.active,
+    enabled = Builtin.which_key.active,
   },
   -- Comments
   {
@@ -197,7 +194,7 @@ return {
     end,
     keys = { { "gc", mode = { "n", "v" } }, { "gb", mode = { "n", "v" } } },
     event = "User FileOpened",
-    enabled = builtin.comment.active,
+    enabled = Builtin.comment.active,
   },
   -- project.nvim
   {
@@ -205,7 +202,7 @@ return {
     config = function()
       require("core.project").setup()
     end,
-    enabled = builtin.project.active,
+    enabled = Builtin.project.active,
     event = "VimEnter",
     cmd = "Telescope projects",
   },
@@ -224,7 +221,7 @@ return {
       require("core.lualine").setup()
     end,
     event = "VimEnter",
-    enabled = builtin.lualine.active,
+    enabled = Builtin.lualine.active,
   },
   -- breadcrumbs
   {
@@ -233,7 +230,7 @@ return {
       require("core.breadcrumbs").setup()
     end,
     event = "User FileOpened",
-    enabled = builtin.breadcrumbs.active,
+    enabled = Builtin.breadcrumbs.active,
   },
   {
     "akinsho/bufferline.nvim",
@@ -242,7 +239,7 @@ return {
     end,
     branch = "main",
     event = "User FileOpened",
-    enabled = builtin.bufferline.active,
+    enabled = Builtin.bufferline.active,
   },
   -- Debugging
   {
@@ -254,7 +251,7 @@ return {
     dependencies = {
       "rcarriga/nvim-dap-ui",
     },
-    enabled = builtin.dap.active,
+    enabled = Builtin.dap.active,
   },
   -- Debugger user interface
   {
@@ -263,7 +260,7 @@ return {
       require("core.dap").setup_ui()
     end,
     lazy = true,
-    enabled = builtin.dap.active,
+    enabled = Builtin.dap.active,
   },
 
   -- alpha
@@ -272,7 +269,7 @@ return {
     config = function()
       require("core.alpha").setup()
     end,
-    enabled = builtin.alpha.active,
+    enabled = Builtin.alpha.active,
     event = "VimEnter",
   },
   -- Terminal
@@ -293,8 +290,8 @@ return {
       "ToggleTermSendVisualLines",
       "ToggleTermSendVisualSelection",
     },
-    keys = builtin.terminal.open_mapping,
-    enabled = builtin.terminal.active,
+    keys = Builtin.terminal.open_mapping,
+    enabled = Builtin.terminal.active,
   },
   -- SchemaStore
   {
@@ -307,7 +304,7 @@ return {
       require("core.illuminate").setup()
     end,
     event = "User FileOpened",
-    enabled = builtin.illuminate.active,
+    enabled = Builtin.illuminate.active,
   },
   {
     "lukas-reineke/indent-blankline.nvim",
@@ -315,16 +312,16 @@ return {
       require("core.indentlines").setup()
     end,
     event = "User FileOpened",
-    enabled = builtin.indentlines.active,
+    enabled = Builtin.indentlines.active,
   },
   {
     "lunarvim/bigfile.nvim",
     config = function()
       pcall(function()
-        require("bigfile").config(builtin.bigfile.config)
+        require("bigfile").config({})
       end)
     end,
-    enabled = builtin.bigfile.active,
+    enabled = true,
     event = { "FileReadPre", "BufReadPre", "User FileOpened" },
   },
   {

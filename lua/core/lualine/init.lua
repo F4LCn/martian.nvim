@@ -1,6 +1,6 @@
 local M = {}
 M.config = function()
-  builtin.lualine = {
+  Builtin.lualine = {
     active = true,
     options = {
       icons_enabled = nil,
@@ -40,10 +40,10 @@ M.setup = function()
 
   require("core.lualine.styles").update()
 
-  lualine.setup(builtin.lualine)
+  lualine.setup(Builtin.lualine)
 
-  if builtin.lualine.on_config_done then
-    builtin.lualine.on_config_done(lualine)
+  if Builtin.lualine.on_config_done then
+    Builtin.lualine.on_config_done(lualine)
   end
 end
 

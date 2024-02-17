@@ -1,5 +1,7 @@
 local M = {}
 
+local Log = require("core.log")
+
 local builtins = {
   "core.alpha",
   "core.autopairs",
@@ -25,7 +27,10 @@ local builtins = {
 
 function M.config(config)
   for _, builtin_path in ipairs(builtins) do
-    local builtin = require(builtin_path)
+    local builtin_ok, builtin = pcall(require, builtin_path)
+    if not builtin_ok then
+      print("Couldn't load " .. builtin_path)
+    end
     builtin.config(config)
   end
 end

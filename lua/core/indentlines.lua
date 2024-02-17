@@ -1,7 +1,7 @@
 local M = {}
 
 M.config = function()
-  builtin.indentlines = {
+  Builtin.indentlines = {
     active = true,
     on_config_done = nil,
     options = {
@@ -17,8 +17,8 @@ M.config = function()
         "Trouble",
         "text",
       },
-      char = icons.ui.LineLeft,
-      context_char = icons.ui.LineLeft,
+      char = Icons.ui.LineLeft,
+      context_char = Icons.ui.LineLeft,
       show_trailing_blankline_indent = false,
       show_first_indent_level = true,
       use_treesitter = true,
@@ -33,10 +33,10 @@ M.setup = function()
     return
   end
 
-  indent_blankline.setup(builtin.indentlines.options)
+  indent_blankline.setup(Builtin.indentlines.options)
 
-  if builtin.indentlines.on_config_done then
-    builtin.indentlines.on_config_done()
+  if Builtin.indentlines.on_config_done then
+    Builtin.indentlines.on_config_done()
   end
 end
 

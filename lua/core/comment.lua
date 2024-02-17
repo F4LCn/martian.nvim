@@ -1,7 +1,7 @@
 local M = {}
 
 function M.config()
-  builtin.comment = {
+  Builtin.comment = {
     active = true,
     on_config_done = nil,
     ---Add a space b/w comment and the line
@@ -77,9 +77,9 @@ end
 function M.setup()
   local nvim_comment = require "Comment"
 
-  nvim_comment.setup(builtin.comment)
-  if builtin.comment.on_config_done then
-    builtin.comment.on_config_done(nvim_comment)
+  nvim_comment.setup(Builtin.comment)
+  if Builtin.comment.on_config_done then
+    Builtin.comment.on_config_done(nvim_comment)
   end
 end
 

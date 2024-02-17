@@ -1,7 +1,7 @@
 local M = {}
 
 function M.config()
-  builtin.autopairs = {
+  Builtin.autopairs = {
     active = true,
     on_config_done = nil,
     ---@usage  modifies the function or method delimiter by filetypes
@@ -45,22 +45,22 @@ M.setup = function()
   end
 
   autopairs.setup {
-    check_ts = builtin.autopairs.check_ts,
-    enable_check_bracket_line = builtin.autopairs.enable_check_bracket_line,
-    ts_config = builtin.autopairs.ts_config,
-    disable_filetype = builtin.autopairs.disable_filetype,
-    disable_in_macro = builtin.autopairs.disable_in_macro,
-    ignored_next_char = builtin.autopairs.ignored_next_char,
-    enable_moveright = builtin.autopairs.enable_moveright,
-    enable_afterquote = builtin.autopairs.enable_afterquote,
-    map_c_w = builtin.autopairs.map_c_w,
-    map_bs = builtin.autopairs.map_bs,
-    disable_in_visualblock = builtin.autopairs.disable_in_visualblock,
-    fast_wrap = builtin.autopairs.fast_wrap,
+    check_ts = Builtin.autopairs.check_ts,
+    enable_check_bracket_line = Builtin.autopairs.enable_check_bracket_line,
+    ts_config = Builtin.autopairs.ts_config,
+    disable_filetype = Builtin.autopairs.disable_filetype,
+    disable_in_macro = Builtin.autopairs.disable_in_macro,
+    ignored_next_char = Builtin.autopairs.ignored_next_char,
+    enable_moveright = Builtin.autopairs.enable_moveright,
+    enable_afterquote = Builtin.autopairs.enable_afterquote,
+    map_c_w = Builtin.autopairs.map_c_w,
+    map_bs = Builtin.autopairs.map_bs,
+    disable_in_visualblock = Builtin.autopairs.disable_in_visualblock,
+    fast_wrap = Builtin.autopairs.fast_wrap,
   }
 
-  if builtin.autopairs.on_config_done then
-    builtin.autopairs.on_config_done(autopairs)
+  if Builtin.autopairs.on_config_done then
+    Builtin.autopairs.on_config_done(autopairs)
   end
 
   pcall(function()

@@ -1,7 +1,7 @@
 local M = {}
 
 M.config = function()
-  builtin.illuminate = {
+  Builtin.illuminate = {
     active = true,
     on_config_done = nil,
     options = {
@@ -59,13 +59,13 @@ M.setup = function()
     return
   end
 
-  local config_ok, _ = pcall(illuminate.configure, builtin.illuminate.options)
+  local config_ok, _ = pcall(illuminate.configure, Builtin.illuminate.options)
   if not config_ok then
     return
   end
 
-  if builtin.illuminate.on_config_done then
-    builtin.illuminate.on_config_done()
+  if Builtin.illuminate.on_config_done then
+    Builtin.illuminate.on_config_done()
   end
 end
 

@@ -2,7 +2,7 @@ local M = {}
 local Log = require "core.log"
 
 function M.config()
-  builtin.treesitter = {
+  Builtin.treesitter = {
     on_config_done = nil,
 
     -- A list of parser names, or "all"
@@ -108,12 +108,12 @@ function M.setup()
     return
   end
 
-  local opts = vim.deepcopy(builtin.treesitter)
+  local opts = vim.deepcopy(Builtin.treesitter)
 
   treesitter_configs.setup(opts)
 
-  if builtin.treesitter.on_config_done then
-    builtin.treesitter.on_config_done(treesitter_configs)
+  if Builtin.treesitter.on_config_done then
+    Builtin.treesitter.on_config_done(treesitter_configs)
   end
 
   -- handle deprecated API, https://github.com/windwp/nvim-autopairs/pull/324

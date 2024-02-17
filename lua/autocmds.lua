@@ -102,7 +102,7 @@ function M.load_defaults()
       {
         group = "_lvim_colorscheme",
         callback = function()
-          if builtin.breadcrumbs.active then
+          if Builtin.breadcrumbs.active then
             require("core.breadcrumbs").get_winbar()
           end
           local statusline_hl = vim.api.nvim_get_hl(0, { name = "StatusLine" })

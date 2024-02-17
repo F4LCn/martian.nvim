@@ -1,6 +1,11 @@
 local M = {}
+
+function get_config_dir()
+  return vim.call("stdpath", "config")
+end
+
 M.config = function()
-  builtin.which_key = {
+  Builtin.which_key = {
     ---@usage disable which-key completely [not recommended]
     active = true,
     on_config_done = nil,
@@ -35,9 +40,9 @@ M.config = function()
         -- ["<tab>"] = "TAB",
       },
       icons = {
-        breadcrumb = icons.ui.DoubleChevronRight, -- symbol used in the command line area that shows your active key combo
-        separator = icons.ui.BoldArrowRight,      -- symbol used between a key and it's label
-        group = icons.ui.Plus,                    -- symbol prepended to a group
+        breadcrumb = Icons.ui.DoubleChevronRight, -- symbol used in the command line area that shows your active key combo
+        separator = Icons.ui.BoldArrowRight,      -- symbol used between a key and it's label
+        group = Icons.ui.Plus,                    -- symbol prepended to a group
       },
       popup_mappings = {
         scroll_down = "<c-d>", -- binding to scroll down inside the popup
@@ -208,19 +213,19 @@ end
 M.setup = function()
   local which_key = require "which-key"
 
-  which_key.setup(builtin.which_key.setup)
+  which_key.setup(Builtin.which_key.setup)
 
-  local opts = builtin.which_key.opts
-  local vopts = builtin.which_key.vopts
+  local opts = Builtin.which_key.opts
+  local vopts = Builtin.which_key.vopts
 
-  local mappings = builtin.which_key.mappings
-  local vmappings = builtin.which_key.vmappings
+  local mappings = Builtin.which_key.mappings
+  local vmappings = Builtin.which_key.vmappings
 
   which_key.register(mappings, opts)
   which_key.register(vmappings, vopts)
 
-  if builtin.which_key.on_config_done then
-    builtin.which_key.on_config_done(which_key)
+  if Builtin.which_key.on_config_done then
+    Builtin.which_key.on_config_done(which_key)
   end
 end
 
