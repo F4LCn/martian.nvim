@@ -6,7 +6,7 @@ function M.config()
     on_config_done = nil,
 
     -- A list of parser names, or "all"
-    ensure_installed = { "comment", "markdown_inline", "regex" },
+    ensure_installed = { "lua", "comment", "markdown_inline", "regex" },
 
     -- List of parsers to ignore installing (for "all")
     ignore_install = {},
@@ -20,7 +20,7 @@ function M.config()
     sync_install = false,
 
     -- Automatically install missing parsers when entering buffer
-    auto_install = true,
+    auto_install = false,
 
     matchup = {
       enable = false, -- mandatory, false will disable the whole extension

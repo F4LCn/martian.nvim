@@ -1,149 +1,379 @@
 -- TODO: split plugins with big configs into their own files
 return {
-    'tpope/vim-fugitive',
-    'tpope/vim-rhubarb',
-    'tpope/vim-sleuth',
-    {
-        -- LSP Configuration & Plugins
-        'neovim/nvim-lspconfig',
-        dependencies = {
-            { 'williamboman/mason.nvim', config = true },
-            'williamboman/mason-lspconfig.nvim',
-            { 'j-hui/fidget.nvim', opts = {} },
-            'folke/neodev.nvim',
-        },
+  {
+    "F4LCn/oxocharcoal.nvim",
+    lazy = false
+  },
+  'tpope/vim-fugitive',
+  'tpope/vim-rhubarb',
+  'tpope/vim-sleuth',
+  {
+    'nvim-lualine/lualine.nvim',
+    opts = {
+      options = {
+        icons_enabled = false,
+        theme = 'auto',
+        component_separators = '|',
+        section_separators = '',
+      },
     },
-
-    {
-        'hrsh7th/nvim-cmp',
-        dependencies = {
-            {
-                'L3MON4D3/LuaSnip',
-                build = (function()
-                    if vim.fn.has 'win32' == 1 then
-                        return
-                    end
-                    return 'make install_jsregexp'
-                end)(),
-            },
-            'saadparwaiz1/cmp_luasnip',
-            'hrsh7th/cmp-nvim-lsp',
-            'hrsh7th/cmp-path',
-            'rafamadriz/friendly-snippets',
-        },
+  },
+  {
+    "neovim/nvim-lspconfig",
+    lazy = true,
+    dependencies = {
+      "mason-lspconfig.nvim",
+      { 'j-hui/fidget.nvim', opts = {} },
+      "folke/neodev.nvim"
     },
-    { 'folke/which-key.nvim', opts = {} },
-    {
-        'lewis6991/gitsigns.nvim',
-        opts = {
-            signs = {
-                add = { text = '+' },
-                change = { text = '~' },
-                delete = { text = '_' },
-                topdelete = { text = '‾' },
-                changedelete = { text = '~' },
-            },
-            on_attach = function(bufnr)
-                local gs = package.loaded.gitsigns
-
-                local function map(mode, l, r, opts)
-                    opts = opts or {}
-                    opts.buffer = bufnr
-                    vim.keymap.set(mode, l, r, opts)
-                end
-
-                -- Navigation
-                map({ 'n', 'v' }, ']c', function()
-                    if vim.wo.diff then
-                        return ']c'
-                    end
-                    vim.schedule(function()
-                        gs.next_hunk()
-                    end)
-                    return '<Ignore>'
-                end, { expr = true, desc = 'Jump to next hunk' })
-
-                map({ 'n', 'v' }, '[c', function()
-                    if vim.wo.diff then
-                        return '[c'
-                    end
-                    vim.schedule(function()
-                        gs.prev_hunk()
-                    end)
-                    return '<Ignore>'
-                end, { expr = true, desc = 'Jump to previous hunk' })
-
-                -- Actions
-                -- visual mode
-                map('v', '<leader>hs', function()
-                    gs.stage_hunk { vim.fn.line '.', vim.fn.line 'v' }
-                end, { desc = 'stage git hunk' })
-                map('v', '<leader>hr', function()
-                    gs.reset_hunk { vim.fn.line '.', vim.fn.line 'v' }
-                end, { desc = 'reset git hunk' })
-                -- normal mode
-                map('n', '<leader>hs', gs.stage_hunk, { desc = 'git stage hunk' })
-                map('n', '<leader>hr', gs.reset_hunk, { desc = 'git reset hunk' })
-                map('n', '<leader>hS', gs.stage_buffer, { desc = 'git Stage buffer' })
-                map('n', '<leader>hu', gs.undo_stage_hunk, { desc = 'undo stage hunk' })
-                map('n', '<leader>hR', gs.reset_buffer, { desc = 'git Reset buffer' })
-                map('n', '<leader>hp', gs.preview_hunk, { desc = 'preview git hunk' })
-                map('n', '<leader>hb', function()
-                    gs.blame_line { full = false }
-                end, { desc = 'git blame line' })
-                map('n', '<leader>hd', gs.diffthis, { desc = 'git diff against index' })
-                map('n', '<leader>hD', function()
-                    gs.diffthis '~'
-                end, { desc = 'git diff against last commit' })
-
-                -- Toggles
-                map('n', '<leader>tb', gs.toggle_current_line_blame, { desc = 'toggle git blame line' })
-                map('n', '<leader>td', gs.toggle_deleted, { desc = 'toggle git show deleted' })
-
-                -- Text object
-                map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>', { desc = 'select git hunk' })
-            end,
-        },
+  },
+  {
+    "williamboman/mason-lspconfig.nvim",
+    cmd = { "LspInstall", "LspUninstall" },
+    config = function()
+      require("mason-lspconfig").setup(lsp.setup)
+    end,
+    lazy = true,
+    event = "User FileOpened",
+    dependencies = "mason.nvim",
+  },
+  {
+    "williamboman/mason.nvim",
+    config = function()
+      require("core.mason").setup()
+    end,
+    cmd = { "Mason", "MasonInstall", "MasonUninstall", "MasonUninstallAll", "MasonLog" },
+    build = function()
+      pcall(function()
+        require("mason-registry").refresh()
+      end)
+    end,
+    event = "User FileOpened",
+    lazy = true,
+  },
+  { "Tastyep/structlog.nvim", lazy = true },
+  { "nvim-lua/plenary.nvim",  cmd = { "PlenaryBustedFile", "PlenaryBustedDirectory" }, lazy = true },
+  -- Telescope
+  {
+    "nvim-telescope/telescope.nvim",
+    branch = "0.1.x",
+    config = function()
+      require("core.telescope").setup()
+    end,
+    dependencies = { "telescope-fzy-native.nvim" },
+    lazy = true,
+    cmd = "Telescope",
+    enabled = builtin.telescope.active,
+  },
+  { "nvim-telescope/telescope-fzy-native.nvim", build = "make", lazy = true, enabled = builtin.telescope.active },
+  -- Install nvim-cmp, and buffer source as a dependency
+  {
+    "hrsh7th/nvim-cmp",
+    config = function()
+      if builtin.cmp then
+        require("core.cmp").setup()
+      end
+    end,
+    event = { "InsertEnter", "CmdlineEnter" },
+    dependencies = {
+      "cmp-nvim-lsp",
+      "cmp_luasnip",
+      "cmp-buffer",
+      "cmp-path",
+      "cmp-cmdline",
+      "rafamadriz/friendly-snippets",
+      "L3MON4D3/LuaSnip"
     },
-    {
-        'nvim-lualine/lualine.nvim',
-        opts = {
-            options = {
-                icons_enabled = false,
-                theme = 'auto',
-                component_separators = '|',
-                section_separators = '',
-            },
-        },
+  },
+  { "hrsh7th/cmp-nvim-lsp",                     lazy = true },
+  { "saadparwaiz1/cmp_luasnip",                 lazy = true },
+  { "hrsh7th/cmp-buffer",                       lazy = true },
+  { "hrsh7th/cmp-path",                         lazy = true },
+  {
+    "hrsh7th/cmp-cmdline",
+    lazy = true,
+    enabled = builtin.cmp and builtin.cmp.cmdline.enable or false,
+  },
+  {
+    "L3MON4D3/LuaSnip",
+    build = (function()
+      -- Build Step is needed for regex support in snippets
+      -- This step is not supported in many windows environments
+      -- Remove the below condition to re-enable on windows
+      if vim.fn.has 'win32' == 1 then
+        return
+      end
+      return 'make install_jsregexp'
+    end)(),
+    event = "InsertEnter",
+    dependencies = {
+      "friendly-snippets",
     },
+  },
+  { "rafamadriz/friendly-snippets", lazy = true, cond = builtin.luasnip.sources.friendly_snippets },
+  {
+    "folke/neodev.nvim",
+    lazy = true,
+  },
+  -- Autopairs
+  {
+    "windwp/nvim-autopairs",
+    event = "InsertEnter",
+    config = function()
+      require("core.autopairs").setup()
+    end,
+    enabled = builtin.autopairs.active,
+    dependencies = { "nvim-treesitter/nvim-treesitter", "hrsh7th/nvim-cmp" },
+  },
+  -- Treesitter
+  {
+    "nvim-treesitter/nvim-treesitter",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter-textobjects",
+    },
+    config = function()
+      require("core.treesitter").setup()
+    end,
+    build = ":TSUpdate",
+    cmd = {
+      "TSInstall",
+      "TSUninstall",
+      "TSUpdate",
+      "TSUpdateSync",
+      "TSInstallInfo",
+      "TSInstallSync",
+      "TSInstallFromGrammar",
+    },
+    event = "User FileOpened",
+  },
+  {
+    -- Lazy loaded by Comment.nvim pre_hook
+    "JoosepAlviste/nvim-ts-context-commentstring",
+    lazy = true,
+  },
+  -- NvimTree
+  {
+    "nvim-tree/nvim-tree.lua",
+    config = function()
+      require("core.nvimtree").setup()
+    end,
+    enabled = builtin.nvimtree.active,
+    cmd = { "NvimTreeToggle", "NvimTreeOpen", "NvimTreeFocus", "NvimTreeFindFileToggle" },
+    event = "User DirOpened",
+  },
+  -- Lir
+  {
+    "tamago324/lir.nvim",
+    config = function()
+      require("core.lir").setup()
+    end,
+    enabled = builtin.lir.active,
+    event = "User DirOpened",
+  },
+  {
+    "lewis6991/gitsigns.nvim",
+    config = function()
+      require("core.gitsigns").setup()
+    end,
+    event = "User FileOpened",
+    cmd = "Gitsigns",
+    enabled = builtin.gitsigns.active,
+  },
+  -- Whichkey
+  {
+    "folke/which-key.nvim",
+    config = function()
+      require("core.which-key").setup()
+    end,
+    cmd = "WhichKey",
+    event = "VeryLazy",
+    enabled = builtin.which_key.active,
+  },
+  -- Comments
+  {
+    "numToStr/Comment.nvim",
+    config = function()
+      require("core.comment").setup()
+    end,
+    keys = { { "gc", mode = { "n", "v" } }, { "gb", mode = { "n", "v" } } },
+    event = "User FileOpened",
+    enabled = builtin.comment.active,
+  },
+  -- project.nvim
+  {
+    "ahmedkhalf/project.nvim",
+    config = function()
+      require("core.project").setup()
+    end,
+    enabled = builtin.project.active,
+    event = "VimEnter",
+    cmd = "Telescope projects",
+  },
+  -- Icons
+  {
+    "nvim-tree/nvim-web-devicons",
+    enabled = true,
+    lazy = true,
+  },
+  -- Status Line and Bufferline
+  {
+    -- "hoob3rt/lualine.nvim",
+    "nvim-lualine/lualine.nvim",
+    -- "Lunarvim/lualine.nvim",
+    config = function()
+      require("core.lualine").setup()
+    end,
+    event = "VimEnter",
+    enabled = builtin.lualine.active,
+  },
+  -- breadcrumbs
+  {
+    "SmiteshP/nvim-navic",
+    config = function()
+      require("core.breadcrumbs").setup()
+    end,
+    event = "User FileOpened",
+    enabled = builtin.breadcrumbs.active,
+  },
+  {
+    "akinsho/bufferline.nvim",
+    config = function()
+      require("core.bufferline").setup()
+    end,
+    branch = "main",
+    event = "User FileOpened",
+    enabled = builtin.bufferline.active,
+  },
+  -- Debugging
+  {
+    "mfussenegger/nvim-dap",
+    config = function()
+      require("core.dap").setup()
+    end,
+    lazy = true,
+    dependencies = {
+      "rcarriga/nvim-dap-ui",
+    },
+    enabled = builtin.dap.active,
+  },
+  -- Debugger user interface
+  {
+    "rcarriga/nvim-dap-ui",
+    config = function()
+      require("core.dap").setup_ui()
+    end,
+    lazy = true,
+    enabled = builtin.dap.active,
+  },
 
-    {
-        'lukas-reineke/indent-blankline.nvim',
-        main = 'ibl',
-        opts = {},
+  -- alpha
+  {
+    "goolord/alpha-nvim",
+    config = function()
+      require("core.alpha").setup()
+    end,
+    enabled = builtin.alpha.active,
+    event = "VimEnter",
+  },
+  -- Terminal
+  {
+    "akinsho/toggleterm.nvim",
+    branch = "main",
+    init = function()
+      require("core.terminal").init()
+    end,
+    config = function()
+      require("core.terminal").setup()
+    end,
+    cmd = {
+      "ToggleTerm",
+      "TermExec",
+      "ToggleTermToggleAll",
+      "ToggleTermSendCurrentLine",
+      "ToggleTermSendVisualLines",
+      "ToggleTermSendVisualSelection",
     },
-    { 'numToStr/Comment.nvim', opts = {} },
-    {
-        'nvim-telescope/telescope.nvim',
-        branch = '0.1.x',
-        dependencies = {
-            'nvim-lua/plenary.nvim',
-            {
-                'nvim-telescope/telescope-fzy-native.nvim',
-                build = 'make',
-                cond = function()
-                    return vim.fn.executable 'make' == 1
-                end,
-            },
-        },
-    },
-
-    {
-        'nvim-treesitter/nvim-treesitter',
-        dependencies = {
-            'nvim-treesitter/nvim-treesitter-textobjects',
-        },
-        build = ':TSUpdate',
-    },
-    { import = 'custom.plugins' },
+    keys = builtin.terminal.open_mapping,
+    enabled = builtin.terminal.active,
+  },
+  -- SchemaStore
+  {
+    "b0o/schemastore.nvim",
+    lazy = true,
+  },
+  {
+    "RRethy/vim-illuminate",
+    config = function()
+      require("core.illuminate").setup()
+    end,
+    event = "User FileOpened",
+    enabled = builtin.illuminate.active,
+  },
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    config = function()
+      require("core.indentlines").setup()
+    end,
+    event = "User FileOpened",
+    enabled = builtin.indentlines.active,
+  },
+  {
+    "lunarvim/bigfile.nvim",
+    config = function()
+      pcall(function()
+        require("bigfile").config(builtin.bigfile.config)
+      end)
+    end,
+    enabled = builtin.bigfile.active,
+    event = { "FileReadPre", "BufReadPre", "User FileOpened" },
+  },
+  {
+    "windwp/nvim-spectre",
+    event = "BufRead",
+    config = function()
+      require("spectre").setup()
+    end,
+  },
+  {
+    "romgrk/nvim-treesitter-context",
+    config = function()
+      require("treesitter-context").setup {
+        enable = true,   -- Enable this plugin (Can be enabled/disabled later via commands)
+        throttle = true, -- Throttles plugin updates (may improve performance)
+        max_lines = 0,   -- How many lines the window should span. Values <= 0 mean no limit.
+      }
+    end
+  },
+  {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    after = "nvim-treesitter",
+  },
+  {
+    "folke/trouble.nvim",
+    cmd = "TroubleToggle",
+  },
+  "tpope/vim-surround",
+  {
+    "Pocco81/auto-save.nvim",
+    config = function()
+      require("auto-save").setup()
+    end
+  },
+  "mg979/vim-visual-multi",
+  {
+    "casonadams/simple-diagnostics.nvim",
+    config = function()
+      require("simple-diagnostics").setup({
+        virtual_text = false,
+        message_area = true,
+        signs = true,
+      })
+    end,
+  },
+  {
+    "ray-x/lsp_signature.nvim",
+    event = "VeryLazy",
+    opts = {},
+    config = function(_, opts) require 'lsp_signature'.setup(opts) end
+  },
 }

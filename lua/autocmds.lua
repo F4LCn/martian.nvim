@@ -1,5 +1,7 @@
 local M = {}
 
+local Log = require("core.log")
+
 function M.load_defaults()
   local definitions = {
     {
@@ -100,8 +102,8 @@ function M.load_defaults()
       {
         group = "_lvim_colorscheme",
         callback = function()
-          if lvim.builtin.breadcrumbs.active then
-            require("lvim.core.breadcrumbs").get_winbar()
+          if builtin.breadcrumbs.active then
+            require("core.breadcrumbs").get_winbar()
           end
           local statusline_hl = vim.api.nvim_get_hl(0, { name = "StatusLine" })
           local cursorline_hl = vim.api.nvim_get_hl(0, { name = "CursorLine" })
@@ -124,7 +126,7 @@ function M.load_defaults()
         nested = true,
         callback = function(args)
           local bufname = vim.api.nvim_buf_get_name(args.buf)
-          if require("lvim.utils").is_directory(bufname) then
+          if require("utils").is_directory(bufname) then
             vim.api.nvim_del_augroup_by_name "_dir_opened"
             vim.cmd "do User DirOpened"
             vim.api.nvim_exec_autocmds(args.event, { buffer = args.buf, data = args.data })
@@ -142,7 +144,7 @@ function M.load_defaults()
           if not (vim.fn.expand "%" == "" or buftype == "nofile") then
             vim.api.nvim_del_augroup_by_name "_file_opened"
             vim.api.nvim_exec_autocmds("User", { pattern = "FileOpened" })
-            require("lvim.lsp").setup()
+            require("lsp").setup()
           end
         end,
       },
@@ -150,6 +152,19 @@ function M.load_defaults()
   }
 
   M.define_autocmds(definitions)
+end
+
+--- Clean autocommand in a group if it exists
+--- This is safer than trying to delete the augroup itself
+---@param name string the augroup name
+function M.clear_augroup(name)
+  -- defer the function in case the autocommand is still in-use
+  Log:debug("request to clear autocmds  " .. name)
+  vim.schedule(function()
+    pcall(function()
+      vim.api.nvim_clear_autocmds { group = name }
+    end)
+  end)
 end
 
 function M.define_autocmds(definitions)
