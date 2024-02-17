@@ -1,31 +1,31 @@
 local M = {}
 
 local builtins = {
-  "core.which-key",
-  "core.gitsigns",
+  "core.alpha",
+  "core.autopairs",
+  "core.breadcrumbs",
+  "core.bufferline",
   "core.cmp",
+  "core.comment",
   "core.dap",
-  "core.terminal",
-  "core.telescope",
-  "core.treesitter",
-  "core.nvimtree",
-  "core.lir",
+  "core.gitsigns",
   "core.illuminate",
   "core.indentlines",
-  -- "core.breadcrumbs",
-  -- "core.project",
-  "core.bufferline",
-  "core.autopairs",
-  "core.comment",
+  "core.lir",
   "core.lualine",
-  "core.alpha",
   "core.mason",
+  "core.nvimtree",
+  "core.project",
+  "core.telescope",
+  "core.terminal",
+  "core.theme",
+  "core.treesitter",
+  "core.which-key",
 }
 
 function M.config(config)
   for _, builtin_path in ipairs(builtins) do
-    local builtin = reload(builtin_path)
-
+    local builtin = require(builtin_path)
     builtin.config(config)
   end
 end

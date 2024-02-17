@@ -110,7 +110,7 @@ return {
       "friendly-snippets",
     },
   },
-  { "rafamadriz/friendly-snippets", lazy = true, cond = builtin.luasnip.sources.friendly_snippets },
+  { "rafamadriz/friendly-snippets", lazy = true },
   {
     "folke/neodev.nvim",
     lazy = true,

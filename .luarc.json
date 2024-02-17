@@ -4,6 +4,7 @@
         "lvim",
         "reload",
         "icons",
-        "builtin"
+        "builtin",
+        "lsp"
     ]
 }
