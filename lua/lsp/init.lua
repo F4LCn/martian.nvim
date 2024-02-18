@@ -1,5 +1,4 @@
 local M = {}
-local Log = require "core.log"
 local autocmds = require "autocmds"
 
 M.servers = {
@@ -16,7 +15,7 @@ M.servers = {
 
 local function add_lsp_buffer_options(bufnr)
   for k, v in pairs(Lsp.buffer_options) do
-    vim.api.nvim_buf_set_option(bufnr, k, v)
+    vim.api.nvim_set_option_value(k, v, { buf = bufnr })
   end
 end
 
@@ -66,7 +65,6 @@ end
 function M.common_on_init(client, bufnr)
   if Lsp.on_init_callback then
     Lsp.on_init_callback(client, bufnr)
-    Log:debug "Called lsp.on_init_callback"
     return
   end
 end
@@ -74,7 +72,6 @@ end
 function M.common_on_attach(client, bufnr)
   if Lsp.on_attach_callback then
     Lsp.on_attach_callback(client, bufnr)
-    Log:debug "Called lsp.on_attach_callback"
   end
   local lu = require "lsp.utils"
   if Lsp.document_highlight then
@@ -98,47 +95,49 @@ function M.get_common_opts()
 end
 
 function M.setup()
-  Log:debug "Setting up LSP support"
-
   local mason_lspconfig_ok, mason_lspconfig = pcall(require, "mason-lspconfig")
   if not mason_lspconfig_ok then
-    Log:error "Missing mason-lspconfig"
+    vim.notify "no mason-lspconfig"
     return
   end
   mason_lspconfig.setup()
 
   local neodev_ok, neodev = pcall(require, "neodev")
   if not neodev_ok then
-    Log:error "Missing mason-lspconfig"
+    vim.notify "no neodev"
     return
   end
   neodev.setup()
 
-  local status_ok, null_ls = pcall(require, "null-ls")
-  if not status_ok then
-    Log:error "Missing null-ls dependency"
-    return
-  end
-  local null_ls_opts = M.get_common_opts()
-  null_ls.setup(null_ls_opts)
 
+mason_lspconfig.setup {
+  ensure_installed = vim.tbl_keys(M.servers),
+}
+
+        local capabilities = M.get_common_opts()
   mason_lspconfig.setup_handlers {
     function(server_name)
       local lsp_status_ok, lspconfig = pcall(require, "lspconfig")
       if not lsp_status_ok then
         return
       end
-      local opts = M.get_common_opts()
       lspconfig[server_name].setup {
-        capabilities = opts.capabilities,
-        on_attach = opts.on_attach,
-        on_init = opts.on_init,
-        on_exit = opts.on_exit,
-        settings = servers[server_name],
-        filetypes = (servers[server_name] or {}).filetypes
+        capabilities = capabilities.capabilities,
+        on_attach = capabilities.on_attach,
+        on_init = capabilities.on_init,
+        on_exit = capabilities.on_exit,
+        settings = M.servers[server_name],
+        filetypes = (M.servers[server_name] or {}).filetypes
       }
     end
   }
+
+  --   local status_ok, null_ls = pcall(require, "null-ls")
+  -- if not status_ok then
+  --   vim.notify "no null-ls"
+  -- end
+
+  -- null_ls.setup(opts)
 
 
   for _, sign in ipairs(vim.tbl_get(vim.diagnostic.config(), "signs", "values") or {}) do

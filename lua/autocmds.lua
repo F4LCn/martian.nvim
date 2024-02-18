@@ -1,7 +1,5 @@
 local M = {}
 
-local Log = require("core.log")
-
 function M.load_defaults()
   local definitions = {
     {
@@ -159,7 +157,6 @@ end
 ---@param name string the augroup name
 function M.clear_augroup(name)
   -- defer the function in case the autocommand is still in-use
-  Log:debug("request to clear autocmds  " .. name)
   vim.schedule(function()
     pcall(function()
       vim.api.nvim_clear_autocmds { group = name }

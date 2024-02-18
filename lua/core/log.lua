@@ -14,19 +14,19 @@ local log_notify_as_notification = false
 
 function Log:set_level(level)
   if
-    not pcall(function()
-      local logger_ok, logger = pcall(function()
-        return require("structlog").get_logger "lvim"
-      end)
-      local log_level = Log.levels[level:upper()]
-      if logger_ok and logger and log_level then
-        for _, pipeline in ipairs(logger.pipelines) do
-          pipeline.level = log_level
+      not pcall(function()
+        local logger_ok, logger = pcall(function()
+          return require("structlog").get_logger "nvim"
+        end)
+        local log_level = Log.levels[level:upper()]
+        if logger_ok and logger and log_level then
+          for _, pipeline in ipairs(logger.pipelines) do
+            pipeline.level = log_level
+          end
         end
-      end
-    end)
+      end)
   then
-    vim.notify "structlog version too old, run `:Lazy sync`"
+    vim.notify "set_level: structlog version too old, run `:Lazy sync`"
   end
 end
 
@@ -36,9 +36,9 @@ function Log:init()
     return nil
   end
 
-  local log_level = Log.levels[(log.level):upper() or "WARN"]
+  local log_level = Log.levels["WARN"]
   structlog.configure {
-    lvim = {
+    nvim = {
       pipelines = {
         {
           level = log_level,
@@ -69,26 +69,24 @@ function Log:init()
     },
   }
 
-  local logger = structlog.get_logger "lvim"
+  local logger = structlog.get_logger "nvim"
 
   -- Overwrite `vim.notify` to use the logger
-  if log.override_notify then
-    vim.notify = function(msg, vim_log_level, opts)
-      notify_opts = opts or {}
+  -- vim.notify = function(msg, vim_log_level, opts)
+  --   notify_opts = opts or {}
 
-      -- vim_log_level can be omitted
-      if vim_log_level == nil then
-        vim_log_level = Log.levels["INFO"]
-      elseif type(vim_log_level) == "string" then
-        vim_log_level = Log.levels[(vim_log_level):upper()] or Log.levels["INFO"]
-      else
-        -- https://github.com/neovim/neovim/blob/685cf398130c61c158401b992a1893c2405cd7d2/runtime/lua/vim/lsp/log.lua#L5
-        vim_log_level = vim_log_level + 1
-      end
+  --   -- vim_log_level can be omitted
+  --   if vim_log_level == nil then
+  --     vim_log_level = Log.levels["INFO"]
+  --   elseif type(vim_log_level) == "string" then
+  --     vim_log_level = Log.levels[(vim_log_level):upper()] or Log.levels["INFO"]
+  --   else
+  --     -- https://github.com/neovim/neovim/blob/685cf398130c61c158401b992a1893c2405cd7d2/runtime/lua/vim/lsp/log.lua#L5
+  --     vim_log_level = vim_log_level + 1
+  --   end
 
-      self:add_entry(vim_log_level, msg)
-    end
-  end
+  --   self:add_entry(vim_log_level, msg)
+  -- end
 
   return logger
 end
@@ -126,15 +124,16 @@ end
 ---@param event any
 function Log:add_entry(level, msg, event)
   if
-    not pcall(function()
-      local logger = self:get_logger()
-      if not logger then
-        return
-      end
-      logger:log(level, vim.inspect(msg), event)
-    end)
+      not pcall(function()
+        local logger = self:get_logger()
+        if not logger then
+          return
+        end
+        vim.notify(vim.inspect(msg), level)
+        logger:log(level, vim.inspect(msg), event)
+      end)
   then
-    vim.notify "structlog version too old, run `:Lazy sync`"
+    vim.notify "add_entry: structlog version too old, run `:Lazy sync`"
   end
 end
 
@@ -142,7 +141,7 @@ end
 ---@return table|nil logger handle if found
 function Log:get_logger()
   local logger_ok, logger = pcall(function()
-    return require("structlog").get_logger "lvim"
+    return require("structlog").get_logger "nvim"
   end)
   if logger_ok and logger then
     return logger
@@ -151,6 +150,7 @@ function Log:get_logger()
   logger = self:init()
 
   if not logger then
+    vim.notify "Logger creation failed"
     return
   end
 
@@ -161,7 +161,8 @@ end
 ---Retrieves the path of the logfile
 ---@return string path of the logfile
 function Log:get_path()
-  return string.format("%s/%s.log", get_cache_dir(), "lvim")
+  local cache_dir = vim.call("stdpath", "cache")
+  return string.format("%s/%s.log", cache_dir, "nvim")
 end
 
 ---Add a log entry at TRACE level

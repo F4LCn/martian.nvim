@@ -6,16 +6,28 @@ function M.config()
     ---@usage disable telescope completely [not recommended]
     active = true,
     on_config_done = nil,
-    theme = "dropdown", ---@type telescope_themes
+    theme = "cursor", ---@type telescope_themes
     defaults = {
-      prompt_prefix = Icons.ui.Telescope .. " ",
-      selection_caret = Icons.ui.Forward .. " ",
+      prompt_prefix = "   ",
+      selection_caret = "  ",
       entry_prefix = "  ",
       initial_mode = "insert",
       selection_strategy = "reset",
-      sorting_strategy = nil,
-      layout_strategy = nil,
-      layout_config = {},
+      sorting_strategy = "ascending",
+      layout_strategy = "horizontal",
+      layout_config = {
+        horizontal = {
+          prompt_position = "top",
+          preview_width = 0.55,
+          results_width = 0.8,
+        },
+        vertical = {
+          mirror = false,
+        },
+        width = 0.87,
+        height = 0.80,
+        preview_cutoff = 120,
+      },
       vimgrep_arguments = {
         "rg",
         "--color=never",
@@ -32,7 +44,7 @@ function M.config()
         i = {
           ["<C-n>"] = actions.move_selection_next,
           ["<C-p>"] = actions.move_selection_previous,
-          ["<C-c>"] = actions.close,
+          ["<C-c>"] = false,
           ["<C-j>"] = actions.cycle_history_next,
           ["<C-k>"] = actions.cycle_history_prev,
           ["<C-q>"] = function(...)

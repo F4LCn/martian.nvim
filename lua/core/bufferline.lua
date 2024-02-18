@@ -120,7 +120,7 @@ M.config = function()
           padding = 1,
         },
       },
-      color_icons = true,            -- whether or not to add the filetype icon highlights
+      color_icons = true,       -- whether or not to add the filetype icon highlights
       show_buffer_icons = true, -- disable filetype icons for buffers
       show_buffer_close_icons = false,
       show_close_icon = false,
@@ -142,7 +142,7 @@ M.config = function()
 end
 
 M.setup = function()
-  require("keymappings").load(lvim.builtin.bufferline.keymap)
+  require("keymaps").load(Builtin.bufferline.keymap)
 
   local status_ok, bufferline = pcall(require, "bufferline")
   if not status_ok then
@@ -196,7 +196,7 @@ function M.buf_kill(kill_command, bufnr, force)
       else
         return
       end
-    elseif api.nvim_buf_get_option(bufnr, "buftype") == "terminal" then
+    elseif api.nvim_get_option_value("buftype", { buf = bufnr }) == "terminal" then
       choice = fn.confirm(fmt([[Close "%s"?]], bufname), "&Yes\n&No\n&Cancel")
       if choice == 1 then
         force = true

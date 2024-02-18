@@ -27,9 +27,6 @@ return {
   {
     "williamboman/mason-lspconfig.nvim",
     cmd = { "LspInstall", "LspUninstall" },
-    config = function()
-      require("mason-lspconfig").setup(Lsp.setup)
-    end,
     lazy = true,
     event = "User FileOpened",
     dependencies = "mason.nvim",
@@ -308,6 +305,7 @@ return {
   },
   {
     "lukas-reineke/indent-blankline.nvim",
+    main = "ibl",
     config = function()
       require("core.indentlines").setup()
     end,

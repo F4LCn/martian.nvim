@@ -5,6 +5,10 @@ M.banner = {
   "                                                                                          ",
   "                                                                                          ",
   "                                                                                          ",
+  "                                                                                          ",
+  "                                                                                          ",
+  "                                                                                          ",
+  "                                                                                          ",
   "                           =#%%*-                                                         ",
   "                          %@@@@@@#                                                        ",
   "                          @@@@@@@@@:                                                      ",
@@ -44,16 +48,27 @@ M.banner = {
   "                                                          .:-:                            ",
   "                                                                                          ",
   "                                                                                          ",
-  "                                                                                          "
+  "                                                                                          ",
+  "                                                                                          ",
+  "                                                                                          ",
+  "                                                                                          ",
+  "                                                                                          ",
+  "                                                                                          ",
 }
 
 M.banner_small = {
+  "                                                 ",
+  "                                                 ",
+  "                                                 ",
   "███████╗░░██╗██╗██╗░░░░░░█████╗░░█████╗░███╗░░██╗",
   "██╔════╝░██╔╝██║██║░░░░░██╔══██╗██╔══██╗████╗░██║",
   "█████╗░░██╔╝░██║██║░░░░░██║░░╚═╝██║░░██║██╔██╗██║",
   "██╔══╝░░███████║██║░░░░░██║░░██╗██║░░██║██║╚████║",
   "██║░░░░░╚════██║███████╗╚█████╔╝╚█████╔╝██║░╚███║",
-  "╚═╝░░░░░░░░░░╚═╝╚══════╝░╚════╝░░╚════╝░╚═╝░░╚══╝ "
+  "╚═╝░░░░░░░░░░╚═╝╚══════╝░╚════╝░░╚════╝░╚═╝░░╚══╝ ",
+  "                                                 ",
+  "                                                 ",
+  "                                                 ",
 }
 
 function M.get_sections()
@@ -65,14 +80,15 @@ function M.get_sections()
         return vim.api.nvim_get_option_value("filetype", { buf = buf }) == "alpha"
       end, vim.api.nvim_list_wins())
 
-      if vim.api.nvim_win_get_height(alpha_wins[#alpha_wins]) < 36 then
+      if vim.api.nvim_win_get_height(alpha_wins[#alpha_wins]) < 60 then
         return M.banner_small
       end
       return M.banner
     end,
     opts = {
       position = "center",
-      hl = "Label",
+      hl = "Comment",
+      spacing = 2,
     },
   }
 
@@ -86,7 +102,7 @@ function M.get_sections()
   }
   return {
     header = header,
-    buttons = buttons,
+    -- buttons = buttons,
   }
 end
 

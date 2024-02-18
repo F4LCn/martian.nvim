@@ -3,6 +3,7 @@ local M = {}
 local Log = require("core.log")
 
 local builtins = {
+  "core.theme",
   "core.alpha",
   "core.autopairs",
   "core.breadcrumbs",
@@ -20,7 +21,6 @@ local builtins = {
   "core.project",
   "core.telescope",
   "core.terminal",
-  "core.theme",
   "core.treesitter",
   "core.which-key",
 }

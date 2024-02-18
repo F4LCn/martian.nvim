@@ -24,9 +24,11 @@ local mode_adapters = {
 
 local keymap = {
   insert_mode = {
+    ["<C-c>"] = "<Esc>",
   },
 
   normal_mode = {
+    [";"] = ":",
     -- Better window movement
     ["<C-h>"] = "<C-w>h",
     ["<C-j>"] = "<C-w>j",
@@ -45,8 +47,23 @@ local keymap = {
     ["<C-q>"] = ":call QuickFixToggle()<CR>",
 
     -- Diagnostics
-    ["<F12>"] = "<cmd>lua vim.diagnostic.goto_next()<cr>",
+    ["<M-F12>"] = "<cmd>lua vim.diagnostic.goto_next()<cr>",
     ["<S-F12>"] = "<cmd>lua vim.diagnostic.goto_prev()<cr>",
+
+    -- tabs navigation
+    ["<Tab>"] = ":BufferLineCycleNext<CR>",
+    ["<S-Tab>"] = ":BufferLineCyclePrev<CR>",
+
+    -- Debugging
+    ["<F5>"] = "<cmd>lua require'dap'.continue()<cr>",
+    ["<F9>"] = "<cmd>lua require'dap'.step_back()<cr>",
+    ["<F10>"] = "<cmd>lua require'dap'.step_over()<cr>",
+    ["<F11>"] = "<cmd>lua require'dap'.step_into()<cr>",
+    ["<F12>"] = "<cmd>lua require'dap'.step_out()<cr>",
+
+    -- no highlight on esc
+    ["<Esc>"] = "<cmd> noh <CR>",
+
   },
 
   term_mode = {

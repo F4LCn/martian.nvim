@@ -117,7 +117,7 @@ M.config = function()
         m = { "<cmd>Telescope man_pages<cr>", "Man Pages" },
         f = {
           function()
-            require("lvim.core.telescope.custom-finders").find_project_files { previewer = false }
+            require("core.telescope.custom-finders").find_project_files { previewer = false }
           end,
           "Find File (project)",
         },
@@ -128,7 +128,7 @@ M.config = function()
       c = {
         name = "Code",
         a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action" },
-        f = { "<cmd>lua require('lvim.lsp.utils').format()<cr>", "Format" },
+        f = { "<cmd>lua require('lsp.utils').format()<cr>", "Format" },
         q = { "<cmd>Telescope quickfix<cr>", "Telescope Quickfix" },
         r = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
         S = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
@@ -142,7 +142,7 @@ M.config = function()
       },
       g = {
         name = "Git",
-        g = { "<cmd>lua require 'lvim.core.terminal'.lazygit_toggle()<cr>", "Lazygit" },
+        g = { "<cmd>lua require 'core.terminal'.lazygit_toggle()<cr>", "Lazygit" },
         j = { "<cmd>lua require 'gitsigns'.next_hunk({navigation_message = false})<cr>", "Next Hunk" },
         k = { "<cmd>lua require 'gitsigns'.prev_hunk({navigation_message = false})<cr>", "Prev Hunk" },
         b = { "<cmd>lua require 'gitsigns'.blame_line()<cr>", "Blame" },
@@ -184,13 +184,17 @@ M.config = function()
         name = "Buffer",
         j = { "<cmd>BufferLinePick<cr>", "Jump" },
         f = { "<cmd>Telescope buffers previewer=false<cr>", "Find" },
-        x = { "<cmd>BufferKill<CR>", "Close Buffer" },
+        x = { 
+function()
+      require("core.bufferline").buf_kill "bd"
+    end
+          , "Close Buffer" },
         o = { "<cmd>BufferLineCloseOthers<CR>", "Close all other buffers" },
       },
       N = {
         name = "Nvim",
         c = {
-          "<cmd>edit " .. get_config_dir() .. "/config.lua<cr>",
+          "<cmd>edit " .. get_config_dir() .. "/init.lua<cr>",
           "Edit config.lua",
         },
         C = { "<cmd>Telescope colorscheme<cr>", "Colorscheme" },

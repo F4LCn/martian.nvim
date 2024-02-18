@@ -100,7 +100,7 @@ M.get_filename = function()
   if not f.isempty(filename) then
     local file_icon, hl_group
     local devicons_ok, devicons = pcall(require, "nvim-web-devicons")
-    if use_icons and devicons_ok then
+    if devicons_ok then
       file_icon, hl_group = devicons.get_icon(filename, extension, { default = true })
 
       if f.isempty(file_icon) then
@@ -114,26 +114,26 @@ M.get_filename = function()
     local buf_ft = vim.bo.filetype
 
     if buf_ft == "dapui_breakpoints" then
-      file_icon = icons.ui.Bug
+      file_icon = Icons.ui.Bug
     end
 
     if buf_ft == "dapui_stacks" then
-      file_icon = icons.ui.Stacks
+      file_icon = Icons.ui.Stacks
     end
 
     if buf_ft == "dapui_scopes" then
-      file_icon = icons.ui.Scopes
+      file_icon = Icons.ui.Scopes
     end
 
     if buf_ft == "dapui_watches" then
-      file_icon = icons.ui.Watches
+      file_icon = Icons.ui.Watches
     end
 
     -- if buf_ft == "dapui_console" then
-    --   file_icon = icons.ui.DebugConsole
+    --   file_icon = Icons.ui.DebugConsole
     -- end
 
-    local navic_text = vim.api.nvim_get_hl_by_name("Normal", true)
+    local navic_text = vim.api.nvim_get_hl(0, { name = "Normal" })
     vim.api.nvim_set_hl(0, "Winbar", { fg = navic_text.foreground })
 
     return " " .. "%#" .. hl_group .. "#" .. file_icon .. "%*" .. " " .. "%#Winbar#" .. filename .. "%*"
@@ -156,7 +156,7 @@ local get_gps = function()
   end
 
   if not require("utils.functions").isempty(gps_location) then
-    return "%#NavicSeparator#" .. icons.ui.ChevronRight .. "%* " .. gps_location
+    return "%#NavicSeparator#" .. Icons.ui.ChevronRight .. "%* " .. gps_location
   else
     return ""
   end
@@ -184,7 +184,7 @@ M.get_winbar = function()
 
   if not f.isempty(value) and f.get_buf_option "mod" then
     -- TODO: replace with circle
-    local mod = "%#LspCodeLens#" .. icons.ui.Circle .. "%*"
+    local mod = "%#LspCodeLens#" .. Icons.ui.Circle .. "%*"
     if gps_added then
       value = value .. " " .. mod
     else

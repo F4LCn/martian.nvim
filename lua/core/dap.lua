@@ -1,6 +1,59 @@
 local M = {}
 
 M.config = function()
+  local adapters = {
+
+    coreclr = {
+      type = 'executable',
+      command = '/usr/share/netcoredbg/netcoredbg',
+      args = { '--interpreter=vscode' }
+    },
+    gdb = {
+      type = "executable",
+      command = "gdb",
+      args = { "-i", "dap" }
+    },
+    codelldb = {
+      type = 'server',
+      host = '127.0.0.1',
+      port = 13000,
+      executable = {
+        -- CHANGE THIS to your path!
+        command = '/root/.local/share/nvim/mason/bin/codelldb',
+        args = { "--port", "13000" },
+        detached = false,
+      }
+    }
+  }
+
+  local configurations = {}
+  configurations.cs = {
+    {
+      type = "coreclr",
+      name = "launch - netcoredbg",
+      request = "launch",
+      program = function()
+        return vim.fn.input('Path to dll', vim.fn.getcwd() .. '/bin/Debug/', 'file')
+      end,
+    },
+  }
+  configurations.c = {
+    {
+      name = "Launch - codelldb",
+      type = "codelldb",
+      request = "launch",
+      program = function()
+        return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+      end,
+      cwd = '${workspaceFolder}',
+      stopOnEntry = false,
+    },
+  }
+  configurations.cpp = configurations.c
+  configurations.rust = configurations.c
+  configurations["rs"] = configurations.c
+
+
   Builtin.dap = {
     active = true,
     on_config_done = nil,
@@ -47,17 +100,17 @@ M.config = function()
         layouts = {
           {
             elements = {
-              { id = "scopes", size = 0.33 },
+              { id = "scopes",      size = 0.33 },
               { id = "breakpoints", size = 0.17 },
-              { id = "stacks", size = 0.25 },
-              { id = "watches", size = 0.25 },
+              { id = "stacks",      size = 0.25 },
+              { id = "watches",     size = 0.25 },
             },
             size = 0.33,
             position = "right",
           },
           {
             elements = {
-              { id = "repl", size = 0.45 },
+              { id = "repl",    size = 0.45 },
               { id = "console", size = 0.55 },
             },
             size = 0.27,
@@ -94,6 +147,8 @@ M.config = function()
         },
       },
     },
+    adapters = adapters,
+    configurations = configurations,
   }
 end
 
@@ -103,11 +158,9 @@ M.setup = function()
     return
   end
 
-  if use_icons then
-    vim.fn.sign_define("DapBreakpoint", Builtin.dap.breakpoint)
-    vim.fn.sign_define("DapBreakpointRejected", Builtin.dap.breakpoint_rejected)
-    vim.fn.sign_define("DapStopped", Builtin.dap.stopped)
-  end
+  vim.fn.sign_define("DapBreakpoint", Builtin.dap.breakpoint)
+  vim.fn.sign_define("DapBreakpointRejected", Builtin.dap.breakpoint_rejected)
+  vim.fn.sign_define("DapStopped", Builtin.dap.stopped)
 
   dap.set_log_level(Builtin.dap.log.level)
 
@@ -136,8 +189,6 @@ M.setup_ui = function()
     -- end
   end
 
-  local Log = require "core.log"
-
   -- until rcarriga/nvim-dap-ui#164 is fixed
   local function notify_handler(msg, level, opts)
     if level >= Builtin.dap.ui.notify.threshold then
@@ -148,30 +199,14 @@ M.setup_ui = function()
       title = "dap-ui",
       icon = "",
       on_open = function(win)
-        vim.api.nvim_buf_set_option(vim.api.nvim_win_get_buf(win), "filetype", "markdown")
+        vim.api.nvim_set_option_value("filetype", "markdown", { buf = vim.api.nvim_win_get_buf(win) })
       end,
     })
-
-    -- vim_log_level can be omitted
-    if level == nil then
-      level = Log.levels["INFO"]
-    elseif type(level) == "string" then
-      level = Log.levels[(level):upper()] or Log.levels["INFO"]
-    else
-      -- https://github.com/neovim/neovim/blob/685cf398130c61c158401b992a1893c2405cd7d2/runtime/lua/vim/lsp/log.lua#L5
-      level = level + 1
-    end
-
-    msg = string.format("%s: %s", opts.title, msg)
-    Log:add_entry(level, msg)
   end
 
-  local dapui_ok, _ = xpcall(function()
+  local _, _ = xpcall(function()
     require("dapui.util").notify = notify_handler
   end, debug.traceback)
-  if not dapui_ok then
-    Log:debug "Unable to override dap-ui logging level"
-  end
 end
 
 return M

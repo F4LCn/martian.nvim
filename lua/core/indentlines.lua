@@ -6,29 +6,34 @@ M.config = function()
     on_config_done = nil,
     options = {
       enabled = true,
-      buftype_exclude = { "terminal", "nofile" },
-      filetype_exclude = {
-        "help",
-        "startify",
-        "dashboard",
-        "lazy",
-        "neogitstatus",
-        "NvimTree",
-        "Trouble",
-        "text",
+      indent = {
+        char = Icons.ui.LineLeft,
+        smart_indent_cap = false,
       },
-      char = Icons.ui.LineLeft,
-      context_char = Icons.ui.LineLeft,
-      show_trailing_blankline_indent = false,
-      show_first_indent_level = true,
-      use_treesitter = true,
-      show_current_context = true,
+      scope = {
+        enabled = true,
+        char = Icons.ui.LineLeft,
+      },
+      whitespace = { highlight = { "Whitespace", "NonText" } },
+      exclude = {
+        filetypes = {
+          "help",
+          "startify",
+          "dashboard",
+          "lazy",
+          "neogitstatus",
+          "NvimTree",
+          "Trouble",
+          "text",
+        },
+        buftypes = { "terminal", "nofile" },
+      },
     },
   }
 end
 
 M.setup = function()
-  local status_ok, indent_blankline = pcall(require, "indent_blankline")
+  local status_ok, indent_blankline = pcall(require, "ibl")
   if not status_ok then
     return
   end

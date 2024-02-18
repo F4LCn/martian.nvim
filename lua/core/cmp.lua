@@ -134,7 +134,7 @@ M.config = function()
     active = true,
     on_config_done = nil,
     enabled = function()
-      local buftype = vim.api.nvim_buf_get_option(0, "buftype")
+      local buftype = vim.api.nvim_get_option_value("buftype", {buf = 0})
       if buftype == "prompt" then
         return false
       end
@@ -181,33 +181,31 @@ M.config = function()
         if max_width ~= 0 and #vim_item.abbr > max_width then
           vim_item.abbr = string.sub(vim_item.abbr, 1, max_width - 1) .. Icons.ui.Ellipsis
         end
-        if use_icons then
-          vim_item.kind = Builtin.cmp.formatting.kind_icons[vim_item.kind]
+        vim_item.kind = Builtin.cmp.formatting.kind_icons[vim_item.kind]
 
-          if entry.source.name == "copilot" then
-            vim_item.kind = Icons.git.Octoface
-            vim_item.kind_hl_group = "CmpItemKindCopilot"
-          end
+        if entry.source.name == "copilot" then
+          vim_item.kind = Icons.git.Octoface
+          vim_item.kind_hl_group = "CmpItemKindCopilot"
+        end
 
-          if entry.source.name == "cmp_tabnine" then
-            vim_item.kind = Icons.misc.Robot
-            vim_item.kind_hl_group = "CmpItemKindTabnine"
-          end
+        if entry.source.name == "cmp_tabnine" then
+          vim_item.kind = Icons.misc.Robot
+          vim_item.kind_hl_group = "CmpItemKindTabnine"
+        end
 
-          if entry.source.name == "crates" then
-            vim_item.kind = Icons.misc.Package
-            vim_item.kind_hl_group = "CmpItemKindCrate"
-          end
+        if entry.source.name == "crates" then
+          vim_item.kind = Icons.misc.Package
+          vim_item.kind_hl_group = "CmpItemKindCrate"
+        end
 
-          if entry.source.name == "lab.quick_data" then
-            vim_item.kind = Icons.misc.CircuitBoard
-            vim_item.kind_hl_group = "CmpItemKindConstant"
-          end
+        if entry.source.name == "lab.quick_data" then
+          vim_item.kind = Icons.misc.CircuitBoard
+          vim_item.kind_hl_group = "CmpItemKindConstant"
+        end
 
-          if entry.source.name == "emoji" then
-            vim_item.kind = Icons.misc.Smiley
-            vim_item.kind_hl_group = "CmpItemKindEmoji"
-          end
+        if entry.source.name == "emoji" then
+          vim_item.kind = Icons.misc.Smiley
+          vim_item.kind_hl_group = "CmpItemKindEmoji"
         end
         vim_item.menu = Builtin.cmp.formatting.source_names[entry.source.name]
         vim_item.dup = Builtin.cmp.formatting.duplicates[entry.source.name]

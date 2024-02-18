@@ -3,7 +3,6 @@ vim.g.maplocalleader = ' '
 
 Builtin = {}
 Icons = require("icons")
-Lsp = {}
 
 require("plugin-manager"):init()
 
@@ -22,5 +21,13 @@ autocmds.load_defaults()
 local lazy_opts = require "lazy-opts"
 require('lazy').setup('plugins', lazy_opts)
 
+require("core.log"):init()
+
+local lsp = require "lsp"
+lsp.setup()
+
 local theme = require "core.theme"
 theme.setup()
+
+local Log = require "core.log"
+Log:debug "Starting nvim :)"
