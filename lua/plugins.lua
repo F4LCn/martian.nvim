@@ -64,9 +64,8 @@ return {
   {
     "hrsh7th/nvim-cmp",
     config = function()
-      if Builtin.cmp then
-        require("core.cmp").setup()
-      end
+      print("cmp setup")
+      require("core.cmp").setup()
     end,
     event = { "InsertEnter", "CmdlineEnter" },
     dependencies = {

@@ -118,22 +118,24 @@ end
 M.methods.jumpable = jumpable
 
 M.config = function()
-  local status_cmp_ok, cmp_types = pcall(require, "cmp.types.cmp")
-  if not status_cmp_ok then
-    return
-  end
-  local ConfirmBehavior = cmp_types.ConfirmBehavior
-  local SelectBehavior = cmp_types.SelectBehavior
+  print("cmpo config")
+  -- local status_cmp_ok, cmp_types = pcall(require, "cmp.types.cmp")
+  -- if not status_cmp_ok then
+  --   print("cmp error :(")
+  --   return
+  -- end
+  -- local ConfirmBehavior = cmp_types.ConfirmBehavior
+  -- local SelectBehavior = cmp_types.SelectBehavior
 
   local cmp = require("utils.modules").require_on_index "cmp"
   local luasnip = require("utils.modules").require_on_index "luasnip"
-  local cmp_window = require "cmp.config.window"
   local cmp_mapping = require "cmp.config.mapping"
 
   Builtin.cmp = {
     active = true,
     on_config_done = nil,
     enabled = function()
+      vim.notify "cmp enabled"
       local buftype = vim.api.nvim_get_option_value("buftype", {buf = 0})
       if buftype == "prompt" then
         return false
@@ -141,7 +143,7 @@ M.config = function()
       return Builtin.cmp.active
     end,
     confirm_opts = {
-      behavior = ConfirmBehavior.Replace,
+      behavior = 'replace',
       select = false,
     },
     completion = {
@@ -219,8 +221,8 @@ M.config = function()
       end,
     },
     window = {
-      completion = cmp_window.bordered(),
-      documentation = cmp_window.bordered(),
+      completion = cmp.window.bordered(),
+      documentation = cmp.window.bordered(),
     },
     sources = {
       {
@@ -278,15 +280,15 @@ M.config = function()
     mapping = cmp_mapping.preset.insert {
       ["<C-k>"] = cmp_mapping(cmp_mapping.select_prev_item(), { "i", "c" }),
       ["<C-j>"] = cmp_mapping(cmp_mapping.select_next_item(), { "i", "c" }),
-      ["<Down>"] = cmp_mapping(cmp_mapping.select_next_item { behavior = SelectBehavior.Select }, { "i" }),
-      ["<Up>"] = cmp_mapping(cmp_mapping.select_prev_item { behavior = SelectBehavior.Select }, { "i" }),
+      ["<Down>"] = cmp_mapping(cmp_mapping.select_next_item { behavior = 'select' }, { "i" }),
+      ["<Up>"] = cmp_mapping(cmp_mapping.select_prev_item { behavior = 'select' }, { "i" }),
       ["<C-d>"] = cmp_mapping.scroll_docs(-4),
       ["<C-f>"] = cmp_mapping.scroll_docs(4),
       ["<C-y>"] = cmp_mapping {
-        i = cmp_mapping.confirm { behavior = ConfirmBehavior.Replace, select = false },
+        i = cmp_mapping.confirm { behavior = 'replace', select = false },
         c = function(fallback)
           if cmp.visible() then
-            cmp.confirm { behavior = ConfirmBehavior.Replace, select = false }
+            cmp.confirm { behavior = 'replace', select = false }
           else
             fallback()
           end
@@ -324,12 +326,12 @@ M.config = function()
             return vim.api.nvim_get_mode().mode:sub(1, 1) == "i"
           end
           if is_insert_mode() then -- prevent overwriting brackets
-            confirm_opts.behavior = ConfirmBehavior.Insert
+            confirm_opts.behavior = 'insert'
           end
           local entry = cmp.get_selected_entry()
           local is_copilot = entry and entry.source.name == "copilot"
           if is_copilot then
-            confirm_opts.behavior = ConfirmBehavior.Replace
+            confirm_opts.behavior = 'replace'
             confirm_opts.select = true
           end
           if cmp.confirm(confirm_opts) then
@@ -361,6 +363,7 @@ M.config = function()
 end
 
 function M.setup()
+  vim.notify "Setting up cmp"
   local cmp = require "cmp"
   cmp.setup(Builtin.cmp)
 
