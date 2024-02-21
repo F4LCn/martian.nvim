@@ -1,11 +1,43 @@
 local M = {}
 
-M.config = function()
-  local utils = require "utils.modules"
-  local actions = utils.require_on_exported_call "lir.actions"
-  local clipboard_actions = utils.require_on_exported_call "lir.clipboard.actions"
+function M.icon_setup()
+  local devicons_ok, devicons = pcall(require, "nvim-web-devicons")
+  if not devicons_ok then
+    return
+  end
 
-  Builtin.lir = {
+  local function get_hl_by_name(name)
+    local ret = vim.api.nvim_get_hl(0, { name = name.group })
+    return string.format("#%06x", ret[name.property])
+  end
+
+  local found, icon_hl = pcall(get_hl_by_name, { group = "NvimTreeFolderIcon", property = "foreground" })
+  if not found then
+    icon_hl = "#42A5F5"
+  end
+
+  devicons.set_icon {
+    lir_folder_icon = {
+      icon = "",
+      color = icon_hl,
+      name = "LirFolderNode",
+    },
+  }
+end
+
+function M.setup()
+  local status_ok, lir = pcall(require, "lir")
+  if not status_ok then
+    return
+  end
+
+  local utils = require "utils.modules"
+  local actions = require "lir.actions"
+  local clipboard_actions = require "lir.clipboard.actions"
+
+
+  ---@diagnostic disable-next-line: redundant-parameter
+  lir.setup({
     active = true,
     on_config_done = nil,
     icon = "",
@@ -71,46 +103,18 @@ M.config = function()
         { noremap = true, silent = true }
       )
     end,
-  }
-end
-
-function M.icon_setup()
-  local devicons_ok, devicons = pcall(require, "nvim-web-devicons")
-  if not devicons_ok then
-    return
-  end
-
-  local function get_hl_by_name(name)
-    local ret = vim.api.nvim_get_hl(0, { name = name.group })
-    return string.format("#%06x", ret[name.property])
-  end
-
-  local found, icon_hl = pcall(get_hl_by_name, { group = "NvimTreeFolderIcon", property = "foreground" })
-  if not found then
-    icon_hl = "#42A5F5"
-  end
-
-  devicons.set_icon {
-    lir_folder_icon = {
-      icon = Builtin.lir.icon,
-      color = icon_hl,
-      name = "LirFolderNode",
-    },
-  }
-end
-
-function M.setup()
-  local status_ok, lir = pcall(require, "lir")
-  if not status_ok then
-    return
-  end
-
-  lir.setup(Builtin.lir)
+  })
   M.icon_setup()
+end
 
-  if Builtin.lir.on_config_done then
-    Builtin.lir.on_config_done(lir)
-  end
+function M.get_plugin_config()
+  return {
+    {
+      "tamago324/lir.nvim",
+      config = M.setup,
+      event = "User DirOpened",
+    }
+  }
 end
 
 return M

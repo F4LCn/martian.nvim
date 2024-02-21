@@ -1,5 +1,5 @@
 local M = {}
-local components = require "core.lualine.components"
+local components = require "plugins.lualine.components"
 
 M.style = {
   options = {
@@ -57,12 +57,5 @@ M.style = {
   tabline = {},
   extensions = {},
 }
-
-function M.update()
-  Builtin.lualine = vim.tbl_deep_extend("keep", Builtin.lualine, M.style)
-
-  local color_template = vim.g.colors_name
-  Builtin.lualine.options.theme = color_template
-end
 
 return M

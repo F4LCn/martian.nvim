@@ -2,82 +2,6 @@ local M = {}
 
 local icons = Icons.kind
 
-M.config = function()
-  Builtin.breadcrumbs = {
-    active = true,
-    on_config_done = nil,
-    winbar_filetype_exclude = {
-      "help",
-      "startify",
-      "dashboard",
-      "lazy",
-      "neo-tree",
-      "neogitstatus",
-      "NvimTree",
-      "Trouble",
-      "alpha",
-      "lir",
-      "Outline",
-      "spectre_panel",
-      "toggleterm",
-      "DressingSelect",
-      "Jaq",
-      "harpoon",
-      "dap-repl",
-      "dap-terminal",
-      "dapui_console",
-      "dapui_hover",
-      "lab",
-      "notify",
-      "noice",
-      "neotest-summary",
-      "",
-    },
-    options = {
-      icons = {
-        Array = icons.Array .. " ",
-        Boolean = icons.Boolean .. " ",
-        Class = icons.Class .. " ",
-        Color = icons.Color .. " ",
-        Constant = icons.Constant .. " ",
-        Constructor = icons.Constructor .. " ",
-        Enum = icons.Enum .. " ",
-        EnumMember = icons.EnumMember .. " ",
-        Event = icons.Event .. " ",
-        Field = icons.Field .. " ",
-        File = icons.File .. " ",
-        Folder = icons.Folder .. " ",
-        Function = icons.Function .. " ",
-        Interface = icons.Interface .. " ",
-        Key = icons.Key .. " ",
-        Keyword = icons.Keyword .. " ",
-        Method = icons.Method .. " ",
-        Module = icons.Module .. " ",
-        Namespace = icons.Namespace .. " ",
-        Null = icons.Null .. " ",
-        Number = icons.Number .. " ",
-        Object = icons.Object .. " ",
-        Operator = icons.Operator .. " ",
-        Package = icons.Package .. " ",
-        Property = icons.Property .. " ",
-        Reference = icons.Reference .. " ",
-        Snippet = icons.Snippet .. " ",
-        String = icons.String .. " ",
-        Struct = icons.Struct .. " ",
-        Text = icons.Text .. " ",
-        TypeParameter = icons.TypeParameter .. " ",
-        Unit = icons.Unit .. " ",
-        Value = icons.Value .. " ",
-        Variable = icons.Variable .. " ",
-      },
-      highlight = true,
-      separator = " " .. Icons.ui.ChevronRight .. " ",
-      depth_limit = 0,
-      depth_limit_indicator = "..",
-    },
-  }
-end
-
 M.setup = function()
   local status_ok, navic = pcall(require, "nvim-navic")
   if not status_ok then
@@ -85,11 +9,48 @@ M.setup = function()
   end
 
   M.create_winbar()
-  navic.setup(Builtin.breadcrumbs.options)
-
-  if Builtin.breadcrumbs.on_config_done then
-    Builtin.breadcrumbs.on_config_done()
-  end
+  navic.setup({
+    icons = {
+      Array = icons.Array .. " ",
+      Boolean = icons.Boolean .. " ",
+      Class = icons.Class .. " ",
+      Color = icons.Color .. " ",
+      Constant = icons.Constant .. " ",
+      Constructor = icons.Constructor .. " ",
+      Enum = icons.Enum .. " ",
+      EnumMember = icons.EnumMember .. " ",
+      Event = icons.Event .. " ",
+      Field = icons.Field .. " ",
+      File = icons.File .. " ",
+      Folder = icons.Folder .. " ",
+      Function = icons.Function .. " ",
+      Interface = icons.Interface .. " ",
+      Key = icons.Key .. " ",
+      Keyword = icons.Keyword .. " ",
+      Method = icons.Method .. " ",
+      Module = icons.Module .. " ",
+      Namespace = icons.Namespace .. " ",
+      Null = icons.Null .. " ",
+      Number = icons.Number .. " ",
+      Object = icons.Object .. " ",
+      Operator = icons.Operator .. " ",
+      Package = icons.Package .. " ",
+      Property = icons.Property .. " ",
+      Reference = icons.Reference .. " ",
+      Snippet = icons.Snippet .. " ",
+      String = icons.String .. " ",
+      Struct = icons.Struct .. " ",
+      Text = icons.Text .. " ",
+      TypeParameter = icons.TypeParameter .. " ",
+      Unit = icons.Unit .. " ",
+      Value = icons.Value .. " ",
+      Variable = icons.Variable .. " ",
+    },
+    highlight = true,
+    separator = " " .. Icons.ui.ChevronRight .. " ",
+    depth_limit = 0,
+    depth_limit_indicator = "..",
+  })
 end
 
 M.get_filename = function()
@@ -163,7 +124,33 @@ local get_gps = function()
 end
 
 local excludes = function()
-  return vim.tbl_contains(Builtin.breadcrumbs.winbar_filetype_exclude or {}, vim.bo.filetype)
+  return vim.tbl_contains({
+    "help",
+    "startify",
+    "dashboard",
+    "lazy",
+    "neo-tree",
+    "neogitstatus",
+    "NvimTree",
+    "Trouble",
+    "alpha",
+    "lir",
+    "Outline",
+    "spectre_panel",
+    "toggleterm",
+    "DressingSelect",
+    "Jaq",
+    "harpoon",
+    "dap-repl",
+    "dap-terminal",
+    "dapui_console",
+    "dapui_hover",
+    "lab",
+    "notify",
+    "noice",
+    "neotest-summary",
+    "",
+  }, vim.bo.filetype)
 end
 
 M.get_winbar = function()
@@ -219,15 +206,20 @@ M.create_winbar = function()
   }, {
     group = "_winbar",
     callback = function()
-      if Builtin.breadcrumbs.active then
-        local status_ok, _ = pcall(vim.api.nvim_buf_get_var, 0, "lsp_floating_window")
-        if not status_ok then
-          -- TODO:
-          require("core.breadcrumbs").get_winbar()
-        end
+      local status_ok, _ = pcall(vim.api.nvim_buf_get_var, 0, "lsp_floating_window")
+      if not status_ok then
+        M.get_winbar()
       end
     end,
   })
+end
+
+function M.get_plugin_config()
+  return {
+    "SmiteshP/nvim-navic",
+    config = M.setup,
+    event = "User FileOpened",
+  }
 end
 
 return M

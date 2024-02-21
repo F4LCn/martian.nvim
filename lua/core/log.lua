@@ -72,21 +72,21 @@ function Log:init()
   local logger = structlog.get_logger "nvim"
 
   -- Overwrite `vim.notify` to use the logger
-  -- vim.notify = function(msg, vim_log_level, opts)
-  --   notify_opts = opts or {}
+  vim.notify = function(msg, vim_log_level, opts)
+    notify_opts = opts or {}
 
-  --   -- vim_log_level can be omitted
-  --   if vim_log_level == nil then
-  --     vim_log_level = Log.levels["INFO"]
-  --   elseif type(vim_log_level) == "string" then
-  --     vim_log_level = Log.levels[(vim_log_level):upper()] or Log.levels["INFO"]
-  --   else
-  --     -- https://github.com/neovim/neovim/blob/685cf398130c61c158401b992a1893c2405cd7d2/runtime/lua/vim/lsp/log.lua#L5
-  --     vim_log_level = vim_log_level + 1
-  --   end
+    -- vim_log_level can be omitted
+    if vim_log_level == nil then
+      vim_log_level = Log.levels["INFO"]
+    elseif type(vim_log_level) == "string" then
+      vim_log_level = Log.levels[(vim_log_level):upper()] or Log.levels["INFO"]
+    else
+      -- https://github.com/neovim/neovim/blob/685cf398130c61c158401b992a1893c2405cd7d2/runtime/lua/vim/lsp/log.lua#L5
+      vim_log_level = vim_log_level + 1
+    end
 
-  --   self:add_entry(vim_log_level, msg)
-  -- end
+    self:add_entry(vim_log_level, msg)
+  end
 
   return logger
 end
@@ -129,7 +129,6 @@ function Log:add_entry(level, msg, event)
         if not logger then
           return
         end
-        vim.notify(vim.inspect(msg), level)
         logger:log(level, vim.inspect(msg), event)
       end)
   then

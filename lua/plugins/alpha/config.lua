@@ -92,17 +92,8 @@ function M.get_sections()
     },
   }
 
-  local buttons = {
-    opts = {
-      hl_shortcut = "Include",
-      spacing = 1,
-    },
-    entries = {
-    },
-  }
   return {
     header = header,
-    -- buttons = buttons,
   }
 end
 

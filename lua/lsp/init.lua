@@ -1,4 +1,5 @@
 local M = {}
+local Log = require("core.log")
 local autocmds = require "autocmds"
 
 M.servers = {
@@ -14,7 +15,11 @@ M.servers = {
 }
 
 local function add_lsp_buffer_options(bufnr)
-  for k, v in pairs(Lsp.buffer_options) do
+  local buffer_options = {
+    omnifunc = "v:lua.vim.lsp.omnifunc",
+    formatexpr = "v:lua.vim.lsp.formatexpr(#{timeout_ms:500})",
+  }
+  for k, v in pairs(buffer_options) do
     vim.api.nvim_set_option_value(k, v, { buf = bufnr })
   end
 end
@@ -25,9 +30,34 @@ local function add_lsp_buffer_keybindings(bufnr)
     insert_mode = "i",
     visual_mode = "v",
   }
+  local buffer_mappings = {
+    normal_mode = {
+      ["K"] = { "<cmd>lua vim.lsp.buf.hover()<cr>", "Show hover" },
+      ["gd"] = { "<cmd>lua vim.lsp.buf.definition()<cr>", "Goto definition" },
+      ["gD"] = { "<cmd>lua vim.lsp.buf.declaration()<cr>", "Goto Declaration" },
+      ["gr"] = { "<cmd>lua vim.lsp.buf.references()<cr>", "Goto references" },
+      ["gI"] = { "<cmd>lua vim.lsp.buf.implementation()<cr>", "Goto Implementation" },
+      ["gs"] = { "<cmd>lua vim.lsp.buf.signature_help()<cr>", "show signature help" },
+      ["gl"] = {
+        function()
+          local float = vim.diagnostic.config().float
+
+          if float then
+            local config = type(float) == "table" and float or {}
+            config.scope = "line"
+
+            vim.diagnostic.open_float(config)
+          end
+        end,
+        "Show line diagnostics",
+      },
+    },
+    insert_mode = {},
+    visual_mode = {},
+  }
 
   for mode_name, mode_char in pairs(mappings) do
-    for key, remap in pairs(Lsp.buffer_mappings[mode_name]) do
+    for key, remap in pairs(buffer_mappings[mode_name]) do
       local opts = { buffer = bufnr, desc = remap[2], noremap = true, silent = true }
       vim.keymap.set(mode_char, key, remap[1], opts)
     end
@@ -54,32 +84,18 @@ function M.common_capabilities()
 end
 
 function M.common_on_exit(_, _)
-  if Lsp.document_highlight then
-    autocmds.clear_augroup "lsp_document_highlight"
-  end
-  if Lsp.code_lens_refresh then
-    autocmds.clear_augroup "lsp_code_lens_refresh"
-  end
+  autocmds.clear_augroup "lsp_document_highlight"
+  autocmds.clear_augroup "lsp_code_lens_refresh"
 end
 
 function M.common_on_init(client, bufnr)
-  if Lsp.on_init_callback then
-    Lsp.on_init_callback(client, bufnr)
-    return
-  end
 end
 
 function M.common_on_attach(client, bufnr)
-  if Lsp.on_attach_callback then
-    Lsp.on_attach_callback(client, bufnr)
-  end
+  Log:info "lsp attached"
   local lu = require "lsp.utils"
-  if Lsp.document_highlight then
-    lu.setup_document_highlight(client, bufnr)
-  end
-  if Lsp.code_lens_refresh then
-    lu.setup_codelens_refresh(client, bufnr)
-  end
+  lu.setup_document_highlight(client, bufnr)
+  lu.setup_codelens_refresh(client, bufnr)
   add_lsp_buffer_keybindings(bufnr)
   add_lsp_buffer_options(bufnr)
   lu.setup_document_symbols(client, bufnr)
@@ -102,19 +118,11 @@ function M.setup()
   end
   mason_lspconfig.setup()
 
-  local neodev_ok, neodev = pcall(require, "neodev")
-  if not neodev_ok then
-    vim.notify "no neodev"
-    return
-  end
-  neodev.setup()
+  mason_lspconfig.setup {
+    ensure_installed = vim.tbl_keys(M.servers),
+  }
 
-
-mason_lspconfig.setup {
-  ensure_installed = vim.tbl_keys(M.servers),
-}
-
-        local capabilities = M.get_common_opts()
+  local capabilities = M.get_common_opts()
   mason_lspconfig.setup_handlers {
     function(server_name)
       local lsp_status_ok, lspconfig = pcall(require, "lspconfig")
@@ -155,6 +163,27 @@ mason_lspconfig.setup {
 
   -- Enable rounded borders in :LspInfo window.
   require("lspconfig.ui.windows").default_options.border = "rounded"
+end
+
+function M.get_plugin_config()
+  return {
+    {
+      "neovim/nvim-lspconfig",
+      lazy = true,
+      dependencies = {
+        "mason-lspconfig.nvim",
+        { 'j-hui/fidget.nvim', opts = {} },
+        "folke/neodev.nvim"
+      },
+    },
+    {
+      "williamboman/mason-lspconfig.nvim",
+      cmd = { "LspInstall", "LspUninstall" },
+      lazy = true,
+      event = "User FileOpened",
+      dependencies = "mason.nvim",
+    },
+  }
 end
 
 return M

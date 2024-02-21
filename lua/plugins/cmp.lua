@@ -22,9 +22,6 @@ end
 
 M.methods.feedkeys = feedkeys
 
----when inside a snippet, seeks to the nearest luasnip field if possible, and checks if it is jumpable
----@param dir number 1 for forward, -1 for backward; defaults to 1
----@return boolean true if a jumpable luasnip field is found while inside a snippet
 local function jumpable(dir)
   local luasnip_ok, luasnip = pcall(require, "luasnip")
   if not luasnip_ok then
@@ -117,33 +114,55 @@ end
 
 M.methods.jumpable = jumpable
 
-M.config = function()
-  print("cmpo config")
-  -- local status_cmp_ok, cmp_types = pcall(require, "cmp.types.cmp")
-  -- if not status_cmp_ok then
-  --   print("cmp error :(")
-  --   return
-  -- end
-  -- local ConfirmBehavior = cmp_types.ConfirmBehavior
-  -- local SelectBehavior = cmp_types.SelectBehavior
-
-  local cmp = require("utils.modules").require_on_index "cmp"
-  local luasnip = require("utils.modules").require_on_index "luasnip"
+function M.setup()
+  local cmp = require "cmp"
+  local luasnip = require "luasnip"
+  local cmp_window = require "cmp.config.window"
   local cmp_mapping = require "cmp.config.mapping"
 
-  Builtin.cmp = {
-    active = true,
-    on_config_done = nil,
+  local status_cmp_ok, cmp_types = pcall(require, "cmp.types.cmp")
+  if not status_cmp_ok then
+    print("could not require cmp types")
+    return
+  end
+
+  luasnip.config.setup({})
+
+  local ConfirmBehavior = cmp_types.ConfirmBehavior
+  local SelectBehavior = cmp_types.SelectBehavior
+
+  local source_names = {
+    nvim_lsp = "(LSP)",
+    emoji = "(Emoji)",
+    path = "(Path)",
+    calc = "(Calc)",
+    cmp_tabnine = "(Tabnine)",
+    vsnip = "(Snip)",
+    luasnip = "(Snip)",
+    buffer = "(Buf)",
+    tmux = "(TMUX)",
+    copilot = "(Copilot)",
+    treesitter = "(TS)",
+  }
+
+  local duplicates = {
+    buffer = 1,
+    path = 1,
+    nvim_lsp = 0,
+    luasnip = 1,
+  }
+
+  ---@diagnostic disable-next-line: redundant-parameter
+  cmp.setup {
     enabled = function()
-      vim.notify "cmp enabled"
-      local buftype = vim.api.nvim_get_option_value("buftype", {buf = 0})
+      local buftype = vim.api.nvim_get_option_value("buftype", { buf = 0 })
       if buftype == "prompt" then
         return false
       end
-      return Builtin.cmp.active
+      return true
     end,
     confirm_opts = {
-      behavior = 'replace',
+      behavior = ConfirmBehavior.Replace,
       select = false,
     },
     completion = {
@@ -158,32 +177,15 @@ M.config = function()
       fields = { "kind", "abbr", "menu" },
       max_width = 0,
       kind_icons = Icons.kind,
-      source_names = {
-        nvim_lsp = "(LSP)",
-        emoji = "(Emoji)",
-        path = "(Path)",
-        calc = "(Calc)",
-        cmp_tabnine = "(Tabnine)",
-        vsnip = "(Snip)",
-        luasnip = "(Snip)",
-        buffer = "(Buf)",
-        tmux = "(TMUX)",
-        copilot = "(Copilot)",
-        treesitter = "(TS)",
-      },
-      duplicates = {
-        buffer = 1,
-        path = 1,
-        nvim_lsp = 0,
-        luasnip = 1,
-      },
+      source_names = source_names,
+      duplicates = duplicates,
       duplicates_default = 0,
       format = function(entry, vim_item)
-        local max_width = Builtin.cmp.formatting.max_width
+        local max_width = 0
         if max_width ~= 0 and #vim_item.abbr > max_width then
           vim_item.abbr = string.sub(vim_item.abbr, 1, max_width - 1) .. Icons.ui.Ellipsis
         end
-        vim_item.kind = Builtin.cmp.formatting.kind_icons[vim_item.kind]
+        vim_item.kind = Icons.kind[vim_item.kind]
 
         if entry.source.name == "copilot" then
           vim_item.kind = Icons.git.Octoface
@@ -209,9 +211,9 @@ M.config = function()
           vim_item.kind = Icons.misc.Smiley
           vim_item.kind_hl_group = "CmpItemKindEmoji"
         end
-        vim_item.menu = Builtin.cmp.formatting.source_names[entry.source.name]
-        vim_item.dup = Builtin.cmp.formatting.duplicates[entry.source.name]
-            or Builtin.cmp.formatting.duplicates_default
+        vim_item.menu = source_names[entry.source.name]
+        vim_item.dup = duplicates[entry.source.name]
+            or 0
         return vim_item
       end,
     },
@@ -221,8 +223,8 @@ M.config = function()
       end,
     },
     window = {
-      completion = cmp.window.bordered(),
-      documentation = cmp.window.bordered(),
+      completion = cmp_window.bordered(),
+      documentation = cmp_window.bordered(),
     },
     sources = {
       {
@@ -265,7 +267,6 @@ M.config = function()
           return true
         end,
       },
-
       { name = "path" },
       { name = "luasnip" },
       { name = "cmp_tabnine" },
@@ -280,15 +281,15 @@ M.config = function()
     mapping = cmp_mapping.preset.insert {
       ["<C-k>"] = cmp_mapping(cmp_mapping.select_prev_item(), { "i", "c" }),
       ["<C-j>"] = cmp_mapping(cmp_mapping.select_next_item(), { "i", "c" }),
-      ["<Down>"] = cmp_mapping(cmp_mapping.select_next_item { behavior = 'select' }, { "i" }),
-      ["<Up>"] = cmp_mapping(cmp_mapping.select_prev_item { behavior = 'select' }, { "i" }),
+      ["<Down>"] = cmp_mapping(cmp_mapping.select_next_item { behavior = SelectBehavior.Select }, { "i" }),
+      ["<Up>"] = cmp_mapping(cmp_mapping.select_prev_item { behavior = SelectBehavior.Select }, { "i" }),
       ["<C-d>"] = cmp_mapping.scroll_docs(-4),
       ["<C-f>"] = cmp_mapping.scroll_docs(4),
       ["<C-y>"] = cmp_mapping {
-        i = cmp_mapping.confirm { behavior = 'replace', select = false },
+        i = cmp_mapping.confirm { behavior = ConfirmBehavior.Replace, select = false },
         c = function(fallback)
           if cmp.visible() then
-            cmp.confirm { behavior = 'replace', select = false }
+            cmp.confirm { behavior = ConfirmBehavior.Replace, select = false }
           else
             fallback()
           end
@@ -321,17 +322,20 @@ M.config = function()
       ["<C-e>"] = cmp_mapping.abort(),
       ["<CR>"] = cmp_mapping(function(fallback)
         if cmp.visible() then
-          local confirm_opts = vim.deepcopy(Builtin.cmp.confirm_opts) -- avoid mutating the original opts below
+          local confirm_opts = {
+            behavior = ConfirmBehavior.Replace,
+            select = false,
+          }
           local is_insert_mode = function()
             return vim.api.nvim_get_mode().mode:sub(1, 1) == "i"
           end
           if is_insert_mode() then -- prevent overwriting brackets
-            confirm_opts.behavior = 'insert'
+            confirm_opts.behavior = ConfirmBehavior.Replace
           end
           local entry = cmp.get_selected_entry()
           local is_copilot = entry and entry.source.name == "copilot"
           if is_copilot then
-            confirm_opts.behavior = 'replace'
+            confirm_opts.behavior = ConfirmBehavior.Replace
             confirm_opts.select = true
           end
           if cmp.confirm(confirm_opts) then
@@ -341,44 +345,73 @@ M.config = function()
         fallback() -- if not exited early, always fallback
       end),
     },
-    cmdline = {
-      enable = true,
-      options = {
-        {
-          type = ":",
-          sources = {
-            { name = "path" },
-            { name = "cmdline" },
-          },
-        },
-        {
-          type = { "/", "?" },
-          sources = {
-            { name = "buffer" },
-          },
-        },
-      },
-    },
   }
+
+  cmp.setup.cmdline(":", {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+      { name = "path" },
+      { name = "cmdline" },
+    },
+  })
+  cmp.setup.cmdline({ "/", "?" }, {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+      { name = "buffer" },
+    },
+  })
+
+  local neodev = require "neodev"
+  neodev.setup()
 end
 
-function M.setup()
-  vim.notify "Setting up cmp"
-  local cmp = require "cmp"
-  cmp.setup(Builtin.cmp)
-
-  if Builtin.cmp.cmdline.enable then
-    for _, option in ipairs(Builtin.cmp.cmdline.options) do
-      cmp.setup.cmdline(option.type, {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = option.sources,
-      })
-    end
-  end
-
-  if Builtin.cmp.on_config_done then
-    Builtin.cmp.on_config_done(cmp)
-  end
+function M.get_plugin_config()
+  return {
+    {
+      "hrsh7th/nvim-cmp",
+      config = M.setup,
+      event = { "InsertEnter", "CmdlineEnter" },
+      dependencies = {
+        "nvim-lspconfig",
+        "cmp-nvim-lsp",
+        "cmp_luasnip",
+        "cmp-buffer",
+        "cmp-path",
+        "cmp-cmdline",
+        "rafamadriz/friendly-snippets",
+        "L3MON4D3/LuaSnip"
+      },
+    },
+    { "hrsh7th/cmp-nvim-lsp",     lazy = true },
+    { "saadparwaiz1/cmp_luasnip", lazy = true },
+    { "hrsh7th/cmp-buffer",       lazy = true },
+    { "hrsh7th/cmp-path",         lazy = true },
+    {
+      "hrsh7th/cmp-cmdline",
+      lazy = true,
+    },
+    {
+      "L3MON4D3/LuaSnip",
+      build = (function()
+        -- Build Step is needed for regex support in snippets
+        -- This step is not supported in many windows environments
+        -- Remove the below condition to re-enable on windows
+        if vim.fn.has 'win32' == 1 then
+          return
+        end
+        return 'make install_jsregexp'
+      end)(),
+      event = "InsertEnter",
+      dependencies = {
+        "friendly-snippets",
+      },
+    },
+    { "rafamadriz/friendly-snippets", lazy = true },
+    {
+      "folke/neodev.nvim",
+      lazy = true,
+    },
+  }
 end
 
 return M

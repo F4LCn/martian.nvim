@@ -12,6 +12,7 @@ function M.init()
     fileencoding = "utf-8",                  -- the encoding written to a file
     foldmethod = "expr",                     -- folding, set to "expr" for treesitter based folding
     foldexpr = "nvim_treesitter#foldexpr()", -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
+    foldlevelstart = 99,
     hidden = true,                           -- required to keep multiple buffers and open multiple buffers
     hlsearch = true,                         -- highlight all matches on previous search pattern
     ignorecase = true,                       -- ignore case in search patterns
@@ -41,7 +42,6 @@ function M.init()
     showcmd = false,
     ruler = false,
     laststatus = 3,
-    foldlevelstart = 99,
   }
 
   for k, v in pairs(options) do

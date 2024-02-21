@@ -3,7 +3,7 @@ local M = {}
 local tbl = require "utils.table"
 
 function M.is_client_active(name)
-  local clients = vim.lsp.get_active_clients()
+  local clients = vim.lsp.get_clients()
   return tbl.find_first(clients, function(client)
     return client.name == name
   end)
@@ -11,7 +11,7 @@ end
 
 function M.get_active_clients_by_ft(filetype)
   local matches = {}
-  local clients = vim.lsp.get_active_clients()
+  local clients = vim.lsp.get_clients()
   for _, client in pairs(clients) do
     local supported_filetypes = client.config.filetypes or {}
     if client.name ~= "null-ls" and vim.tbl_contains(supported_filetypes, filetype) then
@@ -74,39 +74,37 @@ function M.get_all_supported_filetypes()
 end
 
 function M.setup_document_highlight(client, bufnr)
-  if builtin.illuminate.active then
     return
-  end
-  local status_ok, highlight_supported = pcall(function()
-    return client.supports_method "textDocument/documentHighlight"
-  end)
-  if not status_ok or not highlight_supported then
-    return
-  end
-  local group = "lsp_document_highlight"
-  local hl_events = { "CursorHold", "CursorHoldI" }
+  -- local status_ok, highlight_supported = pcall(function()
+  --   return client.supports_method "textDocument/documentHighlight"
+  -- end)
+  -- if not status_ok or not highlight_supported then
+  --   return
+  -- end
+  -- local group = "lsp_document_highlight"
+  -- local hl_events = { "CursorHold", "CursorHoldI" }
 
-  local ok, hl_autocmds = pcall(vim.api.nvim_get_autocmds, {
-    group = group,
-    buffer = bufnr,
-    event = hl_events,
-  })
+  -- local ok, hl_autocmds = pcall(vim.api.nvim_get_autocmds, {
+  --   group = group,
+  --   buffer = bufnr,
+  --   event = hl_events,
+  -- })
 
-  if ok and #hl_autocmds > 0 then
-    return
-  end
+  -- if ok and #hl_autocmds > 0 then
+  --   return
+  -- end
 
-  vim.api.nvim_create_augroup(group, { clear = false })
-  vim.api.nvim_create_autocmd(hl_events, {
-    group = group,
-    buffer = bufnr,
-    callback = vim.lsp.buf.document_highlight,
-  })
-  vim.api.nvim_create_autocmd("CursorMoved", {
-    group = group,
-    buffer = bufnr,
-    callback = vim.lsp.buf.clear_references,
-  })
+  -- vim.api.nvim_create_augroup(group, { clear = false })
+  -- vim.api.nvim_create_autocmd(hl_events, {
+  --   group = group,
+  --   buffer = bufnr,
+  --   callback = vim.lsp.buf.document_highlight,
+  -- })
+  -- vim.api.nvim_create_autocmd("CursorMoved", {
+  --   group = group,
+  --   buffer = bufnr,
+  --   callback = vim.lsp.buf.clear_references,
+  -- })
 end
 
 function M.setup_document_symbols(client, bufnr)
