@@ -150,6 +150,7 @@ M.setup = function()
       q = { "<cmd>TroubleToggle quickfix<cr>", "quickfix" },
       l = { "<cmd>TroubleToggle loclist<cr>", "loclist" },
       r = { "<cmd>TroubleToggle lsp_references<cr>", "references" },
+      D = { "<cmd>TodoTrouble<cr>", "todos" },
     },
     d = {
       name = "Debug",

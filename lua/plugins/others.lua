@@ -1,3 +1,5 @@
+-- TODO: move these to individual files
+
 local M = {}
 function M.get_plugin_config()
   return {
@@ -61,6 +63,11 @@ function M.get_plugin_config()
       opts = {},
       config = function(_, opts) require 'lsp_signature'.setup(opts) end
     },
+    {
+      "folke/todo-comments.nvim",
+      dependencies = { "nvim-lua/plenary.nvim" },
+      opts = {}
+    }
   }
 end
 
