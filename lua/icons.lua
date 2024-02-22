@@ -37,7 +37,7 @@ return {
   },
   git = {
     LineAdded = "",
-    LineModified = "",
+    LineModified = "󰜥",
     LineRemoved = "󰍴",
     FileDeleted = "󰍴",
     FileIgnored = "◌",
