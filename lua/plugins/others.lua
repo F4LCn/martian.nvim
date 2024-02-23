@@ -67,6 +67,12 @@ function M.get_plugin_config()
       "folke/todo-comments.nvim",
       dependencies = { "nvim-lua/plenary.nvim" },
       opts = {}
+    },
+    {
+      'fedepujol/move.nvim',
+      config = function()
+       require('move').setup({})
+      end
     }
   }
 end
