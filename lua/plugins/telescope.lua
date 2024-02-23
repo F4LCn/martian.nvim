@@ -78,7 +78,7 @@ function M.setup()
   telescope.setup({
     active = true,
     on_config_done = nil,
-    theme = "ivy", ---@type telescope_themes
+    theme = "ivy",
     defaults = defaults,
     pickers = {
       find_files = {
@@ -147,7 +147,7 @@ function M.get_plugin_config()
       lazy = true,
       cmd = "Telescope",
     },
-    { "nvim-telescope/telescope-fzy-native.nvim", build = "make", lazy = true },
+    { "nvim-telescope/telescope-fzy-native.nvim", lazy = true },
   }
 end
 

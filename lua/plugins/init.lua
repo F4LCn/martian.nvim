@@ -23,6 +23,7 @@ local modules = {
   "plugins.treesitter",
   "plugins.which-key",
   "plugins.others",
+  "plugins.neodim",
   "lsp",
 }
 
