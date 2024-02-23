@@ -36,10 +36,8 @@ local keymap = {
     ["<C-l>"] = "<C-w>l",
 
     -- move lines
-    ["<A-j>"] = "<cmd>MoveLine(1)<CR>",
-    ["<A-k>"] = "<cmd>MoveLine(-1)<CR>",
-    ["<A-h>"] = "<cmd>MoveWord(-1)<CR>",
-    ["<A-l>"] = "<cmd>MoveWord(1)<CR>",
+    ["<A-j>"] = ":m .+1<CR>==",
+    ["<A-k>"] = ":m .-2<CR>==",
 
     -- Resize with arrows
     ["<C-Up>"] = ":resize -2<CR>",
@@ -84,13 +82,11 @@ local keymap = {
     -- Better indenting
     ["<"] = "<gv",
     [">"] = ">gv",
-
-    -- Move blocks
-    ["<A-j>"] = "<cmd>MoveBlock(1)<CR>",
-    ["<A-k>"] = "<cmd>MoveBlock(-1)<CR>",
   },
 
   visual_block_mode = {
+    ["<A-j>"] = ":m '>+1<CR>gv-gv",
+    ["<A-k>"] = ":m '<-2<CR>gv-gv",
   },
 
   command_mode = {

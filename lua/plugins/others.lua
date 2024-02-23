@@ -69,9 +69,9 @@ function M.get_plugin_config()
       opts = {}
     },
     {
-      'fedepujol/move.nvim',
-      config = function()
-       require('move').setup({})
+      "rktjmp/hotpot.nvim",
+      config = function ()
+        require("hotpot").setup()
       end
     }
   }

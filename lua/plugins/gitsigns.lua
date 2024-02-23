@@ -3,7 +3,6 @@ local M = {}
 M.setup = function()
   local gitsigns = require "gitsigns"
 
-  ---@diagnostic disable-next-line: redundant-parameter
   gitsigns.setup({
     signs = {
       add = {

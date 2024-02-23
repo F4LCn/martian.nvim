@@ -22,8 +22,8 @@ local modules = {
   "plugins.terminal",
   "plugins.treesitter",
   "plugins.which-key",
-  "plugins.others",
   "plugins.neodim",
+  "plugins.others",
   "lsp",
 }
 
@@ -32,7 +32,7 @@ function M:configs()
   for _, module_path in ipairs(modules) do
     local module_ok, module = pcall(require, module_path)
     if not module_ok then
-      Log:error("Couldn't load " .. module_path)
+      vim.notify("Couldn't load " .. module_path)
     end
     local module_config = module.get_plugin_config()
     vim.list_extend(configs, module_config)

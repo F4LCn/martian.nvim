@@ -12,8 +12,10 @@ end
 
 function M.get_plugin_config()
   return {
-    "zbirenbaum/neodim",
-    config = M.setup
+    {
+      "zbirenbaum/neodim",
+      config = M.setup
+    }
   }
 end
 

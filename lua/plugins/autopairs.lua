@@ -44,10 +44,12 @@ end
 
 function M.get_plugin_config()
   return {
-    "windwp/nvim-autopairs",
-    event = "InsertEnter",
-    config = M.setup,
-    dependencies = { "nvim-treesitter/nvim-treesitter", "hrsh7th/nvim-cmp" },
+    {
+      "windwp/nvim-autopairs",
+      event = "InsertEnter",
+      config = M.setup,
+      dependencies = { "nvim-treesitter/nvim-treesitter", "hrsh7th/nvim-cmp" },
+    }
   }
 end
 

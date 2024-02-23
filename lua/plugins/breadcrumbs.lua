@@ -216,9 +216,11 @@ end
 
 function M.get_plugin_config()
   return {
-    "SmiteshP/nvim-navic",
-    config = M.setup,
-    event = "User FileOpened",
+    {
+      "SmiteshP/nvim-navic",
+      config = M.setup,
+      event = "User FileOpened",
+    }
   }
 end
 
