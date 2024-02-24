@@ -12,6 +12,35 @@ M.servers = {
       diagnostics = { disable = { 'missing-fields' } },
     },
   },
+  tsserver = {
+    settings = {
+      typescript = {
+        inlayHints = {
+          includeInlayParameterNameHints = "literals",
+          includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+          includeInlayVariableTypeHints = true,
+          includeInlayFunctionParameterTypeHints = true,
+          includeInlayVariableTypeHintsWhenTypeMatchesName = true,
+          includeInlayPropertyDeclarationTypeHints = true,
+          includeInlayFunctionLikeReturnTypeHints = true,
+          includeInlayEnumMemberValueHints = true,
+        },
+      },
+      javascript = {
+        inlayHints = {
+          includeInlayParameterNameHints = "literals",
+          includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+          includeInlayVariableTypeHints = true,
+          includeInlayFunctionParameterTypeHints = true,
+          includeInlayVariableTypeHintsWhenTypeMatchesName = true,
+          includeInlayPropertyDeclarationTypeHints = true,
+          includeInlayFunctionLikeReturnTypeHints = true,
+          includeInlayEnumMemberValueHints = true,
+        },
+      },
+    },
+    inlay_hints = true,
+  },
 }
 
 local function add_lsp_buffer_options(bufnr)
@@ -92,13 +121,16 @@ function M.common_on_init(client, bufnr)
 end
 
 function M.common_on_attach(client, bufnr)
-  Log:info "lsp attached"
   local lu = require "lsp.utils"
   lu.setup_document_highlight(client, bufnr)
   lu.setup_codelens_refresh(client, bufnr)
   add_lsp_buffer_keybindings(bufnr)
   add_lsp_buffer_options(bufnr)
   lu.setup_document_symbols(client, bufnr)
+  -- if client.server_capabilities.inlayHintProvider then
+  --   print("inlay_hints supported")
+  --   vim.lsp.inlay_hint.enable(bufnr, true)
+  -- end
 end
 
 function M.get_common_opts()
@@ -140,12 +172,12 @@ function M.setup()
     end
   }
 
-  --   local status_ok, null_ls = pcall(require, "null-ls")
-  -- if not status_ok then
-  --   vim.notify "no null-ls"
-  -- end
+  local status_ok, null_ls = pcall(require, "null-ls")
+  if not status_ok then
+    vim.notify "no null-ls"
+  end
 
-  -- null_ls.setup(opts)
+  null_ls.setup(capabilities)
 
 
   for _, sign in ipairs(vim.tbl_get(vim.diagnostic.config(), "signs", "values") or {}) do
@@ -173,7 +205,8 @@ function M.get_plugin_config()
       dependencies = {
         "mason-lspconfig.nvim",
         { 'j-hui/fidget.nvim', opts = {} },
-        "folke/neodev.nvim"
+        "folke/neodev.nvim",
+        "jose-elias-alvarez/typescript.nvim",
       },
     },
     {
@@ -183,6 +216,20 @@ function M.get_plugin_config()
       event = "User FileOpened",
       dependencies = "mason.nvim",
     },
+    {
+      "jose-elias-alvarez/null-ls.nvim"
+    },
+    {
+      "p00f/clangd_extensions.nvim",
+      opts = {
+        highlight = "LspInlayHint",
+      }
+    },
+    {
+      "pmizio/typescript-tools.nvim",
+      dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+      opts = {},
+    }
   }
 end
 

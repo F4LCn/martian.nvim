@@ -13,9 +13,9 @@ function M.setup()
   local config = require("plugins.alpha.config").get_sections()
 
   local dashboard = require 'alpha.themes.dashboard'
-  dashboard.section.header.val = config.header or {}
-  dashboard.section.buttons.val = config.buttons or {}
-  dashboard.section.footer.val = config.footer or {}
+  dashboard.section.header = config.header or {}
+  dashboard.section.buttons = config.buttons or {}
+  dashboard.section.footer = config.footer or {}
 
   alpha.setup(dashboard.config)
 end
