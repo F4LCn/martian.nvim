@@ -159,7 +159,7 @@ function M.setup()
       show_on_open_dirs = true,
       debounce_delay = 50,
       severity = {
-        min = vim.diagnostic.severity.HINT,
+        min = vim.diagnostic.severity.WARN,
         max = vim.diagnostic.severity.ERROR,
       },
       icons = {

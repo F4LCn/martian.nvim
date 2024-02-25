@@ -1,6 +1,6 @@
 local M = {}
 
-function get_config_dir()
+function _G.get_config_dir()
   return vim.call("stdpath", "config")
 end
 

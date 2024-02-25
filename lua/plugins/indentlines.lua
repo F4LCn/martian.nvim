@@ -14,7 +14,13 @@ M.setup = function()
     },
     scope = {
       enabled = true,
+      show_start = false,
+      show_end = false,
       char = Icons.ui.LineLeft,
+      highlight = { "LspInlayHint" },
+      include = {
+        node_type = { ["*"] = { "*" } },
+      },
     },
     whitespace = { highlight = { "Whitespace", "NonText" } },
     exclude = {
