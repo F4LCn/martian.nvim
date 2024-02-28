@@ -9,7 +9,7 @@ M.setup = function()
   local adapters = {
     coreclr = {
       type = 'executable',
-      command = '/usr/share/netcoredbg/netcoredbg',
+      command = 'netcoredbg',
       args = { '--interpreter=vscode' }
     },
     gdb = {
@@ -22,12 +22,11 @@ M.setup = function()
       host = '127.0.0.1',
       port = 13000,
       executable = {
-        -- CHANGE THIS to your path!
-        command = '/root/.local/share/nvim/mason/bin/codelldb',
+        command = 'codelldb',
         args = { "--port", "13000" },
         detached = false,
       }
-    }
+    },
   }
 
   local configurations = {}
@@ -78,6 +77,8 @@ M.setup = function()
     linehl = "Visual",
     numhl = "DiagnosticSignWarn",
   })
+
+  require('dap-python').setup('~/.virtualenvs/debugpy/bin/python')
 
   dap.set_log_level("info")
 end
@@ -180,6 +181,8 @@ M.setup_ui = function()
   local _, _ = xpcall(function()
     require("dapui.util").notify = notify_handler
   end, debug.traceback)
+
+  require("nvim-dap-virtual-text").setup()
 end
 
 function M.get_plugin_config()
@@ -197,6 +200,7 @@ function M.get_plugin_config()
       config = M.setup_ui,
       lazy = true,
     },
+    "theHamsta/nvim-dap-virtual-text",
   }
 end
 

@@ -95,7 +95,7 @@ M.setup = function()
       t = { "<cmd>Telescope live_grep<cr>", "Text" },
       F = { "<cmd>Telescope find_files<cr>", "Find File (All)" },
       l = { "<cmd>Telescope resume<cr>", "Resume last search" },
-      m = { "<cmd>Telescope man_pages<cr>", "Man Pages" },
+      m = { "<cmd>Telescope man_pages sections={\"ALL\"}<cr>", "Man Pages" },
       f = {
         function()
           require("plugins.telescope.custom-finders").find_project_files { previewer = false }

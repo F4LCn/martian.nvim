@@ -24,6 +24,7 @@ local modules = {
   "plugins.which-key",
   "plugins.neodim",
   "plugins.others",
+  "plugins.neotest",
   "lsp",
 }
 

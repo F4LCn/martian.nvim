@@ -4,7 +4,7 @@ local autocmds = require "autocmds"
 
 M.servers = {
   clangd = {},
-  rust_analyzer = {},
+  -- rust_analyzer = {},
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
@@ -229,7 +229,11 @@ function M.get_plugin_config()
       "pmizio/typescript-tools.nvim",
       dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
       opts = {},
-    }
+    },
+    {
+      'mrcjkb/rustaceanvim',
+      ft = { 'rust' },
+    },
   }
 end
 
