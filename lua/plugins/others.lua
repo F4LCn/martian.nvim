@@ -3,7 +3,6 @@
 local M = {}
 function M.get_plugin_config()
   return {
-    "F4LCn/oxocharcoal.nvim",
     'tpope/vim-fugitive',
     'tpope/vim-rhubarb',
     'tpope/vim-sleuth',

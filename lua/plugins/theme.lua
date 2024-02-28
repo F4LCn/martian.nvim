@@ -26,8 +26,7 @@ end
 function M.get_plugin_config()
   return {
     {
-      -- "F4LCn/oxocharcoal.nvim",
-      dir = "~/projects/oxocharcoal.nvim"
+      "F4LCn/oxocharcoal.nvim",
     }
   }
 end
