@@ -67,6 +67,8 @@ return {
     BookMark = "",
     BoxChecked = "",
     Bug = "",
+    Breakpoint = "",
+    BreakpointRejected = "",
     Stacks = "",
     Scopes = "",
     Watches = "󰂥",

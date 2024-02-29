@@ -60,13 +60,13 @@ M.setup = function()
   dap.configurations = configurations
 
   vim.fn.sign_define("DapBreakpoint", {
-    text = Icons.ui.Bug,
+    text = Icons.ui.Breakpoint,
     texthl = "DiagnosticSignError",
     linehl = "",
     numhl = "",
   })
   vim.fn.sign_define("DapBreakpointRejected", {
-    text = Icons.ui.Bug,
+    text = Icons.ui.BreakpointRejected,
     texthl = "DiagnosticSignError",
     linehl = "",
     numhl = "",

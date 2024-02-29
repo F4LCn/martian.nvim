@@ -65,7 +65,16 @@ function M.get_plugin_config()
     {
       "folke/todo-comments.nvim",
       dependencies = { "nvim-lua/plenary.nvim" },
-      opts = {}
+      opts = {
+        keywords = {
+          TODO = {color = "hint"},
+          NOTE = {color = "info"},
+        },
+        highlight = {
+          before = "fg",
+          keyword = "wide_bg",
+        },
+      }
     },
     {
       "rktjmp/hotpot.nvim",

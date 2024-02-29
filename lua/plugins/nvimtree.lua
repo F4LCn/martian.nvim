@@ -88,24 +88,24 @@ function M.setup()
     renderer = {
       add_trailing = true,
       group_empty = false,
-      highlight_git = "icon",
+      highlight_git = "name",
       full_name = false,
       highlight_opened_files = "none",
       root_folder_label = ":t",
       indent_width = 2,
       indent_markers = {
-        enable = false,
+        enable = true,
         inline_arrows = true,
         icons = {
           corner = "└",
           edge = "│",
-          item = "│",
+          item = "├",
           none = " ",
         },
       },
       icons = {
         webdev_colors = true,
-        git_placement = "before",
+        git_placement = "after",
         padding = " ",
         symlink_arrow = " ➛ ",
         show = {
@@ -183,8 +183,8 @@ function M.setup()
     },
     git = {
       enable = true,
-      ignore = false,
-      show_on_dirs = true,
+      ignore = true,
+      show_on_dirs = false,
       show_on_open_dirs = true,
       timeout = 200,
     },
