@@ -50,6 +50,7 @@ function M.setup()
           actions.open_qflist(...)
         end,
         ["<CR>"] = actions.select_default,
+        ["<C-f>"] = actions.to_fuzzy_refine,
       },
       n = {
         ["<C-n>"] = actions.move_selection_next,
@@ -73,6 +74,13 @@ function M.setup()
   if theme then
     defaults = theme(defaults)
   end
+
+  local fzy_opts = {
+    fuzzy = true,                       -- false will only do exact matching
+    override_generic_sorter = true,     -- override the generic sorter
+    override_file_sorter = true,        -- override the file sorter
+    case_mode = "smart_case",           -- or "ignore_case" or "respect_case"
+  }
 
   ---@diagnostic disable-next-line: redundant-parameter
   telescope.setup({
@@ -112,14 +120,12 @@ function M.setup()
       colorscheme = {
         enable_preview = true,
       },
+      lsp_dynamic_workspace_symbols = {
+        sorter = telescope.extensions.fzy_native.native_fzy_sorter(fzy_opts),
+      }
     },
     extensions = {
-      fzy_native = {
-        fuzzy = true,                   -- false will only do exact matching
-        override_generic_sorter = true, -- override the generic sorter
-        override_file_sorter = true,    -- override the file sorter
-        case_mode = "smart_case",       -- or "ignore_case" or "respect_case"
-      },
+      fzy_native = fzy_opts,
     },
     file_previewer = previewers.vim_buffer_cat.new,
     grep_previewer = previewers.vim_buffer_vimgrep.new,
