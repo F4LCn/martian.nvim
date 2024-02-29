@@ -22,6 +22,7 @@ function M.get_plugin_config()
         "nvim-treesitter/nvim-treesitter"
       },
       config = M.setup,
+      lazy = "VeryLazy",
     },
     "nvim-neotest/neotest-python",
     "Issafalcon/neotest-dotnet",

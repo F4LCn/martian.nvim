@@ -148,7 +148,6 @@ function M.setup()
     vim.notify "no mason-lspconfig"
     return
   end
-  mason_lspconfig.setup()
 
   mason_lspconfig.setup {
     ensure_installed = vim.tbl_keys(M.servers),
@@ -204,7 +203,7 @@ function M.get_plugin_config()
       lazy = true,
       dependencies = {
         "mason-lspconfig.nvim",
-        { 'j-hui/fidget.nvim', opts = {} },
+        'j-hui/fidget.nvim',
         "folke/neodev.nvim",
         "jose-elias-alvarez/typescript.nvim",
       },
@@ -228,7 +227,7 @@ function M.get_plugin_config()
     {
       "pmizio/typescript-tools.nvim",
       dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-      opts = {},
+      lazy = true,
     },
     {
       'mrcjkb/rustaceanvim',

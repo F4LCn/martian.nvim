@@ -71,7 +71,8 @@ function M.get_plugin_config()
       "rktjmp/hotpot.nvim",
       config = function ()
         require("hotpot").setup()
-      end
+      end,
+      lazy = true,
     }
   }
 end
