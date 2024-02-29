@@ -114,7 +114,7 @@ M.setup = function()
       r = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
       S = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
       s = {
-        "<cmd>Telescope lsp_dynamic_workspace_symbols fname_width=0.15 symbol_width=0.8<cr>",
+        "<cmd>Telescope lsp_dynamic_workspace_symbols fname_width=0 symbol_width=0.8<cr>",
         "Workspace Symbols",
       },
       d = { "<cmd>Telescope diagnostics bufnr=0 theme=get_ivy<cr>", "Buffer Diagnostics" },
