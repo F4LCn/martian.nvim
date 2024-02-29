@@ -227,7 +227,7 @@ function M.get_plugin_config()
     {
       "pmizio/typescript-tools.nvim",
       dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-      lazy = true,
+      ft = { 'typescript', 'javascript', 'svelte' }
     },
     {
       'mrcjkb/rustaceanvim',

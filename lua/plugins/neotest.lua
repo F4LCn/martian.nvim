@@ -24,9 +24,18 @@ function M.get_plugin_config()
       config = M.setup,
       lazy = "VeryLazy",
     },
-    "nvim-neotest/neotest-python",
-    "Issafalcon/neotest-dotnet",
-    "lawrence-laz/neotest-zig",
+    {
+      "nvim-neotest/neotest-python",
+      ft = { 'python' }
+    },
+    {
+      "Issafalcon/neotest-dotnet",
+      ft = { 'csharp' }
+    },
+    {
+      "lawrence-laz/neotest-zig",
+      ft = { 'zig' }
+    },
   }
 end
 

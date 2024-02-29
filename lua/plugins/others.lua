@@ -69,10 +69,10 @@ function M.get_plugin_config()
     },
     {
       "rktjmp/hotpot.nvim",
-      config = function ()
+      config = function()
         require("hotpot").setup()
       end,
-      lazy = true,
+      ft = { 'fennel' }
     }
   }
 end
