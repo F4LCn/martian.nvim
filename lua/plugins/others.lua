@@ -38,7 +38,9 @@ function M.get_plugin_config()
       "folke/trouble.nvim",
       cmd = "TroubleToggle",
     },
-    "tpope/vim-surround",
+    -- NOTE: disabled in favor of mini.surround
+    -- to remove if not used anymore
+    -- "tpope/vim-surround",
     {
       "Pocco81/auto-save.nvim",
       config = function()

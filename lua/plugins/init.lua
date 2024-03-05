@@ -25,6 +25,8 @@ local modules = {
   "plugins.neodim",
   "plugins.others",
   "plugins.neotest",
+  -- "plugins.dressing",
+  "plugins.mini",
   "lsp",
 }
 
