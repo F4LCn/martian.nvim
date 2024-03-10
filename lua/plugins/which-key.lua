@@ -105,6 +105,11 @@ M.setup = function()
       g = { "<cmd>Telescope find_files<cr>", "Git Files" },
       r = { "<cmd>Telescope oldfiles<cr>", "Open Recent File" },
       h = { "<cmd>Telescope help_tags<cr>", "Find Help" },
+      w = { "<cmd>Telescope grep_string<cr>", "Find word" },
+      W = { function ()
+        local word = vim.fn.expand("<cWORD>")
+        require("telescope.builtin").grep_string({search = word})
+      end, "Find word" },
     },
     c = {
       name = "Code",
