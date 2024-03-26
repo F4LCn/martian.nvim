@@ -4,7 +4,7 @@ local autocmds = require "autocmds"
 
 M.servers = {
   clangd = {},
-  -- rust_analyzer = {},
+  rust_analyzer = {},
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
@@ -13,34 +13,37 @@ M.servers = {
     },
   },
   tsserver = {
-    settings = {
-      typescript = {
-        inlayHints = {
-          includeInlayParameterNameHints = "literals",
-          includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-          includeInlayVariableTypeHints = true,
-          includeInlayFunctionParameterTypeHints = true,
-          includeInlayVariableTypeHintsWhenTypeMatchesName = true,
-          includeInlayPropertyDeclarationTypeHints = true,
-          includeInlayFunctionLikeReturnTypeHints = true,
-          includeInlayEnumMemberValueHints = true,
-        },
+    typescript = {
+      inlayHints = {
+        includeInlayParameterNameHints = "literals",
+        includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+        includeInlayVariableTypeHints = true,
+        includeInlayFunctionParameterTypeHints = true,
+        includeInlayVariableTypeHintsWhenTypeMatchesName = true,
+        includeInlayPropertyDeclarationTypeHints = true,
+        includeInlayFunctionLikeReturnTypeHints = true,
+        includeInlayEnumMemberValueHints = true,
       },
-      javascript = {
-        inlayHints = {
-          includeInlayParameterNameHints = "literals",
-          includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-          includeInlayVariableTypeHints = true,
-          includeInlayFunctionParameterTypeHints = true,
-          includeInlayVariableTypeHintsWhenTypeMatchesName = true,
-          includeInlayPropertyDeclarationTypeHints = true,
-          includeInlayFunctionLikeReturnTypeHints = true,
-          includeInlayEnumMemberValueHints = true,
-        },
+    },
+    javascript = {
+      inlayHints = {
+        includeInlayParameterNameHints = "literals",
+        includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+        includeInlayVariableTypeHints = true,
+        includeInlayFunctionParameterTypeHints = true,
+        includeInlayVariableTypeHintsWhenTypeMatchesName = true,
+        includeInlayPropertyDeclarationTypeHints = true,
+        includeInlayFunctionLikeReturnTypeHints = true,
+        includeInlayEnumMemberValueHints = true,
       },
     },
     inlay_hints = true,
   },
+  zls = {
+    inlay_hints_hide_redundant_param_names = true,
+    inlay_hints_hide_redundant_param_names_last_token = true,
+    semantic_tokens = "full",
+  }
 }
 
 local function add_lsp_buffer_options(bufnr)
@@ -171,12 +174,12 @@ function M.setup()
     end
   }
 
-  local status_ok, null_ls = pcall(require, "null-ls")
-  if not status_ok then
-    vim.notify "no null-ls"
-  end
+  -- local status_ok, null_ls = pcall(require, "null-ls")
+  -- if not status_ok then
+  --   vim.notify "no null-ls"
+  -- end
 
-  null_ls.setup(capabilities)
+  -- null_ls.setup(capabilities)
 
 
   for _, sign in ipairs(vim.tbl_get(vim.diagnostic.config(), "signs", "values") or {}) do
@@ -203,7 +206,7 @@ function M.get_plugin_config()
       lazy = true,
       dependencies = {
         "mason-lspconfig.nvim",
-        'j-hui/fidget.nvim',
+        { 'j-hui/fidget.nvim', opts = {} },
         "folke/neodev.nvim",
         "jose-elias-alvarez/typescript.nvim",
       },
@@ -215,9 +218,9 @@ function M.get_plugin_config()
       event = "User FileOpened",
       dependencies = "mason.nvim",
     },
-    {
-      "jose-elias-alvarez/null-ls.nvim"
-    },
+    -- {
+    --   "jose-elias-alvarez/null-ls.nvim"
+    -- },
     {
       "p00f/clangd_extensions.nvim",
       opts = {
@@ -229,10 +232,10 @@ function M.get_plugin_config()
       dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
       ft = { 'typescript', 'javascript', 'svelte' }
     },
-    {
-      'mrcjkb/rustaceanvim',
-      ft = { 'rust' },
-    },
+    -- {
+    --   'mrcjkb/rustaceanvim',
+    --   ft = { 'rust' },
+    -- },
   }
 end
 

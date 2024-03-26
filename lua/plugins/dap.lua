@@ -201,6 +201,7 @@ function M.get_plugin_config()
       lazy = true,
     },
     "theHamsta/nvim-dap-virtual-text",
+    "mfussenegger/nvim-dap-python",
   }
 end
 
