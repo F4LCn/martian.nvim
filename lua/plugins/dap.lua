@@ -197,6 +197,7 @@ function M.get_plugin_config()
     },
     {
       "rcarriga/nvim-dap-ui",
+      dependencies = { "https://github.com/nvim-neotest/nvim-nio" },
       config = M.setup_ui,
       lazy = true,
     },

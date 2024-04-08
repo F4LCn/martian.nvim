@@ -4,7 +4,7 @@ local autocmds = require "autocmds"
 
 M.servers = {
   clangd = {},
-  rust_analyzer = {},
+  -- rust_analyzer = {},
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
@@ -148,7 +148,7 @@ end
 function M.setup()
   local mason_lspconfig_ok, mason_lspconfig = pcall(require, "mason-lspconfig")
   if not mason_lspconfig_ok then
-    vim.notify "no mason-lspconfig"
+    print "no mason-lspconfig"
     return
   end
 
@@ -159,6 +159,9 @@ function M.setup()
   local capabilities = M.get_common_opts()
   mason_lspconfig.setup_handlers {
     function(server_name)
+      if server_name == "rust-analyser" then
+        return
+      end
       local lsp_status_ok, lspconfig = pcall(require, "lspconfig")
       if not lsp_status_ok then
         return
@@ -176,11 +179,10 @@ function M.setup()
 
   -- local status_ok, null_ls = pcall(require, "null-ls")
   -- if not status_ok then
-  --   vim.notify "no null-ls"
+  --   print "no null-ls"
   -- end
 
   -- null_ls.setup(capabilities)
-
 
   for _, sign in ipairs(vim.tbl_get(vim.diagnostic.config(), "signs", "values") or {}) do
     vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = sign.name })
@@ -232,10 +234,66 @@ function M.get_plugin_config()
       dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
       ft = { 'typescript', 'javascript', 'svelte' }
     },
-    -- {
-    --   'mrcjkb/rustaceanvim',
-    --   ft = { 'rust' },
-    -- },
+    {
+      'mrcjkb/rustaceanvim',
+      ft = { 'rust' },
+      opts = {
+        server = {
+          on_attach = function(_, bufnr)
+            vim.keymap.set("n", "<leader>cR", function()
+              vim.cmd.RustLsp("codeAction")
+            end, { desc = "Code Action", buffer = bufnr })
+            vim.keymap.set("n", "<leader>dR", function()
+              vim.cmd.RustLsp("debuggables")
+            end, { desc = "Rust Debuggables", buffer = bufnr })
+            vim.keymap.set("n", "K", function()
+              if vim.fn.expand("%:t") == "Cargo.toml" and require("crates").popup_available() then
+                require("crates").show_popup()
+              else
+                vim.lsp.buf.hover()
+              end
+            end, { desc = "Show Crate Documentation", buffer = bufnr })
+          end,
+          default_settings = {
+            -- rust-analyzer language server configuration
+            ["rust-analyzer"] = {
+              cargo = {
+                allFeatures = true,
+                loadOutDirsFromCheck = true,
+                runBuildScripts = true,
+              },
+              -- Add clippy lints for Rust.
+              checkOnSave = {
+                allFeatures = true,
+                command = "clippy",
+                extraArgs = { "--no-deps" },
+              },
+              procMacro = {
+                enable = true,
+                ignored = {
+                  ["async-trait"] = { "async_trait" },
+                  ["napi-derive"] = { "napi" },
+                  ["async-recursion"] = { "async_recursion" },
+                },
+              },
+            },
+          },
+        },
+      },
+      config = function(_, opts)
+        vim.g.rustaceanvim = vim.tbl_deep_extend("keep", vim.g.rustaceanvim or {}, opts or {})
+      end,
+    },
+    {
+      "nvim-neotest/neotest",
+      optional = true,
+      opts = function(_, opts)
+        opts.adapters = opts.adapters or {}
+        vim.list_extend(opts.adapters, {
+          require("rustaceanvim.neotest"),
+        })
+      end,
+    },
   }
 end
 
