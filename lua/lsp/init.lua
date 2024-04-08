@@ -240,6 +240,7 @@ function M.get_plugin_config()
       opts = {
         server = {
           on_attach = function(_, bufnr)
+            add_lsp_buffer_keybindings(bufnr)
             vim.keymap.set("n", "<leader>cR", function()
               vim.cmd.RustLsp("codeAction")
             end, { desc = "Code Action", buffer = bufnr })
