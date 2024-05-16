@@ -20,6 +20,7 @@ M.setup = function()
     disable_in_macro = false,
     ignored_next_char = string.gsub([[ [%w%%%'%[%"%.] ]], "%s+", ""),
     map_bs = true,
+    map_cr = false,
     fast_wrap = {
       map = "<M-e>",
       chars = { "{", "[", "(", '"', "'" },
@@ -40,6 +41,8 @@ M.setup = function()
     require("cmp").event:off("confirm_done", on_confirm_done)
     require("cmp").event:on("confirm_done", on_confirm_done)
   end)
+  require('nvim-autopairs').remove_rule('(')
+  require('nvim-autopairs').remove_rule('[')
 end
 
 function M.get_plugin_config()

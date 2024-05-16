@@ -126,7 +126,10 @@ function M.setup()
     return
   end
 
-  luasnip.config.setup({})
+  luasnip.config.set_config {
+    history = false,
+    updateevents = "TextChanged, TextChangedI",
+  }
 
   local ConfirmBehavior = cmp_types.ConfirmBehavior
   local SelectBehavior = cmp_types.SelectBehavior
@@ -406,10 +409,11 @@ function M.get_plugin_config()
         "friendly-snippets",
       },
     },
-    { "rafamadriz/friendly-snippets", lazy = true },
+    { "rafamadriz/friendly-snippets" },
     {
       "folke/neodev.nvim",
       lazy = true,
+
     },
   }
 end

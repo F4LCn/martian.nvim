@@ -48,6 +48,8 @@ function M.init()
     vim.opt[k] = v
   end
 
+  vim.opt.formatoptions:remove { "r", "o" }
+
   local diagnostic_config = {
     signs = {
       active = true,

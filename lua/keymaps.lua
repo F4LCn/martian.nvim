@@ -51,8 +51,8 @@ local keymap = {
     ["<C-q>"] = ":call QuickFixToggle()<CR>",
 
     -- Diagnostics
-    ["<M-F12>"] = "<cmd>lua vim.diagnostic.goto_next()<cr>",
-    ["<S-F12>"] = "<cmd>lua vim.diagnostic.goto_prev()<cr>",
+    ["<F24>"] = "<cmd>lua vim.diagnostic.goto_next()<cr>",
+    ["<F60>"] = "<cmd>lua vim.diagnostic.goto_prev()<cr>",
 
     -- tabs navigation
     ["<Tab>"] = ":BufferLineCycleNext<CR>",
