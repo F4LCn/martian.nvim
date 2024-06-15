@@ -154,6 +154,9 @@ function M.load_defaults()
           if client.server_capabilities.inlayHintProvider then
             vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
           end
+          if vim.tbl_contains({ 'null-ls' }, client.name) == false then -- blacklist lsp
+            require("lsp_signature").on_attach({}, args.buf)
+          end
         end
       }
     }

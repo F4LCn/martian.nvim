@@ -40,6 +40,7 @@ M.servers = {
     inlay_hints = true,
   },
   zls = {
+    enable_argument_placeholders = false,
     inlay_hints_hide_redundant_param_names = true,
     inlay_hints_hide_redundant_param_names_last_token = true,
     semantic_tokens = "full",
@@ -167,14 +168,29 @@ function M.setup()
       if not lsp_status_ok then
         return
       end
-      lspconfig[server_name].setup {
-        capabilities = capabilities.capabilities,
-        on_attach = capabilities.on_attach,
-        on_init = capabilities.on_init,
-        on_exit = capabilities.on_exit,
-        settings = M.servers[server_name],
-        filetypes = (M.servers[server_name] or {}).filetypes
-      }
+      if server_name == "clangd" then
+        lspconfig[server_name].setup {
+          cmd = {
+            "clangd",
+            "--function-arg-placeholders=0",
+          },
+          capabilities = capabilities.capabilities,
+          on_attach = capabilities.on_attach,
+          on_init = capabilities.on_init,
+          on_exit = capabilities.on_exit,
+          settings = M.servers[server_name],
+          filetypes = (M.servers[server_name] or {}).filetypes
+        }
+      else
+        lspconfig[server_name].setup {
+          capabilities = capabilities.capabilities,
+          on_attach = capabilities.on_attach,
+          on_init = capabilities.on_init,
+          on_exit = capabilities.on_exit,
+          settings = M.servers[server_name],
+          filetypes = (M.servers[server_name] or {}).filetypes
+        }
+      end
     end
   }
 
@@ -210,7 +226,6 @@ function M.get_plugin_config()
       dependencies = {
         "mason-lspconfig.nvim",
         { 'j-hui/fidget.nvim', opts = {} },
-        "folke/neodev.nvim",
         "jose-elias-alvarez/typescript.nvim",
       },
     },

@@ -139,19 +139,18 @@ function M.setup()
     emoji = "(Emoji)",
     path = "(Path)",
     calc = "(Calc)",
-    cmp_tabnine = "(Tabnine)",
     vsnip = "(Snip)",
     luasnip = "(Snip)",
     buffer = "(Buf)",
     tmux = "(TMUX)",
-    copilot = "(Copilot)",
     treesitter = "(TS)",
+    lazydev = "(VIM)",
   }
 
   local duplicates = {
-    buffer = 1,
-    path = 1,
-    nvim_lsp = 0,
+    buffer = nil,
+    path = nil,
+    nvim_lsp = 1,
     luasnip = 1,
   }
 
@@ -190,16 +189,6 @@ function M.setup()
         end
         vim_item.kind = Icons.kind[vim_item.kind]
 
-        if entry.source.name == "copilot" then
-          vim_item.kind = Icons.git.Octoface
-          vim_item.kind_hl_group = "CmpItemKindCopilot"
-        end
-
-        if entry.source.name == "cmp_tabnine" then
-          vim_item.kind = Icons.misc.Robot
-          vim_item.kind_hl_group = "CmpItemKindTabnine"
-        end
-
         if entry.source.name == "crates" then
           vim_item.kind = Icons.misc.Package
           vim_item.kind_hl_group = "CmpItemKindCrate"
@@ -215,8 +204,7 @@ function M.setup()
           vim_item.kind_hl_group = "CmpItemKindEmoji"
         end
         vim_item.menu = source_names[entry.source.name]
-        vim_item.dup = duplicates[entry.source.name]
-            or 0
+        vim_item.dup = duplicates[entry.source.name] or nil
         return vim_item
       end,
     },
@@ -231,36 +219,6 @@ function M.setup()
     },
     sources = {
       {
-        name = "copilot",
-        -- keyword_length = 0,
-        max_item_count = 3,
-        trigger_characters = {
-          {
-            ".",
-            ":",
-            "(",
-            "'",
-            '"',
-            "[",
-            ",",
-            "#",
-            "*",
-            "@",
-            "|",
-            "=",
-            "-",
-            "{",
-            "/",
-            "\\",
-            "+",
-            "?",
-            " ",
-            -- "\t",
-            -- "\n",
-          },
-        },
-      },
-      {
         name = "nvim_lsp",
         entry_filter = function(entry, ctx)
           local kind = require("cmp.types.lsp").CompletionItemKind[entry:get_kind()]
@@ -271,12 +229,12 @@ function M.setup()
         end,
       },
       { name = "treesitter" },
+      { name = "lazydev" },
       { name = "buffer" },
       { name = "crates" },
       { name = "nvim_lua" },
       { name = "luasnip" },
       { name = "path" },
-      { name = "cmp_tabnine" },
       { name = "calc" },
       { name = "emoji" },
       { name = "tmux" },
@@ -336,11 +294,6 @@ function M.setup()
             confirm_opts.behavior = ConfirmBehavior.Replace
           end
           local entry = cmp.get_selected_entry()
-          local is_copilot = entry and entry.source.name == "copilot"
-          if is_copilot then
-            confirm_opts.behavior = ConfirmBehavior.Replace
-            confirm_opts.select = true
-          end
           if cmp.confirm(confirm_opts) then
             return -- success, exit early
           end
@@ -363,9 +316,6 @@ function M.setup()
       { name = "buffer" },
     },
   })
-
-  local neodev = require "neodev"
-  neodev.setup()
 end
 
 function M.get_plugin_config()
@@ -385,6 +335,16 @@ function M.get_plugin_config()
         "L3MON4D3/LuaSnip"
       },
     },
+    {
+      "folke/lazydev.nvim",
+      ft = "lua",
+      opts = {
+        library = {
+          { path = "luvit-meta/library", words = { "vim%.uv" } },
+        },
+      },
+    },
+    { "Bilal2453/luvit-meta",     lazy = true },
     { "hrsh7th/cmp-nvim-lsp",     lazy = true },
     { "saadparwaiz1/cmp_luasnip", lazy = true },
     { "hrsh7th/cmp-buffer",       lazy = true },
@@ -396,9 +356,6 @@ function M.get_plugin_config()
     {
       "L3MON4D3/LuaSnip",
       build = (function()
-        -- Build Step is needed for regex support in snippets
-        -- This step is not supported in many windows environments
-        -- Remove the below condition to re-enable on windows
         if vim.fn.has 'win32' == 1 then
           return
         end
@@ -410,11 +367,6 @@ function M.get_plugin_config()
       },
     },
     { "rafamadriz/friendly-snippets" },
-    {
-      "folke/neodev.nvim",
-      lazy = true,
-
-    },
   }
 end
 
