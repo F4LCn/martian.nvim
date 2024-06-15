@@ -43,6 +43,7 @@ M.servers = {
     inlay_hints_hide_redundant_param_names = true,
     inlay_hints_hide_redundant_param_names_last_token = true,
     semantic_tokens = "full",
+    warn_style = true,
   }
 }
 
