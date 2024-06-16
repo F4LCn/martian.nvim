@@ -6,6 +6,7 @@ function M.get_plugin_config()
     'tpope/vim-fugitive',
     'tpope/vim-rhubarb',
     'tpope/vim-sleuth',
+    'tpope/vim-abolish',
     { "Tastyep/structlog.nvim", lazy = true },
     { "nvim-lua/plenary.nvim",  cmd = { "PlenaryBustedFile", "PlenaryBustedDirectory" }, lazy = true },
     {
