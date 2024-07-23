@@ -28,7 +28,6 @@ local keymap = {
   },
 
   normal_mode = {
-    [";"] = ":",
     -- Better window movement
     ["<C-h>"] = "<C-w>h",
     ["<C-j>"] = "<C-w>j",

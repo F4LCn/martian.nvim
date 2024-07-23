@@ -97,9 +97,9 @@ function M.get_plugin_config()
   return {
     {
       "nvim-treesitter/nvim-treesitter",
-      dependencies = {
-        "nvim-treesitter/nvim-treesitter-textobjects",
-      },
+      -- dependencies = {
+      --   "nvim-treesitter/nvim-treesitter-textobjects",
+      -- },
       config = M.setup,
       build = ":TSUpdate",
       cmd = {
@@ -123,10 +123,10 @@ function M.get_plugin_config()
         }
       end
     },
-    {
-      "nvim-treesitter/nvim-treesitter-textobjects",
-      after = "nvim-treesitter",
-    },
+    -- {
+    --   "nvim-treesitter/nvim-treesitter-textobjects",
+    --   after = "nvim-treesitter",
+    -- },
   }
 end
 
