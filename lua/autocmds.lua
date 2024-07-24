@@ -96,6 +96,13 @@ function M.load_defaults()
       },
     },
     {
+      "FileType",
+      {
+        group = "_filetype_settings",
+        callback = function() vim.opt_local.formatoptions:remove({ "r", "o" }) end,
+      }
+    },
+    {
       "ColorScheme",
       {
         group = "_lvim_colorscheme",

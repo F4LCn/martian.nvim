@@ -6,34 +6,19 @@ M.setup = function()
   gitsigns.setup({
     signs = {
       add = {
-        hl = "GitSignsAdd",
-        text = Icons.ui.BoldLineLeft,
-        numhl = "GitSignsAddNr",
-        linehl = "GitSignsAddLn",
+        text = Icons.ui.BoldLineLeft
       },
       change = {
-        hl = "GitSignsChange",
-        text = Icons.ui.BoldLineLeft,
-        numhl = "GitSignsChangeNr",
-        linehl = "GitSignsChangeLn",
+        text = Icons.ui.BoldLineLeft
       },
       delete = {
-        hl = "GitSignsDelete",
-        text = Icons.ui.Triangle,
-        numhl = "GitSignsDeleteNr",
-        linehl = "GitSignsDeleteLn",
+        text = Icons.ui.Triangle
       },
       topdelete = {
-        hl = "GitSignsDelete",
-        text = Icons.ui.Triangle,
-        numhl = "GitSignsDeleteNr",
-        linehl = "GitSignsDeleteLn",
+        text = Icons.ui.Triangle
       },
       changedelete = {
-        hl = "GitSignsChange",
-        text = Icons.ui.BoldLineLeft,
-        numhl = "GitSignsChangeNr",
-        linehl = "GitSignsChangeLn",
+        text = Icons.ui.BoldLineLeft
       },
     },
     signcolumn = true,
@@ -65,7 +50,6 @@ M.setup = function()
       row = 0,
       col = 1,
     },
-    yadm = { enable = false },
   })
 end
 
