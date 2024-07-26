@@ -86,7 +86,13 @@ function M.get_plugin_config()
         require("hotpot").setup()
       end,
       ft = { 'fennel' }
-    }
+    },
+    {
+      'mrjones2014/smart-splits.nvim',
+      opts = {
+        at_edge = 'stop',
+      },
+    },
   }
 end
 

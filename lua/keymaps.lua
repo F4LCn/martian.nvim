@@ -28,21 +28,21 @@ local keymap = {
   },
 
   normal_mode = {
-    -- Better window movement
-    ["<C-h>"] = "<C-w>h",
-    ["<C-j>"] = "<C-w>j",
-    ["<C-k>"] = "<C-w>k",
-    ["<C-l>"] = "<C-w>l",
+    -- window movement
+    ["<C-h>"] = "<cmd>lua require('smart-splits').move_cursor_left()<cr>",
+    ["<C-j>"] = "<cmd>lua require('smart-splits').move_cursor_down()<cr>",
+    ["<C-k>"] = "<cmd>lua require('smart-splits').move_cursor_up()<cr>",
+    ["<C-l>"] = "<cmd>lua require('smart-splits').move_cursor_right()<cr>",
+
+    -- window resizing
+    ["<C-S-h>"] = "<cmd>lua require('smart-splits').resize_left()<cr>",
+    ["<C-S-j>"] = "<cmd>lua require('smart-splits').resize_down()<cr>",
+    ["<C-S-k>"] = "<cmd>lua require('smart-splits').resize_up()<cr>",
+    ["<C-S-l>"] = "<cmd>lua require('smart-splits').resize_right()<cr>",
 
     -- move lines
     ["<A-j>"] = ":m .+1<CR>==",
     ["<A-k>"] = ":m .-2<CR>==",
-
-    -- Resize with arrows
-    ["<C-Up>"] = ":resize -2<CR>",
-    ["<C-Down>"] = ":resize +2<CR>",
-    ["<C-Left>"] = ":vertical resize -2<CR>",
-    ["<C-Right>"] = ":vertical resize +2<CR>",
 
     -- QuickFix
     ["]q"] = ":cnext<CR>",
