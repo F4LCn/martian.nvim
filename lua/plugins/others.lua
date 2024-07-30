@@ -37,7 +37,17 @@ function M.get_plugin_config()
     },
     {
       "folke/trouble.nvim",
-      cmd = "TroubleToggle",
+      cmd = "Trouble",
+      opts = {
+        focus = true,
+        follow = true,
+        preview = {
+          type = "split",
+          relative = "win",
+          position = "right",
+          size = 0.5,
+        },
+      },
     },
     -- NOTE: disabled in favor of mini.surround
     -- to remove if not used anymore
