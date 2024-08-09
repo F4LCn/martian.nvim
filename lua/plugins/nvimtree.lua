@@ -194,7 +194,7 @@ function M.setup()
       },
       expand_all = {
         max_folder_discovery = 300,
-        exclude = {},
+        exclude = { '.git', 'build', 'target' },
       },
       file_popup = {
         open_win_config = {

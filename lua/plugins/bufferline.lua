@@ -139,11 +139,11 @@ function M.setup()
       close_icon = Icons.ui.BoldClose,
       left_trunc_marker = Icons.ui.ArrowCircleLeft,
       right_trunc_marker = Icons.ui.ArrowCircleRight,
-      name_formatter = function(buf)
-        if buf.name:match "%.md" then
-          return vim.fn.fnamemodify(buf.name, ":t:r")
-        end
-      end,
+      -- name_formatter = function(buf)
+      --   if buf.name:match "%.md" then
+      --     return vim.fn.fnamemodify(buf.name, ":t:r")
+      --   end
+      -- end,
       max_name_length = 18,
       max_prefix_length = 15,
       truncate_names = true,
@@ -197,7 +197,7 @@ function M.setup()
         delay = 200,
         reveal = { "close" },
       },
-      sort_by = "id",
+      sort_by = "insert_after_current",
     },
     highlights = {
       background = {

@@ -118,26 +118,26 @@ M.setup = function()
     },
 
     { "<leader>t",  group = "Trouble" },
-    { "<leader>tw", "<cmd>Trouble diagnostics toggle<cr>",                                               desc = "workspace diagnostics" },
-    { "<leader>td", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",                                  desc = "document diagnostics" },
-    { "<leader>tq", "<cmd>Trouble qflist toggle<cr>",                                                    desc = "quickfix" },
-    { "<leader>tl", "<cmd>Trouble loclist toggle<cr>",                                                   desc = "loclist" },
-    { "<leader>tr", "<cmd>Trouble lsp_references toggle<cr>",                                            desc = "references" },
-    { "<leader>te", "<cmd>Trouble diagnostics toggle filter.severity=vim.diagnostic.severity.ERROR<cr>", desc = "references" },
-    { "<leader>tt", "<cmd>TodoTrouble<cr>",                                                              desc = "todos" },
+    { "<leader>tw", "<cmd>Trouble diagnostics toggle<cr>",                                                 desc = "workspace diagnostics" },
+    { "<leader>td", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",                                    desc = "document diagnostics" },
+    { "<leader>tq", "<cmd>Trouble qflist toggle<cr>",                                                      desc = "quickfix" },
+    { "<leader>tl", "<cmd>Trouble loclist toggle<cr>",                                                     desc = "loclist" },
+    { "<leader>tr", "<cmd>Trouble lsp_references toggle<cr>",                                              desc = "references" },
+    { "<leader>te", "<cmd>Trouble diagnostics toggle filter.severity=vim.diagnostic.severity.ERROR<cr>",   desc = "references" },
+    { "<leader>tt", "<cmd>TodoTrouble<cr>",                                                                desc = "todos" },
 
     { "<leader>d",  group = "Debug" },
-    { "<leader>db", "<cmd>lua require'dap'.toggle_breakpoint()<cr>",                                     desc = "Toggle Breakpoint" },
-    { "<leader>dC", "<cmd>lua require'dap'.run_to_cursor()<cr>",                                         desc = "Run To Cursor" },
-    { "<leader>dg", "<cmd>lua require'dap'.session()<cr>",                                               desc = "Get Session" },
-    { "<leader>dp", "<cmd>lua require'dap'.pause()<cr>",                                                 desc = "Pause" },
-    { "<leader>ds", "<cmd>lua require'dap'.continue()<cr>",                                              desc = "Start" },
-    { "<leader>dq", "<cmd>lua require'dap'.close()<cr>",                                                 desc = "Quit" },
-    { "<leader>dd", "<cmd>lua require'dapui'.toggle({reset = true})<cr>",                                desc = "Toggle UI" },
+    { "<leader>db", "<cmd>lua require'dap'.toggle_breakpoint()<cr>",                                       desc = "Toggle Breakpoint" },
+    { "<leader>dC", "<cmd>lua require'dap'.run_to_cursor()<cr>",                                           desc = "Run To Cursor" },
+    { "<leader>dg", "<cmd>lua require'dap'.session()<cr>",                                                 desc = "Get Session" },
+    { "<leader>dp", "<cmd>lua require'dap'.pause()<cr>",                                                   desc = "Pause" },
+    { "<leader>ds", "<cmd>lua require'dap'.continue()<cr>",                                                desc = "Start" },
+    { "<leader>dq", "<cmd>lua require'dap'.close()<cr>",                                                   desc = "Quit" },
+    { "<leader>dd", "<cmd>lua require'dapui'.toggle({reset = true})<cr>",                                  desc = "Toggle UI" },
 
     { "<leader>b",  group = "buffer" },
-    { "<leader>bj", "<cmd>BufferLinePick<cr>",                                                           desc = "Jump to Buffer" },
-    { "<leader>bf", "<cmd>Telescope buffers previewer=false<cr>",                                        desc = "Find Buffer" },
+    { "<leader>bj", "<cmd>BufferLinePick<cr>",                                                             desc = "Jump to Buffer" },
+    { "<leader>bf", "<cmd>Telescope buffers previewer=false sort_mru=true ignore_current_buffer=true<cr>", desc = "Find Buffer" },
     {
       "<leader>bx",
       function()
@@ -147,6 +147,7 @@ M.setup = function()
       desc = "Close current Buffer"
     },
     { "<leader>bo", "<cmd>BufferLineCloseOthers<CR>", desc = "Close other buffers" },
+    { "<leader>bp", "<cmd>BufferLineTogglePin<CR>", desc = "Pin/unpin buffer" },
 
     { "<leader>N",  group = "Neovim" },
     {
