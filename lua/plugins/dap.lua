@@ -78,7 +78,7 @@ M.setup = function()
     numhl = "DiagnosticSignWarn",
   })
 
-  require('dap-python').setup('~/.virtualenvs/debugpy/bin/python')
+  require('dap-python').setup('python')
 
   dap.set_log_level("info")
 end

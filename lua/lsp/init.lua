@@ -12,7 +12,7 @@ M.servers = {
       diagnostics = { disable = { 'missing-fields' } },
     },
   },
-  tsserver = {
+  ts_ls = {
     typescript = {
       inlayHints = {
         includeInlayParameterNameHints = "literals",
@@ -43,6 +43,7 @@ M.servers = {
     enable_argument_placeholders = false,
     inlay_hints_hide_redundant_param_names = true,
     inlay_hints_hide_redundant_param_names_last_token = true,
+    inlay_hints_show_struct_literal_field_type = false,
     semantic_tokens = "full",
     warn_style = true,
   }

@@ -99,6 +99,7 @@ function M.get_plugin_config()
     },
     {
       'mrjones2014/smart-splits.nvim',
+      lazy = false,
       opts = {
         at_edge = 'stop',
       },
