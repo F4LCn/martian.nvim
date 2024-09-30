@@ -122,19 +122,15 @@ function M.setup()
 
   bufferline.setup({
     options = {
-      mode = "buffers",
+      mode = "tabs",
       numbers = "none",
-      close_command = function(bufnr)
-        M.buf_kill("bd", bufnr, false)
-      end,
-      right_mouse_command = "vert sbuffer %d",
-      left_mouse_command = "buffer %d",
-      middle_mouse_command = nil,
+      -- close_command = function(bufnr)
+      --   M.buf_kill("bd", bufnr, false)
+      -- end,
       indicator = {
         icon = Icons.ui.BoldLineLeft,
         style = "icon",
       },
-      buffer_close_icon = Icons.ui.Close,
       modified_icon = Icons.ui.Circle,
       close_icon = Icons.ui.BoldClose,
       left_trunc_marker = Icons.ui.ArrowCircleLeft,
@@ -144,10 +140,10 @@ function M.setup()
       --     return vim.fn.fnamemodify(buf.name, ":t:r")
       --   end
       -- end,
-      max_name_length = 18,
-      max_prefix_length = 15,
+      max_name_length = 30,
+      max_prefix_length = 5,
       truncate_names = true,
-      tab_size = 18,
+      tab_size = 20,
       diagnostics = "nvim_lsp",
       diagnostics_update_in_insert = false,
       diagnostics_indicator = diagnostics_indicator,
@@ -184,10 +180,10 @@ function M.setup()
         },
       },
       color_icons = true,
-      show_buffer_icons = true,
+      show_buffer_icons = false,
       show_buffer_close_icons = false,
       show_close_icon = false,
-      show_tab_indicators = true,
+      show_tab_indicators = false,
       persist_buffer_sort = true,
       separator_style = "thin",
       enforce_regular_tabs = false,
@@ -197,14 +193,14 @@ function M.setup()
         delay = 200,
         reveal = { "close" },
       },
-      sort_by = "insert_after_current",
+      sort_by = "tabs",
     },
     highlights = {
       background = {
-        italic = true,
+        italic = false,
       },
       buffer_selected = {
-        bold = true,
+        bold = false,
       },
     },
   })

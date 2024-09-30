@@ -49,10 +49,11 @@ function M.setup()
           actions.smart_send_to_qflist(...)
           actions.open_qflist(...)
         end,
-        ["<CR>"] = actions.select_default,
+        ["<CR>"] = actions.select_tab_drop,
         ["<C-f>"] = actions.to_fuzzy_refine,
       },
       n = {
+        ["<CR>"] = actions.select_tab_drop,
         ["<C-n>"] = actions.move_selection_next,
         ["<C-p>"] = actions.move_selection_previous,
         ["<C-q>"] = function(...)
@@ -76,10 +77,10 @@ function M.setup()
   end
 
   local fzy_opts = {
-    fuzzy = true,                       -- false will only do exact matching
-    override_generic_sorter = true,     -- override the generic sorter
-    override_file_sorter = true,        -- override the file sorter
-    case_mode = "smart_case",           -- or "ignore_case" or "respect_case"
+    fuzzy = true,                   -- false will only do exact matching
+    override_generic_sorter = true, -- override the generic sorter
+    override_file_sorter = true,    -- override the file sorter
+    case_mode = "smart_case",       -- or "ignore_case" or "respect_case"
   }
 
   ---@diagnostic disable-next-line: redundant-parameter
@@ -102,9 +103,11 @@ function M.setup()
         initial_mode = "normal",
         mappings = {
           i = {
+            ["<CR>"] = actions.select_tab_drop,
             ["<C-d>"] = actions.delete_buffer,
           },
           n = {
+            ["<CR>"] = actions.select_tab_drop,
             ["dd"] = actions.delete_buffer,
           },
         },
@@ -116,12 +119,20 @@ function M.setup()
       git_files = {
         hidden = true,
         show_untracked = true,
+        mappings = {
+          i = { ["<CR>"] = actions.select_tab_drop },
+          n = { ["<CR>"] = actions.select_tab_drop },
+        },
       },
       colorscheme = {
         enable_preview = true,
       },
       lsp_dynamic_workspace_symbols = {
         sorter = telescope.extensions.fzy_native.native_fzy_sorter(fzy_opts),
+        mappings = {
+          i = { ["<CR>"] = actions.select_tab_drop },
+          n = { ["<CR>"] = actions.select_tab_drop },
+        },
       }
     },
     extensions = {
@@ -147,7 +158,7 @@ function M.get_plugin_config()
   return {
     {
       "nvim-telescope/telescope.nvim",
-      branch = "0.1.x",
+      -- branch = "0.1.x",
       config = M.setup,
       dependencies = { "telescope-fzy-native.nvim" },
       lazy = true,

@@ -146,8 +146,9 @@ M.setup = function()
       ,
       desc = "Close current Buffer"
     },
+    { "<leader>bk", "<cmd>tabclose<cr>",              desc = "Close current Buffer" },
     { "<leader>bo", "<cmd>BufferLineCloseOthers<CR>", desc = "Close other buffers" },
-    { "<leader>bp", "<cmd>BufferLineTogglePin<CR>", desc = "Pin/unpin buffer" },
+    { "<leader>bp", "<cmd>BufferLineTogglePin<CR>",   desc = "Pin/unpin buffer" },
 
     { "<leader>N",  group = "Neovim" },
     {
