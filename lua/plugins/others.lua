@@ -104,6 +104,10 @@ function M.get_plugin_config()
         at_edge = 'stop',
       },
     },
+    {
+      'MeanderingProgrammer/render-markdown.nvim',
+      opts = {},
+    },
   }
 end
 
