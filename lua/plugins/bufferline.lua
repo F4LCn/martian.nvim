@@ -122,11 +122,11 @@ function M.setup()
 
   bufferline.setup({
     options = {
-      mode = "tabs",
+      mode = "buffers",
       numbers = "none",
-      -- close_command = function(bufnr)
-      --   M.buf_kill("bd", bufnr, false)
-      -- end,
+      close_command = function(bufnr)
+        M.buf_kill("bd", bufnr, false)
+      end,
       indicator = {
         icon = Icons.ui.BoldLineLeft,
         style = "icon",
@@ -193,7 +193,7 @@ function M.setup()
         delay = 200,
         reveal = { "close" },
       },
-      sort_by = "tabs",
+      sort_by = "insert_after_current",
     },
     highlights = {
       background = {

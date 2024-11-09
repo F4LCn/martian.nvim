@@ -39,14 +39,29 @@ function M.get_plugin_config()
       "folke/trouble.nvim",
       cmd = "Trouble",
       opts = {
+        auto_preview = false,
+        auto_close = true,
+        auto_refresh = false,
         focus = true,
-        follow = true,
+        follow = false,
         preview = {
           type = "split",
           relative = "win",
           position = "right",
           size = 0.5,
+          scratch = true,
         },
+        modes = {
+          symbols = {
+            mode = "lsp_document_symbols",
+            relative = "editor",
+            focus = true,
+            win = { type = "float" },
+            preview = {
+              type = "main",
+            },
+          }
+        }
       },
     },
     -- NOTE: disabled in favor of mini.surround

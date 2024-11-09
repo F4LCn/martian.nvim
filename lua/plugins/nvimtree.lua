@@ -29,7 +29,7 @@ local function on_attach(bufnr)
 
   local useful_keys = {
     ["l"] = { api.node.open.edit, opts "Open" },
-    ["<CR>"] = { api.node.open.tab, opts "Open" },
+    ["<CR>"] = { api.node.open.edit, opts "Open" },
     ["<C-s>"] = { api.node.open.horizontal, opts "Open: Horizontal Split" },
     ["h"] = { api.node.navigate.parent_close, opts "Close Directory" },
     ["<C-`>"] = { api.tree.change_root_to_node, opts "CD" },

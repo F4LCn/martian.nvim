@@ -125,6 +125,7 @@ M.setup = function()
     { "<leader>tr", "<cmd>Trouble lsp_references toggle<cr>",                                              desc = "references" },
     { "<leader>te", "<cmd>Trouble diagnostics toggle filter.severity=vim.diagnostic.severity.ERROR<cr>",   desc = "references" },
     { "<leader>tt", "<cmd>TodoTrouble<cr>",                                                                desc = "todos" },
+    { "<leader>ts", "<cmd>Trouble symbols toggle pinned=true win.relative=win win.position=right<cr>",     desc = "symbols" },
 
     { "<leader>d",  group = "Debug" },
     { "<leader>db", "<cmd>lua require'dap'.toggle_breakpoint()<cr>",                                       desc = "Toggle Breakpoint" },

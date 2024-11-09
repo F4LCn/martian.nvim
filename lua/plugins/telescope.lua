@@ -49,11 +49,11 @@ function M.setup()
           actions.smart_send_to_qflist(...)
           actions.open_qflist(...)
         end,
-        ["<CR>"] = actions.select_tab_drop,
+        ["<CR>"] = actions.select_drop,
         ["<C-f>"] = actions.to_fuzzy_refine,
       },
       n = {
-        ["<CR>"] = actions.select_tab_drop,
+        ["<CR>"] = actions.select_drop,
         ["<C-n>"] = actions.move_selection_next,
         ["<C-p>"] = actions.move_selection_previous,
         ["<C-q>"] = function(...)
@@ -103,11 +103,11 @@ function M.setup()
         initial_mode = "normal",
         mappings = {
           i = {
-            ["<CR>"] = actions.select_tab_drop,
+            ["<CR>"] = actions.select_drop,
             ["<C-d>"] = actions.delete_buffer,
           },
           n = {
-            ["<CR>"] = actions.select_tab_drop,
+            ["<CR>"] = actions.select_drop,
             ["dd"] = actions.delete_buffer,
           },
         },
@@ -120,8 +120,8 @@ function M.setup()
         hidden = true,
         show_untracked = true,
         mappings = {
-          i = { ["<CR>"] = actions.select_tab_drop },
-          n = { ["<CR>"] = actions.select_tab_drop },
+          i = { ["<CR>"] = actions.select_drop },
+          n = { ["<CR>"] = actions.select_drop },
         },
       },
       colorscheme = {
@@ -130,8 +130,8 @@ function M.setup()
       lsp_dynamic_workspace_symbols = {
         sorter = telescope.extensions.fzy_native.native_fzy_sorter(fzy_opts),
         mappings = {
-          i = { ["<CR>"] = actions.select_tab_drop },
-          n = { ["<CR>"] = actions.select_tab_drop },
+          i = { ["<CR>"] = actions.select_drop },
+          n = { ["<CR>"] = actions.select_drop },
         },
       }
     },
