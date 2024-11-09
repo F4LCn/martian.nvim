@@ -4,70 +4,13 @@ function M.setup()
   local dressing = require "dressing"
 
   dressing.setup({
-    insert_only = false,
-    mappings = {
-      n = {
-        ["<Esc>"] = "Close",
-        ["<CR>"] = "Confirm",
-      },
-      i = {
-        ["<Esc>"] = "Close",
-        ["<CR>"] = "Confirm",
-        ["<Up>"] = "HistoryPrev",
-        ["<Down>"] = "HistoryNext",
-      },
-    },
+    relative = "editor",
     input = {
-      insert_only = false,
-      mappings = {
-        n = {
-          ["<Esc>"] = "Close",
-          ["<CR>"] = "Confirm",
-        },
-        i = {
-          ["<Esc>"] = "Close",
-          ["<CR>"] = "Confirm",
-          ["<Up>"] = "HistoryPrev",
-          ["<Down>"] = "HistoryNext",
-        },
-      },
-      backend = { "builtin" },
+      relative = "editor",
     },
     select = {
-      insert_only = false,
-      mappings = {
-        n = {
-          ["<Esc>"] = "Close",
-          ["<CR>"] = "Confirm",
-        },
-        i = {
-          ["<Esc>"] = "Close",
-          ["<CR>"] = "Confirm",
-          ["<Up>"] = "HistoryPrev",
-          ["<Down>"] = "HistoryNext",
-        },
-      },
       backend = { "builtin" },
-      nui = {
-        position = "50%",
-        size = nil,
-        relative = "editor",
-        border = {
-          style = "rounded",
-        },
-        buf_options = {
-          swapfile = false,
-          filetype = "DressingSelect",
-        },
-        win_options = {
-          winblend = 0,
-        },
-        max_width = 0.8,
-        max_height = 0.4,
-        min_width = 40,
-        min_height = 10,
-      },
-    },
+    }
   })
 end
 

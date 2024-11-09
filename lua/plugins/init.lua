@@ -23,10 +23,11 @@ local modules = {
   "plugins.bufferline",
   "plugins.indentlines",
   "plugins.neotest",
-  -- "plugins.dressing",
+  "plugins.dressing",
   "plugins.neodim",
   "plugins.cmp",
   "lsp",
+  "plugins.db",
 }
 
 function M:configs()
@@ -34,7 +35,6 @@ function M:configs()
   for _, module_path in ipairs(modules) do
     local module_ok, module = pcall(require, module_path)
     if not module_ok then
-
       -- use this for debug as it give a clearer error message
       -- module_ok, module = require(module_path)
 

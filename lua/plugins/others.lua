@@ -41,7 +41,7 @@ function M.get_plugin_config()
       opts = {
         auto_preview = false,
         auto_close = true,
-        auto_refresh = false,
+        auto_refresh = true,
         focus = true,
         follow = false,
         preview = {
@@ -54,26 +54,27 @@ function M.get_plugin_config()
         modes = {
           symbols = {
             mode = "lsp_document_symbols",
-            relative = "editor",
             focus = true,
-            win = { type = "float" },
+            auto_refresh = true,
             preview = {
               type = "main",
             },
+          },
+          references = {
+            mode = "lsp_references",
+            focus = true,
+            auto_refresh = false,
           }
         }
       },
     },
-    -- NOTE: disabled in favor of mini.surround
-    -- to remove if not used anymore
-    -- "tpope/vim-surround",
     {
       "Pocco81/auto-save.nvim",
       config = function()
         require("auto-save").setup()
       end
     },
-    "mg979/vim-visual-multi",
+    -- "mg979/vim-visual-multi",
     {
       "casonadams/simple-diagnostics.nvim",
       config = function()
