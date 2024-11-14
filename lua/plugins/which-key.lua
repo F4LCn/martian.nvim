@@ -58,7 +58,7 @@ M.setup = function()
     { "<leader>f",  group = "Find" },
     { "<leader>ft", "<cmd>Telescope live_grep<cr>",                    desc = "Find Text" },
     { "<leader>fF", "<cmd>Telescope find_files<cr>",                   desc = "Find File (All)" },
-    { "<leader>fl", "<cmd>Telescope resume<cr>",                       desc = "Resume last search" },
+    { "<leader>fl", "<cmd>Telescope resume initial_mode=normal<cr>",   desc = "Resume last search" },
     { "<leader>fm", "<cmd>Telescope man_pages sections={\"ALL\"}<cr>", desc = "Man Pages" },
     {
       "<leader>ff",
