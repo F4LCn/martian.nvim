@@ -24,7 +24,7 @@ local modules = {
   "plugins.indentlines",
   "plugins.neotest",
   "plugins.dressing",
-  "plugins.neodim",
+  "plugins.dim",
   "plugins.cmp",
   "lsp",
   "plugins.db",

@@ -15,7 +15,7 @@ function M.get_plugin_config()
     {
       "zbirenbaum/neodim",
       config = M.setup
-    }
+    },
   }
 end
 
