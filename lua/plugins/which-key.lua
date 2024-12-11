@@ -56,7 +56,7 @@ M.setup = function()
     { "<leader>/",  "<Plug>(comment_toggle_linewise_current)",         desc = "Comment toggle current line" },
 
     { "<leader>f",  group = "Find" },
-    { "<leader>/",  "<cmd>Telescope current_buffer_fuzzy_find<cr>",    desc = "Find in buffer" },
+    { "<leader>fb", "<cmd>Telescope current_buffer_fuzzy_find<cr>",    desc = "Find in buffer" },
     { "<leader>ft", "<cmd>Telescope live_grep<cr>",                    desc = "Find Text" },
     { "<leader>fT", "<cmd>Telescope live_grep_args<cr>",               desc = "Find Text (Args)" },
     { "<leader>fF", "<cmd>Telescope find_files<cr>",                   desc = "Find File (All)" },
