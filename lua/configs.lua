@@ -6,6 +6,7 @@ function M.init()
     breakindent = true,
     backup = false,                          -- creates a backup file
     clipboard = "unnamedplus",               -- allows neovim to access the system clipboard
+    messagesopt = "wait:500,history:1000",
     cmdheight = 1,                           -- more space in the neovim command line for displaying messages
     completeopt = { "menuone", "noselect" },
     conceallevel = 0,                        -- so that `` is visible in markdown files
@@ -26,7 +27,7 @@ function M.init()
     termguicolors = true,                    -- set term gui colors (most terminals support this)
     timeoutlen = 500,                        -- time to wait for a mapped sequence to complete (in milliseconds)
     title = true,                            -- set the title of window to the value of the titlestring
-    titlestring = 'nvim %{expand("%:t")}', -- what the title of the window will be set to
+    titlestring = 'nvim %{expand("%:t")}',   -- what the title of the window will be set to
     undofile = true,                         -- enable persistent undo
     updatetime = 100,                        -- faster completion
     writebackup = false,                     -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited

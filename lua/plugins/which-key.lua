@@ -139,6 +139,7 @@ M.setup = function()
     { "<leader>b",  group = "buffer" },
     { "<leader>bj", "<cmd>BufferLinePick<cr>",                                                                      desc = "Jump to Buffer" },
     { "<leader>bf", "<cmd>Telescope buffers previewer=false sort_mru=true ignore_current_buffer=true<cr>",          desc = "Find Buffer" },
+    { "<leader>bF", "<cmd>Telescope buffers previewer=true sort_mru=true<cr>",          desc = "Find Buffer" },
     {
       "<leader>bx",
       function()

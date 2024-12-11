@@ -3,6 +3,9 @@
 local M = {}
 function M.get_plugin_config()
   return {
+    -- {
+    --   dir = "~/projects/tasogare"
+    -- },
     'tpope/vim-fugitive',
     'tpope/vim-rhubarb',
     'tpope/vim-sleuth',
@@ -123,6 +126,9 @@ function M.get_plugin_config()
     {
       'MeanderingProgrammer/render-markdown.nvim',
       opts = {},
+    },
+    {
+      "ledger/vim-ledger"
     },
   }
 end
