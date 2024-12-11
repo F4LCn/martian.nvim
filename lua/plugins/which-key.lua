@@ -56,7 +56,9 @@ M.setup = function()
     { "<leader>/",  "<Plug>(comment_toggle_linewise_current)",         desc = "Comment toggle current line" },
 
     { "<leader>f",  group = "Find" },
+    { "<leader>/",  "<cmd>Telescope current_buffer_fuzzy_find<cr>",    desc = "Find in buffer" },
     { "<leader>ft", "<cmd>Telescope live_grep<cr>",                    desc = "Find Text" },
+    { "<leader>fT", "<cmd>Telescope live_grep_args<cr>",               desc = "Find Text (Args)" },
     { "<leader>fF", "<cmd>Telescope find_files<cr>",                   desc = "Find File (All)" },
     { "<leader>fl", "<cmd>Telescope resume initial_mode=normal<cr>",   desc = "Resume last search" },
     { "<leader>fm", "<cmd>Telescope man_pages sections={\"ALL\"}<cr>", desc = "Man Pages" },
@@ -139,7 +141,7 @@ M.setup = function()
     { "<leader>b",  group = "buffer" },
     { "<leader>bj", "<cmd>BufferLinePick<cr>",                                                                      desc = "Jump to Buffer" },
     { "<leader>bf", "<cmd>Telescope buffers previewer=false sort_mru=true ignore_current_buffer=true<cr>",          desc = "Find Buffer" },
-    { "<leader>bF", "<cmd>Telescope buffers previewer=true sort_mru=true<cr>",          desc = "Find Buffer" },
+    { "<leader>bF", "<cmd>Telescope buffers previewer=true sort_mru=true<cr>",                                      desc = "Find Buffer" },
     {
       "<leader>bx",
       function()

@@ -5,6 +5,7 @@ function M.setup()
   local sorters = require "telescope.sorters"
   local telescope = require "telescope"
   local actions = require "telescope.actions"
+  local lga_actions = require("telescope-live-grep-args.actions")
 
   local defaults = {
     prompt_prefix = "   ",
@@ -76,7 +77,7 @@ function M.setup()
     defaults = theme(defaults)
   end
 
-  local fzy_opts = {
+  local fzf_opts = {
     fuzzy = true,                   -- false will only do exact matching
     override_generic_sorter = true, -- override the generic sorter
     override_file_sorter = true,    -- override the file sorter
@@ -128,7 +129,7 @@ function M.setup()
         enable_preview = true,
       },
       lsp_dynamic_workspace_symbols = {
-        sorter = telescope.extensions.fzy_native.native_fzy_sorter(fzy_opts),
+        sorter = telescope.extensions.fzf.native_fzf_sorter(fzf_opts),
         mappings = {
           i = { ["<CR>"] = actions.select_drop },
           n = { ["<CR>"] = actions.select_drop },
@@ -136,7 +137,17 @@ function M.setup()
       }
     },
     extensions = {
-      fzy_native = fzy_opts,
+      fzf = fzf_opts,
+      live_grep_args = {
+        auto_quoting = true,
+        mappings = {
+          i = {
+            ["<C-k>"] = lga_actions.quote_prompt(),
+            ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
+            ["<C-f>"] = actions.to_fuzzy_refine,
+          },
+        },
+      }
     },
     file_previewer = previewers.vim_buffer_cat.new,
     grep_previewer = previewers.vim_buffer_vimgrep.new,
@@ -150,7 +161,10 @@ function M.setup()
   end)
 
   pcall(function()
-    require("telescope").load_extension "fzy_native"
+    require("telescope").load_extension "fzf"
+  end)
+  pcall(function()
+    require("telescope").load_extension "live_grep_args"
   end)
 end
 
@@ -160,11 +174,15 @@ function M.get_plugin_config()
       "nvim-telescope/telescope.nvim",
       -- branch = "0.1.x",
       config = M.setup,
-      dependencies = { "telescope-fzy-native.nvim" },
+      dependencies = {
+        {
+          "nvim-telescope/telescope-fzf-native.nvim",
+          build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release'
+        },
+        "nvim-telescope/telescope-live-grep-args.nvim" },
       lazy = true,
       cmd = "Telescope",
     },
-    { "nvim-telescope/telescope-fzy-native.nvim", lazy = true },
   }
 end
 
