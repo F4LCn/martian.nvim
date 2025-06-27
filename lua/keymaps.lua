@@ -1,5 +1,28 @@
 local M = {}
 
+
+local function jump_to_diagnostic(jump_count)
+  pcall(vim.api.nvim_del_augroup_by_name, "jump_to_diagnostics_augroup")
+
+  local old_virt_text_config = vim.diagnostic.config().virtual_text
+  vim.diagnostic.config {
+    virtual_text = false,
+    virtual_lines = { current_line = true },
+  }
+
+  vim.diagnostic.jump { count = jump_count }
+  vim.defer_fn(function()
+    vim.api.nvim_create_autocmd("CursorMoved", {
+      desc = "User(once): Reset diagnostics virtual lines",
+      once = true,
+      group = vim.api.nvim_create_augroup("jump_to_diagnostics_augroup", {}),
+      callback = function()
+        vim.diagnostic.config { virtual_lines = false, virtual_text = old_virt_text_config }
+      end,
+    })
+  end, 1)
+end
+
 local generic_opts_any = { noremap = true, silent = true }
 
 local generic_opts = {
@@ -50,12 +73,19 @@ local keymap = {
     ["<C-q>"] = ":call QuickFixToggle()<CR>",
 
     -- Diagnostics
-    ["<F24>"] = "<cmd>lua vim.diagnostic.goto_next()<cr>",
-    ["<F60>"] = "<cmd>lua vim.diagnostic.goto_prev()<cr>",
+    -- ["<F60>"] = "<cmd>lua vim.diagnostic.goto_next()<cr>",
+    -- ["<F24>"] = "<cmd>lua vim.diagnostic.goto_prev()<cr>",
+
+    ["<F60>"] = function()
+      jump_to_diagnostic(1)
+    end,
+    ["<F24>"] = function()
+      jump_to_diagnostic(-1)
+    end,
 
     -- tabs navigation
-    ["<Tab>"] = ":BufferLineCycleNext<CR>",
-    ["<S-Tab>"] = ":BufferLineCyclePrev<CR>",
+    -- ["<Tab>"] = ":BufferLineCycleNext<CR>",
+    -- ["<S-Tab>"] = ":BufferLineCyclePrev<CR>",
 
     -- Debugging
     ["<F5>"] = "<cmd>lua require'dap'.continue()<cr>",

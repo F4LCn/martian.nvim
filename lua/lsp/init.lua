@@ -17,11 +17,11 @@ M.servers = {
       inlayHints = {
         includeInlayParameterNameHints = "literals",
         includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-        includeInlayVariableTypeHints = true,
+        includeInlayVariableTypeHints = false,
         includeInlayFunctionParameterTypeHints = true,
-        includeInlayVariableTypeHintsWhenTypeMatchesName = true,
+        includeInlayVariableTypeHintsWhenTypeMatchesName = false,
         includeInlayPropertyDeclarationTypeHints = true,
-        includeInlayFunctionLikeReturnTypeHints = true,
+        includeInlayFunctionLikeReturnTypeHints = false,
         includeInlayEnumMemberValueHints = true,
       },
     },
@@ -29,11 +29,11 @@ M.servers = {
       inlayHints = {
         includeInlayParameterNameHints = "literals",
         includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-        includeInlayVariableTypeHints = true,
+        includeInlayVariableTypeHints = false,
         includeInlayFunctionParameterTypeHints = true,
-        includeInlayVariableTypeHintsWhenTypeMatchesName = true,
+        includeInlayVariableTypeHintsWhenTypeMatchesName = false,
         includeInlayPropertyDeclarationTypeHints = true,
-        includeInlayFunctionLikeReturnTypeHints = true,
+        includeInlayFunctionLikeReturnTypeHints = false,
         includeInlayEnumMemberValueHints = true,
       },
     },
@@ -195,25 +195,31 @@ function M.setup()
     end
   }
 
-  -- local status_ok, null_ls = pcall(require, "null-ls")
-  -- if not status_ok then
-  --   print "no null-ls"
+  require('crates').setup({
+    lsp = {
+      enabled = true,
+      on_attach = function(client, bufnr)
+        vim.keymap.set("n", "<leader>rf", function()
+          if vim.fn.expand("%:t") == "Cargo.toml" then
+            require("crates").show_features_popup()
+          end
+        end, { desc = "Show Crate features", buffer = bufnr })
+        capabilities.on_attach(client, bufnr)
+      end,
+      actions = true,
+      completion = true,
+      hover = true,
+    },
+  })
+
+  -- local function set_handler_opts_if_not_set(name, handler, opts)
+  --   if debug.getinfo(vim.lsp.handlers[name], "S").source:find(vim.env.VIMRUNTIME, 1, true) then
+  --     vim.lsp.handlers[name] = vim.lsp.with(handler, opts)
+  --   end
   -- end
 
-  -- null_ls.setup(capabilities)
-
-  for _, sign in ipairs(vim.tbl_get(vim.diagnostic.config(), "signs", "values") or {}) do
-    vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = sign.name })
-  end
-
-  local function set_handler_opts_if_not_set(name, handler, opts)
-    if debug.getinfo(vim.lsp.handlers[name], "S").source:find(vim.env.VIMRUNTIME, 1, true) then
-      vim.lsp.handlers[name] = vim.lsp.with(handler, opts)
-    end
-  end
-
-  set_handler_opts_if_not_set("textDocument/hover", vim.lsp.handlers.hover, { border = "rounded" })
-  set_handler_opts_if_not_set("textDocument/signatureHelp", vim.lsp.handlers.signature_help, { border = "rounded" })
+  -- set_handler_opts_if_not_set("textDocument/hover", vim.lsp.handlers.hover, { border = "rounded" })
+  -- set_handler_opts_if_not_set("textDocument/signatureHelp", vim.lsp.handlers.signature_help, { border = "rounded" })
 
   -- Enable rounded borders in :LspInfo window.
   require("lspconfig.ui.windows").default_options.border = "rounded"
@@ -253,15 +259,15 @@ function M.get_plugin_config()
     },
     {
       'mrcjkb/rustaceanvim',
+      dependencies = {
+        'saecki/crates.nvim',
+      },
       ft = { 'rust' },
       opts = {
         server = {
           on_attach = function(_, bufnr)
             add_lsp_buffer_keybindings(bufnr)
-            vim.keymap.set("n", "<leader>cR", function()
-              vim.cmd.RustLsp("codeAction")
-            end, { desc = "Code Action", buffer = bufnr })
-            vim.keymap.set("n", "<leader>dR", function()
+            vim.keymap.set("n", "<leader>ds", function()
               vim.cmd.RustLsp("debuggables")
             end, { desc = "Rust Debuggables", buffer = bufnr })
             vim.keymap.set("n", "K", function()
@@ -273,16 +279,15 @@ function M.get_plugin_config()
             end, { desc = "Show Crate Documentation", buffer = bufnr })
           end,
           default_settings = {
-            -- rust-analyzer language server configuration
             ["rust-analyzer"] = {
               cargo = {
-                allFeatures = true,
+                allFeatures = false,
                 loadOutDirsFromCheck = true,
                 runBuildScripts = true,
               },
               -- Add clippy lints for Rust.
               checkOnSave = {
-                allFeatures = true,
+                allFeatures = false,
                 command = "clippy",
                 extraArgs = { "--no-deps" },
               },
@@ -311,6 +316,10 @@ function M.get_plugin_config()
           require("rustaceanvim.neotest"),
         })
       end,
+    },
+    {
+      'saecki/crates.nvim',
+      event = { "BufRead Cargo.toml" },
     },
   }
 end

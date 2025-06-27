@@ -3,6 +3,14 @@ local M = {}
 function M.load_defaults()
   local definitions = {
     {
+      "VimEnter",
+      {
+        group = "_jumplist",
+        pattern = "*",
+        command = "clearjumps",
+      }
+    },
+    {
       "TextYankPost",
       {
         group = "_general_settings",

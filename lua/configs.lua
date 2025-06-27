@@ -6,7 +6,7 @@ function M.init()
     breakindent = true,
     backup = false,                          -- creates a backup file
     clipboard = "unnamedplus",               -- allows neovim to access the system clipboard
-    messagesopt = "wait:500,history:1000",
+    messagesopt = "hit-enter,history:1000",
     cmdheight = 1,                           -- more space in the neovim command line for displaying messages
     completeopt = { "menuone", "noselect" },
     conceallevel = 0,                        -- so that `` is visible in markdown files
@@ -38,11 +38,12 @@ function M.init()
     number = true,                           -- set numbered lines
     numberwidth = 4,                         -- set number column width to 2 {default 4}
     signcolumn = "yes",                      -- always show the sign column, otherwise it would shift the text each time
-    scrolloff = 8,                           -- minimal number of screen lines to keep above and below the cursor.
+    scrolloff = 5,                           -- minimal number of screen lines to keep above and below the cursor.
     sidescrolloff = 4,                       -- minimal number of screen lines to keep left and right of the cursor.
     showcmd = false,
     ruler = false,
     laststatus = 3,
+    jumpoptions = "clean,stack"
   }
 
   for k, v in pairs(options) do
@@ -51,17 +52,23 @@ function M.init()
 
   vim.opt.formatoptions:remove { "r", "o" }
 
+  --- @type vim.diagnostic.Opts
   local diagnostic_config = {
     signs = {
-      active = true,
-      values = {
-        { name = "DiagnosticSignError", text = Icons.diagnostics.Error },
-        { name = "DiagnosticSignWarn",  text = Icons.diagnostics.Warning },
-        { name = "DiagnosticSignHint",  text = Icons.diagnostics.Hint },
-        { name = "DiagnosticSignInfo",  text = Icons.diagnostics.Information },
+      text = {
+        [vim.diagnostic.severity.ERROR] = Icons.diagnostics.Error,
+        [vim.diagnostic.severity.WARN] = Icons.diagnostics.Warning,
+        [vim.diagnostic.severity.HINT] = Icons.diagnostics.Hint,
+        [vim.diagnostic.severity.INFO] = Icons.diagnostics.Information,
       },
+      active = true,
     },
+    virtual_lines = false,
     virtual_text = false,
+    -- virtual_text = {
+    --   current_line = true,
+    --   severity = vim.diagnostic.severity.ERROR,
+    -- },
     update_in_insert = false,
     underline = true,
     severity_sort = true,
@@ -69,7 +76,7 @@ function M.init()
       focusable = true,
       style = "minimal",
       border = "rounded",
-      source = "always",
+      source = true,
       header = "",
       prefix = "",
     },

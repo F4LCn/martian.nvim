@@ -3,9 +3,6 @@
 local M = {}
 function M.get_plugin_config()
   return {
-    -- {
-    --   dir = "~/projects/tasogare"
-    -- },
     'tpope/vim-fugitive',
     'tpope/vim-rhubarb',
     'tpope/vim-sleuth',
@@ -79,22 +76,11 @@ function M.get_plugin_config()
             message = function() -- message to print on save
               return ("Auto-saved")
             end,
-            dim = 0.18,     -- dim the color of `message`
-            cleaning_interval = 1250, -- (milliseconds) automatically clean MsgArea after displaying `message`. See :h MsgArea 
+            dim = 0.18,               -- dim the color of `message`
+            cleaning_interval = 1250, -- (milliseconds) automatically clean MsgArea after displaying `message`. See :h MsgArea
           },
         })
       end
-    },
-    -- "mg979/vim-visual-multi",
-    {
-      "casonadams/simple-diagnostics.nvim",
-      config = function()
-        require("simple-diagnostics").setup({
-          virtual_text = false,
-          message_area = true,
-          signs = true,
-        })
-      end,
     },
     {
       "ray-x/lsp_signature.nvim",
@@ -137,6 +123,16 @@ function M.get_plugin_config()
     },
     {
       "ledger/vim-ledger"
+    },
+    {
+      "rest-nvim/rest.nvim",
+      dependencies = {
+        "nvim-treesitter/nvim-treesitter",
+        opts = function(_, opts)
+          opts.ensure_installed = opts.ensure_installed or {}
+          table.insert(opts.ensure_installed, "http")
+        end,
+      }
     },
   }
 end
