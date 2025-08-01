@@ -66,7 +66,7 @@ function M.setup()
     file_ignore_patterns = {},
     path_display = { "smart" },
     winblend = 0,
-    border = {},
+    border = nil,
     borderchars = nil,
     color_devicons = true,
     set_env = { ["COLORTERM"] = "truecolor" }, -- default = nil,
@@ -177,7 +177,8 @@ function M.get_plugin_config()
       dependencies = {
         {
           "nvim-telescope/telescope-fzf-native.nvim",
-          build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release'
+          build =
+          'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release -DCMAKE_POLICY_VERSION_MINIMUM=3.5 && cmake --build build --config Release'
         },
         "nvim-telescope/telescope-live-grep-args.nvim" },
       lazy = true,

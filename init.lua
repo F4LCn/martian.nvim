@@ -26,6 +26,3 @@ lsp.setup()
 
 local theme = require "plugins.theme"
 theme.setup()
-
-local Log = require "core.log"
-Log:debug "Starting nvim :)"
