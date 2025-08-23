@@ -94,7 +94,7 @@ function M.common_on_attach(client, bufnr)
   add_lsp_buffer_options(bufnr)
   lu.setup_document_symbols(client, bufnr)
   if client.server_capabilities.inlayHintProvider then
-    vim.lsp.inlay_hint.enable(bufnr)
+    vim.lsp.inlay_hint.enable(true)
   end
 end
 

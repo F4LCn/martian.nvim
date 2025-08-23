@@ -8,6 +8,7 @@ return {
   filetypes = { 'zig', 'zir' },
   root_markers = { 'zls.json', 'build.zig', '.git' },
   workspace_required = false,
+  zig_lib_path = "~/.local/share/zigup/master/files/lib",
   settings = {
     enable_argument_placeholders = false,
     inlay_hints_hide_redundant_param_names = true,
