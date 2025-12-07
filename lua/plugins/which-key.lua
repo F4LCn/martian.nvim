@@ -126,7 +126,8 @@ M.setup = function()
     { "<leader>tl", "<cmd>Trouble loclist toggle<cr>",                                                              desc = "loclist" },
     { "<leader>tr", "<cmd>Trouble references toggle<cr>",                                                           desc = "references" },
     { "<leader>te", "<cmd>Trouble diagnostics toggle filter.severity=vim.diagnostic.severity.ERROR<cr>",            desc = "references" },
-    { "<leader>tt", "<cmd>TodoTrouble<cr>",                                                                         desc = "todos" },
+    { "<leader>tc", "<cmd>Trouble todo<cr>",                                                                        desc = "comments" },
+    { "<leader>tt", "<cmd>Trouble todo filter = {tag={BUG, FIXME, TODO}}<cr>",                                      desc = "todo" },
     { "<leader>ts", "<cmd>Trouble symbols toggle pinned=true win.relative=win win.position=right win.size=0.3<cr>", desc = "symbols" },
 
     { "<leader>d",  group = "Debug" },

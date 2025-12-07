@@ -6,6 +6,7 @@ M.servers = {
   "clangd",
   "lua_ls",
   "ts_ls",
+  "pylsp",
 }
 
 local function add_lsp_buffer_options(bufnr)
@@ -117,7 +118,7 @@ function M.setup()
     on_init = default_behaviors.on_init,
   })
 
-  vim.lsp.enable({ "ts_ls", "lua_ls", "clangd", "zls" })
+  vim.lsp.enable({ "ts_ls", "lua_ls", "clangd", "zls", "pylsp", "tsgo" })
 
   require('crates').setup({
     lsp = {
@@ -201,7 +202,8 @@ function M.get_plugin_config()
                 runBuildScripts = true,
               },
               -- Add clippy lints for Rust.
-              checkOnSave = {
+              checkOnSave = true,
+              check = {
                 allFeatures = false,
                 command = "clippy",
                 extraArgs = { "--no-deps" },

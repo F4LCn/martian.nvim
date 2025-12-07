@@ -17,7 +17,7 @@ local modules = {
   "plugins.telescope",
   "plugins.mason",
   "plugins.nvimtree",
-  "plugins.project",
+  -- "plugins.project",
   "plugins.terminal",
   "plugins.others",
   "plugins.bufferline",

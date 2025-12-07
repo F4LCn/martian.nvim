@@ -36,7 +36,9 @@ function M.get_plugin_config()
       end,
     },
     {
-      "folke/trouble.nvim",
+      -- "folke/trouble.nvim",
+      "h-michael/trouble.nvim",
+      branch = "fix/decoration-provider-api",
       cmd = "Trouble",
       opts = {
         auto_preview = false,
