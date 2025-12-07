@@ -317,6 +317,14 @@ function M.setup()
       { name = "buffer" },
     },
   })
+
+  cmp.event:on("menu_opened", function()
+    vim.b.copilot_suggestion_hidden = true
+  end)
+  
+  cmp.event:on("menu_closed", function()
+    vim.b.copilot_suggestion_hidden = false
+  end)
 end
 
 function M.get_plugin_config()

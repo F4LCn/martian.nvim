@@ -97,6 +97,14 @@ local keymap = {
     -- no highlight on esc
     ["<Esc>"] = "<cmd> noh <CR>",
 
+    -- AI Completion toggle
+    ["<leader>ai"] = function()
+      local ai_state = require('utils.ai_state')
+      ai_state.toggle()
+      local copilot_suggestion = require("copilot.suggestion")
+      copilot_suggestion.toggle_auto_trigger()
+    end,
+
   },
 
   term_mode = {

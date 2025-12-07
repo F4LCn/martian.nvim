@@ -92,16 +92,11 @@ return {
 
       local buf_ft = vim.bo.filetype
       local buf_client_names = {}
-      local copilot_active = false
 
       -- add client
       for _, client in pairs(buf_clients) do
         if client.name ~= "null-ls" and client.name ~= "copilot" then
           table.insert(buf_client_names, client.name)
-        end
-
-        if client.name == "copilot" then
-          copilot_active = true
         end
       end
 
@@ -118,10 +113,6 @@ return {
       local unique_client_names = table.concat(buf_client_names, ", ")
       local language_servers = string.format("[%s]", unique_client_names)
 
-      if copilot_active then
-        language_servers = language_servers .. "%#SLCopilot#" .. " " .. Icons.git.Octoface .. "%*"
-      end
-
       return language_servers
     end,
     color = { gui = "bold" },
@@ -135,18 +126,35 @@ return {
     color = {},
   },
 
-  spaces = {
-    function()
-      local shiftwidth = vim.api.nvim_get_option_value("shiftwidth", { buf = 0 })
-      return Icons.ui.Tab .. " " .. shiftwidth
-    end,
-    padding = 1,
-  },
-  encoding = {
-    "o:encoding",
-    fmt = string.upper,
-    color = {},
-  },
+   spaces = {
+     function()
+       local shiftwidth = vim.api.nvim_get_option_value("shiftwidth", { buf = 0 })
+       return Icons.ui.Tab .. " " .. shiftwidth
+     end,
+     padding = 1,
+   },
+   ai = {
+     function()
+       local ai_state = require "utils.ai_state"
+       if ai_state.is_enabled() then
+         return Icons.ai.Robot
+       end
+       return ""
+     end,
+     padding = { left = 1, right = 1 },
+     color = function()
+       local ai_state = require "utils.ai_state"
+       if ai_state.is_enabled() then
+         return { fg = colors.green }
+       end
+       return { fg = colors.gray }
+     end,
+   },
+   encoding = {
+     "o:encoding",
+     fmt = string.upper,
+     color = {},
+   },
   filetype = { "filetype", cond = nil, padding = { left = 1, right = 1 } },
   scrollbar = {
     function()

@@ -142,5 +142,8 @@ return {
     BoldHint = "",
     Hint = "󰌶",
     Debug = "",
-  }
+  },
+   ai = {
+     Robot = "🤖",
+   }
 }

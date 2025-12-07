@@ -28,6 +28,7 @@ local modules = {
   "plugins.cmp",
   "lsp",
   "plugins.db",
+  "plugins.copilot",
 }
 
 function M:configs()
