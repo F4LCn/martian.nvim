@@ -23,7 +23,7 @@ local modules = {
   "plugins.bufferline",
   "plugins.indentlines",
   "plugins.neotest",
-  "plugins.dressing",
+  "plugins.nui",
   "plugins.dim",
   "plugins.cmp",
   "lsp",
