@@ -34,7 +34,6 @@ local function custom_filter(buf, buf_nums)
   if last_tab == 1 then
     return true
   end
-  -- only show log buffers in secondary tabs
   return (tab_num == last_tab and is_log) or (tab_num ~= last_tab and not is_log)
 end
 
@@ -75,7 +74,6 @@ function M.buf_kill(kill_command, bufnr, force)
     end
   end
 
-  -- Get list of windows IDs with the buffer to close
   local windows = vim.tbl_filter(function(win)
     return api.nvim_win_get_buf(win) == bufnr
   end, api.nvim_list_wins())
@@ -84,14 +82,10 @@ function M.buf_kill(kill_command, bufnr, force)
     kill_command = kill_command .. "!"
   end
 
-  -- Get list of active buffers
   local buffers = vim.tbl_filter(function(buf)
     return api.nvim_buf_is_valid(buf) and bo[buf].buflisted
   end, api.nvim_list_bufs())
 
-  -- If there is only one buffer (which has to be the current one), vim will
-  -- create a new buffer on :bd.
-  -- For more than one buffer, pick the previous buffer (wrapping around if necessary)
   if #buffers > 1 and #windows > 0 then
     for i, v in ipairs(buffers) do
       if v == bufnr then
@@ -104,8 +98,6 @@ function M.buf_kill(kill_command, bufnr, force)
     end
   end
 
-  -- Check if buffer still exists, to ensure the target buffer wasn't killed
-  -- due to options like bufhidden=wipe.
   if api.nvim_buf_is_valid(bufnr) and bo[bufnr].buflisted then
     vim.cmd(string.format("%s %d", kill_command, bufnr))
   end
@@ -135,11 +127,6 @@ function M.setup()
       close_icon = Icons.ui.BoldClose,
       left_trunc_marker = Icons.ui.ArrowCircleLeft,
       right_trunc_marker = Icons.ui.ArrowCircleRight,
-      -- name_formatter = function(buf)
-      --   if buf.name:match "%.md" then
-      --     return vim.fn.fnamemodify(buf.name, ":t:r")
-      --   end
-      -- end,
       max_name_length = 30,
       max_prefix_length = 5,
       truncate_names = true,

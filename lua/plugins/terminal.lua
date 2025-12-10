@@ -1,6 +1,5 @@
 local M = {}
 
---- Get current buffer size
 ---@return {width: number, height: number}
 local function get_buf_size()
   local cbuf = vim.api.nvim_get_current_buf()
@@ -13,7 +12,6 @@ local function get_buf_size()
   return { width = bufinfo.width, height = bufinfo.height }
 end
 
---- Get the dynamic terminal size in cells
 ---@param direction string|number
 ---@param size number
 ---@return integer
@@ -42,7 +40,6 @@ M.init = function()
       cmd = exec[1] or vim.o.shell,
       keymap = exec[2],
       label = exec[3],
-      -- NOTE: unable to consistently bind id/count <= 9, see #2146
       count = i + 100,
       direction = direction,
       size = function()
@@ -99,7 +96,6 @@ M._exec_toggle = function(opts)
   term:toggle(opts.size, opts.direction)
 end
 
----Toggles a log viewer according to log.viewer.layout_config
 ---@param logfile string the fullpath to the logfile
 M.toggle_log_view = function(logfile)
   local log_viewer = "less +F"

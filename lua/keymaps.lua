@@ -51,30 +51,23 @@ local keymap = {
   },
 
   normal_mode = {
-    -- window movement
     ["<C-h>"] = "<cmd>lua require('smart-splits').move_cursor_left()<cr>",
     ["<C-j>"] = "<cmd>lua require('smart-splits').move_cursor_down()<cr>",
     ["<C-k>"] = "<cmd>lua require('smart-splits').move_cursor_up()<cr>",
     ["<C-l>"] = "<cmd>lua require('smart-splits').move_cursor_right()<cr>",
 
-    -- window resizing
     ["<C-S-h>"] = "<cmd>lua require('smart-splits').resize_left()<cr>",
     ["<C-S-j>"] = "<cmd>lua require('smart-splits').resize_down()<cr>",
     ["<C-S-k>"] = "<cmd>lua require('smart-splits').resize_up()<cr>",
     ["<C-S-l>"] = "<cmd>lua require('smart-splits').resize_right()<cr>",
 
-    -- move lines
     ["<A-j>"] = ":m .+1<CR>==",
     ["<A-k>"] = ":m .-2<CR>==",
 
-    -- QuickFix
     ["]q"] = ":cnext<CR>",
     ["[q"] = ":cprev<CR>",
     ["<C-q>"] = ":call QuickFixToggle()<CR>",
 
-    -- Diagnostics
-    -- ["<F60>"] = "<cmd>lua vim.diagnostic.goto_next()<cr>",
-    -- ["<F24>"] = "<cmd>lua vim.diagnostic.goto_prev()<cr>",
 
     ["<F60>"] = function()
       jump_to_diagnostic(1)
@@ -83,21 +76,15 @@ local keymap = {
       jump_to_diagnostic(-1)
     end,
 
-    -- tabs navigation
-    -- ["<Tab>"] = ":BufferLineCycleNext<CR>",
-    -- ["<S-Tab>"] = ":BufferLineCyclePrev<CR>",
 
-    -- Debugging
     ["<F5>"] = "<cmd>lua require'dap'.continue()<cr>",
     ["<F9>"] = "<cmd>lua require'dap'.step_back()<cr>",
     ["<F10>"] = "<cmd>lua require'dap'.step_over()<cr>",
     ["<F11>"] = "<cmd>lua require'dap'.step_into()<cr>",
     ["<F12>"] = "<cmd>lua require'dap'.step_out()<cr>",
 
-    -- no highlight on esc
     ["<Esc>"] = "<cmd> noh <CR>",
 
-    -- AI Completion toggle
     ["<leader>ai"] = function()
       local ai_state = require('utils.ai_state')
       ai_state.toggle()
@@ -108,7 +95,6 @@ local keymap = {
   },
 
   term_mode = {
-    -- Terminal window navigation
     ["<C-h>"] = "<C-\\><C-N><C-w>h",
     ["<C-j>"] = "<C-\\><C-N><C-w>j",
     ["<C-k>"] = "<C-\\><C-N><C-w>k",
@@ -116,7 +102,6 @@ local keymap = {
   },
 
   visual_mode = {
-    -- Better indenting
     ["<"] = "<gv",
     [">"] = ">gv",
   },
@@ -127,8 +112,6 @@ local keymap = {
   },
 
   command_mode = {
-    -- navigate tab completion with <c-j> and <c-k>
-    -- runs conditionally
     ["<C-j>"] = { 'pumvisible() ? "\\<C-n>" : "\\<C-j>"', { expr = true, noremap = true } },
     ["<C-k>"] = { 'pumvisible() ? "\\<C-p>" : "\\<C-k>"', { expr = true, noremap = true } },
   },
@@ -141,14 +124,12 @@ if vim.fn.has "mac" == 1 then
   keymap.normal_mode["<A-Right>"] = keymap.normal_mode["<C-Right>"]
 end
 
--- Unsets all keybindings defined in keymaps
 -- @param keymaps The table of key mappings containing a list per mode (normal_mode, insert_mode, ..)
 function M.clear(keymaps)
   local default = M.get_keymap()
   for mode, mappings in pairs(keymaps) do
     local translated_mode = mode_adapters[mode] and mode_adapters[mode] or mode
     for key, _ in pairs(mappings) do
-      -- some plugins may override default bindings that the user hasn't manually overriden
       if default[mode][key] ~= nil or (default[translated_mode] ~= nil and default[translated_mode][key] ~= nil) then
         pcall(vim.api.nvim_del_keymap, translated_mode, key)
       end
@@ -156,7 +137,6 @@ function M.clear(keymaps)
   end
 end
 
--- Set key mappings individually
 -- @param mode The keymap mode, can be one of the keys of mode_adapters
 -- @param key The key of keymap
 -- @param val Can be form as a mapping or tuple of mapping and user defined opt
@@ -173,7 +153,6 @@ function M.set_keymaps(mode, key, val)
   end
 end
 
--- Load key mappings for a given mode
 -- @param mode The keymap mode, can be one of the keys of mode_adapters
 -- @param keymaps The list of key mappings
 function M.load_mode(mode, keymaps)
@@ -183,7 +162,6 @@ function M.load_mode(mode, keymaps)
   end
 end
 
--- Load key mappings for all provided modes
 -- @param keymaps A list of key mappings for each mode
 function M.load(keymaps)
   keymaps = keymaps or {}
@@ -192,12 +170,10 @@ function M.load(keymaps)
   end
 end
 
--- Load the default keymappings
 function M.load_keymap()
   M.load(M.get_keymap())
 end
 
--- Get the default keymappings
 function M.get_keymap()
   return keymap
 end

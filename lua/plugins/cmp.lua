@@ -31,11 +31,8 @@ local function jumpable(dir)
   local win_get_cursor = vim.api.nvim_win_get_cursor
   local get_current_buf = vim.api.nvim_get_current_buf
 
-  ---sets the current buffer's luasnip to the one nearest the cursor
   ---@return boolean true if a node is found, false otherwise
   local function seek_luasnip_cursor_node()
-    -- TODO(kylo252): upstream this
-    -- for outdated versions of luasnip
     if not luasnip.session.current_nodes then
       return false
     end
@@ -51,7 +48,6 @@ local function jumpable(dir)
     local pos = win_get_cursor(0)
     pos[1] = pos[1] - 1
 
-    -- exit early if we're past the exit node
     if exit_node then
       local exit_pos_end = exit_node.mark:pos_end()
       if (pos[1] > exit_pos_end[1]) or (pos[1] == exit_pos_end[1] and pos[2] > exit_pos_end[2]) then
@@ -69,7 +65,6 @@ local function jumpable(dir)
       local candidate = n_next ~= snippet and next_pos and (pos[1] < next_pos[1])
           or (pos[1] == next_pos[1] and pos[2] < next_pos[2])
 
-      -- Past unmarked exit node, exit early
       if n_next == nil or n_next == snippet.next then
         snippet:remove_from_jumplist()
         luasnip.session.current_nodes[get_current_buf()] = nil
@@ -92,14 +87,11 @@ local function jumpable(dir)
       end
     end
 
-    -- No candidate, but have an exit node
     if exit_node then
-      -- to jump to the exit node, seek to snippet
       luasnip.session.current_nodes[get_current_buf()] = snippet
       return true
     end
 
-    -- No exit node, exit from snippet
     snippet:remove_from_jumplist()
     luasnip.session.current_nodes[get_current_buf()] = nil
     return false
@@ -265,7 +257,6 @@ function M.setup()
         elseif jumpable(1) then
           luasnip.jump(1)
         elseif has_words_before() then
-          -- cmp.complete()
           fallback()
         else
           fallback()

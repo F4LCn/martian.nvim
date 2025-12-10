@@ -37,7 +37,6 @@ function M.load_defaults()
         desc = "fix gf functionality inside .lua files",
         callback = function()
           ---@diagnostic disable: assign-type-mismatch
-          -- credit: https://github.com/sam4llis/nvim-lua-gf
           vim.opt_local.include = [[\v<((do|load)file|require|reload)[^''"]*[''"]\zs[^''"]+]]
           vim.opt_local.includeexpr = "substitute(v:fname,'\\.','/','g')"
           vim.opt_local.suffixesadd:prepend ".lua"
@@ -180,11 +179,8 @@ function M.load_defaults()
   M.define_autocmds(definitions)
 end
 
---- Clean autocommand in a group if it exists
---- This is safer than trying to delete the augroup itself
 ---@param name string the augroup name
 function M.clear_augroup(name)
-  -- defer the function in case the autocommand is still in-use
   vim.schedule(function()
     pcall(function()
       vim.api.nvim_clear_autocmds { group = name }

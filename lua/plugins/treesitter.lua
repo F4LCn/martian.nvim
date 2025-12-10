@@ -1,7 +1,6 @@
 local M = {}
 
 function M.setup()
-  -- avoid running in headless mode since it's harder to detect failures
   if #vim.api.nvim_list_uis() == 0 then
     return
   end
@@ -37,9 +36,7 @@ function M.setup()
     textobjects = {
       swap = {
         enable = false,
-        -- swap_next = textobj_swap_keymaps,
       },
-      -- move = textobj_move_keymaps,
       select = {
         enable = true,
         lookahead = true,
@@ -97,9 +94,6 @@ function M.get_plugin_config()
   return {
     {
       "nvim-treesitter/nvim-treesitter",
-      -- dependencies = {
-      --   "nvim-treesitter/nvim-treesitter-textobjects",
-      -- },
       config = M.setup,
       build = ":TSUpdate",
       cmd = {
@@ -123,10 +117,6 @@ function M.get_plugin_config()
         }
       end
     },
-    -- {
-    --   "nvim-treesitter/nvim-treesitter-textobjects",
-    --   after = "nvim-treesitter",
-    -- },
   }
 end
 

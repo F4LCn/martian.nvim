@@ -65,10 +65,6 @@ function M.init()
     },
     virtual_lines = false,
     virtual_text = false,
-    -- virtual_text = {
-    --   current_line = true,
-    --   severity = vim.diagnostic.severity.ERROR,
-    -- },
     update_in_insert = false,
     underline = true,
     severity_sort = true,

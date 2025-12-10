@@ -43,7 +43,6 @@ M.setup = function()
     update_debounce = 200,
     max_file_length = 40000,
     preview_config = {
-      -- Options passed to nvim_open_win
       border = "rounded",
       style = "minimal",
       relative = "cursor",

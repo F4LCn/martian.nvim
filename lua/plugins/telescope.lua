@@ -172,7 +172,6 @@ function M.get_plugin_config()
   return {
     {
       "nvim-telescope/telescope.nvim",
-      -- branch = "0.1.x",
       config = M.setup,
       dependencies = {
         {

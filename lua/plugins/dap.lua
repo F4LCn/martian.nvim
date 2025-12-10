@@ -92,7 +92,6 @@ M.setup_ui = function()
   dapui.setup({
     icons = { expanded = "", collapsed = "", circular = "" },
     mappings = {
-      -- Use a table to apply multiple mappings
       expand = { "<CR>", "<2-LeftMouse>" },
       open = "o",
       remove = "d",
@@ -100,7 +99,6 @@ M.setup_ui = function()
       repl = "r",
       toggle = "t",
     },
-    -- Use this to override mappings for specific elements
     element_mappings = {},
     expand_lines = true,
     layouts = {
@@ -125,7 +123,6 @@ M.setup_ui = function()
     },
     controls = {
       enabled = true,
-      -- Display controls in this element
       element = "repl",
       icons = {
         pause = "",
@@ -156,14 +153,7 @@ M.setup_ui = function()
   dap.listeners.after.event_initialized["dapui_config"] = function()
     dapui.open()
   end
-  -- dap.listeners.before.event_terminated["dapui_config"] = function()
-  --   dapui.close()
-  -- end
-  -- dap.listeners.before.event_exited["dapui_config"] = function()
-  --   dapui.close()
-  -- end
 
-  -- until rcarriga/nvim-dap-ui#164 is fixed
   local function notify_handler(msg, level, opts)
     if level >= vim.log.levels.INFO then
       return vim.notify(msg, level, opts)

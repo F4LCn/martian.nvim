@@ -3,7 +3,6 @@ local M = {}
 function M.setup()
   local ai_state = require "utils.ai_state"
 
-  -- Configure copilot with virtual text only
   require('copilot').setup {
     suggestion = {
       enabled = false,

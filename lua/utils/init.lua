@@ -1,7 +1,6 @@
 local M = {}
-local uv = vim.loop
+local uv = vim.uv
 
---- Checks whether a given path exists and is a file.
 --@param path (string) path to check
 --@returns (bool)
 function M.is_file(path)
@@ -9,7 +8,6 @@ function M.is_file(path)
   return stat and stat.type == "file" or false
 end
 
---- Checks whether a given path exists and is a directory
 --@param path (string) path to check
 --@returns (bool)
 function M.is_directory(path)

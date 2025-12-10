@@ -7,6 +7,8 @@ M.servers = {
   "lua_ls",
   "ts_ls",
   "pylsp",
+  "tsgo",
+  "zls",
 }
 
 local function add_lsp_buffer_options(bufnr)
@@ -95,7 +97,7 @@ function M.common_on_attach(client, bufnr)
   add_lsp_buffer_options(bufnr)
   lu.setup_document_symbols(client, bufnr)
   if client.server_capabilities.inlayHintProvider then
-    vim.lsp.inlay_hint.enable(true)
+    vim.lsp.inlay_hint.enable(true, { bufnr })
   end
 end
 
@@ -118,7 +120,7 @@ function M.setup()
     on_init = default_behaviors.on_init,
   })
 
-  vim.lsp.enable({ "ts_ls", "lua_ls", "clangd", "zls", "pylsp", "tsgo" })
+  vim.lsp.enable(M.servers)
 
   require('crates').setup({
     lsp = {
@@ -137,21 +139,11 @@ function M.setup()
     },
   })
 
-  -- Enable rounded borders in :LspInfo window.
   require("lspconfig.ui.windows").default_options.border = "rounded"
 end
 
 function M.get_plugin_config()
   return {
-    -- {
-    --   "neovim/nvim-lspconfig",
-    --   lazy = true,
-    --   dependencies = {
-    --     "mason-lspconfig.nvim",
-    --     { 'j-hui/fidget.nvim', opts = {} },
-    --     "jose-elias-alvarez/typescript.nvim",
-    --   },
-    -- },
     {
       "williamboman/mason-lspconfig.nvim",
       cmd = { "LspInstall", "LspUninstall" },
@@ -159,9 +151,6 @@ function M.get_plugin_config()
       event = "User FileOpened",
       dependencies = "mason.nvim",
     },
-    -- {
-    --   "jose-elias-alvarez/null-ls.nvim"
-    -- },
     {
       "p00f/clangd_extensions.nvim",
       opts = {
@@ -201,7 +190,6 @@ function M.get_plugin_config()
                 loadOutDirsFromCheck = true,
                 runBuildScripts = true,
               },
-              -- Add clippy lints for Rust.
               checkOnSave = true,
               check = {
                 allFeatures = false,

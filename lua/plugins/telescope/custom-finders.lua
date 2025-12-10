@@ -19,8 +19,6 @@ local copy_to_clipboard_action = function(prompt_bufnr)
   actions.close(prompt_bufnr)
 end
 
--- Smartly opens either git_files or find_files, depending on whether the working directory is
--- contained in a Git repo.
 function M.find_project_files(opts)
   opts = opts or {}
   local ok = pcall(builtin.git_files, opts)

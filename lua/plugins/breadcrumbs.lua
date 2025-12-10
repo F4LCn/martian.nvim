@@ -90,9 +90,6 @@ M.get_filename = function()
       file_icon = Icons.ui.Watches
     end
 
-    -- if buf_ft == "dapui_console" then
-    --   file_icon = Icons.ui.DebugConsole
-    -- end
 
     local navic_text = vim.api.nvim_get_hl(0, { name = "Normal" })
     vim.api.nvim_set_hl(0, "Winbar", { fg = navic_text.foreground })
@@ -170,7 +167,6 @@ M.get_winbar = function()
   end
 
   if not f.isempty(value) and f.get_buf_option "mod" then
-    -- TODO: replace with circle
     local mod = "%#LspCodeLens#" .. Icons.ui.Circle .. "%*"
     if gps_added then
       value = value .. " " .. mod

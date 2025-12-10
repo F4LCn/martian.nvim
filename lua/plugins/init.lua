@@ -17,7 +17,6 @@ local modules = {
   "plugins.telescope",
   "plugins.mason",
   "plugins.nvimtree",
-  -- "plugins.project",
   "plugins.terminal",
   "plugins.others",
   "plugins.bufferline",
@@ -36,8 +35,6 @@ function M:configs()
   for _, module_path in ipairs(modules) do
     local module_ok, module = pcall(require, module_path)
     if not module_ok then
-      -- use this for debug as it give a clearer error message
-      -- module_ok, module = require(module_path)
 
       vim.notify("Couldn't load " .. module_path)
       goto continue

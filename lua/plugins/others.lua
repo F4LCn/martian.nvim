@@ -1,4 +1,3 @@
--- TODO: move these to individual files
 
 local M = {}
 function M.get_plugin_config()
@@ -36,9 +35,7 @@ function M.get_plugin_config()
       end,
     },
     {
-      -- "folke/trouble.nvim",
-      "h-michael/trouble.nvim",
-      branch = "fix/decoration-provider-api",
+      "folke/trouble.nvim",
       cmd = "Trouble",
       opts = {
         auto_preview = false,

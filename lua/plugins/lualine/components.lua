@@ -93,22 +93,13 @@ return {
       local buf_ft = vim.bo.filetype
       local buf_client_names = {}
 
-      -- add client
       for _, client in pairs(buf_clients) do
         if client.name ~= "null-ls" and client.name ~= "copilot" then
           table.insert(buf_client_names, client.name)
         end
       end
 
-      -- add formatter
-      -- local formatters = require "lsp.null-ls.formatters"
-      -- local supported_formatters = formatters.list_registered(buf_ft)
-      -- vim.list_extend(buf_client_names, supported_formatters)
 
-      -- add linter
-      -- local linters = require "lsp.null-ls.linters"
-      -- local supported_linters = linters.list_registered(buf_ft)
-      -- vim.list_extend(buf_client_names, supported_linters)
 
       local unique_client_names = table.concat(buf_client_names, ", ")
       local language_servers = string.format("[%s]", unique_client_names)

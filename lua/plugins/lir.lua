@@ -80,8 +80,6 @@ function M.setup()
         highlight_dirname = true,
       },
 
-      -- You can define a function that returns a table to be passed as the third
-      -- argument of nvim_open_win().
       win_opts = function()
         local width = math.floor(vim.o.columns * 0.7)
         local height = math.floor(vim.o.lines * 0.7)
@@ -94,7 +92,6 @@ function M.setup()
     },
     hide_cursor = false,
     on_init = function()
-      -- use visual mode
       vim.api.nvim_buf_set_keymap(
         0,
         "x",

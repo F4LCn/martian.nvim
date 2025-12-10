@@ -70,17 +70,14 @@ function Log:init()
 
   local logger = structlog.get_logger "nvim"
 
-  -- Overwrite `vim.notify` to use the logger
   vim.notify = function(msg, vim_log_level, opts)
     notify_opts = opts or {}
 
-    -- vim_log_level can be omitted
     if vim_log_level == nil then
       vim_log_level = Log.levels["INFO"]
     elseif type(vim_log_level) == "string" then
       vim_log_level = Log.levels[(vim_log_level):upper()] or Log.levels["INFO"]
     else
-      -- https://github.com/neovim/neovim/blob/685cf398130c61c158401b992a1893c2405cd7d2/runtime/lua/vim/lsp/log.lua#L5
       vim_log_level = vim_log_level + 1
     end
 
@@ -90,7 +87,6 @@ function Log:init()
   return logger
 end
 
---- Configure the sink in charge of logging notifications
 ---@param nvim_notify table The nvim-notify instance
 function Log:configure_notifications(nvim_notify)
   local status_ok, structlog = pcall(require, "structlog")
@@ -117,7 +113,6 @@ function Log:configure_notifications(nvim_notify)
   self.__handle:add_pipeline(notif_pipeline)
 end
 
---- Adds a log entry using Plenary.log
 ---@param level integer [same as vim.log.levels]
 ---@param msg any
 ---@param event any
@@ -135,7 +130,6 @@ function Log:add_entry(level, msg, event)
   end
 end
 
----Retrieves the handle of the logger object
 ---@return table|nil logger handle if found
 function Log:get_logger()
   local logger_ok, logger = pcall(function()
@@ -156,42 +150,36 @@ function Log:get_logger()
   return logger
 end
 
----Retrieves the path of the logfile
 ---@return string path of the logfile
 function Log:get_path()
   local cache_dir = vim.call("stdpath", "cache")
   return string.format("%s/%s.log", cache_dir, "nvim")
 end
 
----Add a log entry at TRACE level
 ---@param msg any
 ---@param event any
 function Log:trace(msg, event)
   self:add_entry(self.levels.TRACE, msg, event)
 end
 
----Add a log entry at DEBUG level
 ---@param msg any
 ---@param event any
 function Log:debug(msg, event)
   self:add_entry(self.levels.DEBUG, msg, event)
 end
 
----Add a log entry at INFO level
 ---@param msg any
 ---@param event any
 function Log:info(msg, event)
   self:add_entry(self.levels.INFO, msg, event)
 end
 
----Add a log entry at WARN level
 ---@param msg any
 ---@param event any
 function Log:warn(msg, event)
   self:add_entry(self.levels.WARN, msg, event)
 end
 
----Add a log entry at ERROR level
 ---@param msg any
 ---@param event any
 function Log:error(msg, event)
