@@ -181,6 +181,13 @@ function M.load_defaults()
     }
   }
 
+  pcall(function()
+    local ok, proj = pcall(require, 'utils.project_root')
+    if ok and proj and proj.setup_autochdir then
+      proj.setup_autochdir()
+    end
+  end)
+
   M.define_autocmds(definitions)
 end
 

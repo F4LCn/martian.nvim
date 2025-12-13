@@ -2,7 +2,6 @@ local M = {}
 
 local modules = {
   "plugins.theme",
-  "plugins.project",
   "plugins.mini",
   "plugins.treesitter",
   "plugins.autopairs",

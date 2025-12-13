@@ -28,27 +28,6 @@ local function get_dynamic_terminal_size(direction, size)
 end
 
 M.init = function()
-  local execs = {
-    { nil, "<M-1>", "Horizontal Terminal", "horizontal", 0.3 },
-    { nil, "<M-2>", "Vertical Terminal",   "vertical",   0.4 },
-    { nil, "<M-3>", "Float Terminal",      "float",      nil },
-  }
-  for i, exec in pairs(execs) do
-    local direction = exec[4] or "float"
-
-    local opts = {
-      cmd = exec[1] or vim.o.shell,
-      keymap = exec[2],
-      label = exec[3],
-      count = i + 100,
-      direction = direction,
-      size = function()
-        return get_dynamic_terminal_size(direction, exec[5])
-      end,
-    }
-
-    M.add_exec(opts)
-  end
 end
 
 M.setup = function()
