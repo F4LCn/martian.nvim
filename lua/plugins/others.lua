@@ -1,4 +1,3 @@
-
 local M = {}
 function M.get_plugin_config()
   return {
@@ -122,6 +121,9 @@ function M.get_plugin_config()
     },
     {
       "ledger/vim-ledger"
+    },
+    {
+      "rcarriga/nvim-notify"
     },
   }
 end
