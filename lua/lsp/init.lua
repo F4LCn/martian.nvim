@@ -7,7 +7,6 @@ M.servers = {
   "lua_ls",
   "ts_ls",
   "pylsp",
-  "tsgo",
   "zls",
 }
 

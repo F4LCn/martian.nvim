@@ -75,7 +75,7 @@ function M.setup()
         winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
       },
     }, {
-      items = menu_items,
+      lines = menu_items,
       on_close = function()
         on_choice(nil, nil)
       end,
