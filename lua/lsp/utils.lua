@@ -103,14 +103,9 @@ function M.setup_document_highlight(client, bufnr)
 end
 
 function M.setup_document_symbols(client, bufnr)
-  vim.g.navic_silence = false -- can be set to true to suppress error
   local symbols_supported = client:supports_method "textDocument/documentSymbol"
   if not symbols_supported then
     return
-  end
-  local status_ok, navic = pcall(require, "nvim-navic")
-  if status_ok then
-    navic.attach(client, bufnr)
   end
 end
 

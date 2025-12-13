@@ -1,15 +1,31 @@
 local M = {}
 
 function M.setup()
-  require("neotest").setup({
-    adapters = {
-      require("neotest-python")({
-        dap = { justMyCode = false },
-      }),
-      require("neotest-dotnet"),
-      require("neotest-zig"),
-    },
-  })
+  local ok, neotest = pcall(require, "neotest")
+  if not ok then
+    return
+  end
+  local adapters = {}
+  pcall(function()
+    local np_ok, np = pcall(require, "neotest-python")
+    if np_ok then
+      table.insert(adapters, np({ dap = { justMyCode = false } }))
+    end
+  end)
+  pcall(function()
+    local nd_ok, nd = pcall(require, "neotest-dotnet")
+    if nd_ok then
+      table.insert(adapters, nd)
+    end
+  end)
+  pcall(function()
+    local nz_ok, nz = pcall(require, "neotest-zig")
+    if nz_ok then
+      table.insert(adapters, nz)
+    end
+  end)
+
+  neotest.setup({ adapters = adapters })
 end
 
 function M.get_plugin_config()

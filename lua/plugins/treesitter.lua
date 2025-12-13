@@ -12,7 +12,7 @@ function M.setup()
 
   treesitter_configs.setup({
     on_config_done = nil,
-    ensure_installed = { "lua", "comment", "markdown_inline", "regex", "c", "cpp", "vimdoc", "rust", "c_sharp" },
+    ensure_installed = { "lua", "c", "cpp", "rust", "typescript", "javascript", "python", "zig", "json", "toml", "markdown", "bash", "regex", "comment" },
     ignore_install = {},
     sync_install = false,
     auto_install = false,

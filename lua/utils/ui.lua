@@ -8,6 +8,9 @@ function M.setup()
     local prompt = input_opts.prompt or "Input: "
     local default = input_opts.default or ""
 
+    local parent_win = vim.api.nvim_get_current_win()
+    local mode = vim.fn.mode()
+
     local input_dialog
     input_dialog = Input({
       relative = "editor",
@@ -34,7 +37,15 @@ function M.setup()
         on_confirm(nil)
       end,
       on_submit = function(value)
-        on_confirm(value)
+        vim.schedule(function()
+          if vim.api.nvim_win_is_valid(parent_win) then
+            vim.api.nvim_set_current_win(parent_win)
+            if mode == "i" then
+              vim.cmd("startinsert")
+            end
+          end
+          on_confirm(value)
+        end)
       end,
     })
 
@@ -52,10 +63,11 @@ function M.setup()
     local format_item = select_opts.format_item or tostring
 
     local menu_items = {}
-    for _, item in ipairs(items) do
-      table.insert(menu_items, Menu.item(format_item(item), item))
+    for i, item in ipairs(items) do
+      table.insert(menu_items, Menu.item(format_item(item), {data = item, index = i}))
     end
-
+    local parent_win = vim.api.nvim_get_current_win()
+    local mode = vim.fn.mode()
     local select_menu = Menu({
       relative = "editor",
       position = "50%",
@@ -80,14 +92,17 @@ function M.setup()
         on_choice(nil, nil)
       end,
       on_submit = function(item)
-        on_choice(item.data, item.index)
+        vim.schedule(function()
+          on_choice(item.data, item.index)
+        end)
       end,
+      keymap = {
+        close = { "<Esc>", "<C-c>" },
+        focus_next = { "j", "<Down>" },
+        focus_prev = { "k", "<Up>" },
+        submit = { "<CR>" },
+      },
     })
-
-    select_menu:map("n", "<Esc>", function()
-      on_choice(nil, nil)
-      select_menu:unmount()
-    end, { noremap = true })
 
     select_menu:mount()
   end
