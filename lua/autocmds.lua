@@ -114,7 +114,12 @@ function M.load_defaults()
       {
         group = "_lvim_colorscheme",
         callback = function()
-          require("plugins.breadcrumbs").get_winbar()
+          pcall(function()
+            local ok, breadcrumbs = pcall(require, "plugins.breadcrumbs")
+            if ok and breadcrumbs.get_winbar then
+              breadcrumbs.get_winbar()
+            end
+          end)
           local statusline_hl = vim.api.nvim_get_hl(0, { name = "StatusLine" })
           local cursorline_hl = vim.api.nvim_get_hl(0, { name = "CursorLine" })
           local normal_hl = vim.api.nvim_get_hl(0, { name = "Normal" })

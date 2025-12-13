@@ -2,14 +2,11 @@ local M = {}
 
 local modules = {
   "plugins.theme",
-  "plugins.alpha",
-  "plugins.which-key",
+  "plugins.project",
   "plugins.mini",
   "plugins.treesitter",
   "plugins.autopairs",
-  "plugins.breadcrumbs",
   "plugins.comment",
-  "plugins.dap",
   "plugins.gitsigns",
   "plugins.illuminate",
   "plugins.lir",
@@ -26,7 +23,6 @@ local modules = {
   "plugins.dim",
   "plugins.cmp",
   "lsp",
-  "plugins.db",
   "plugins.copilot",
 }
 

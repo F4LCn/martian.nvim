@@ -109,6 +109,15 @@ M.methods.jumpable = jumpable
 function M.setup()
   local cmp = require "cmp"
   local luasnip = require "luasnip"
+
+  -- load vscode-style snippets (friendly-snippets)
+  pcall(function()
+    local loader = require("luasnip.loaders.from_vscode")
+    if loader and loader.lazy_load then
+      loader.lazy_load()
+    end
+  end)
+
   local cmp_window = require "cmp.config.window"
   local cmp_mapping = require "cmp.config.mapping"
 
@@ -128,15 +137,15 @@ function M.setup()
 
   local source_names = {
     nvim_lsp = "(LSP)",
-    emoji = "(Emoji)",
     path = "(Path)",
     calc = "(Calc)",
     vsnip = "(Snip)",
     luasnip = "(Snip)",
     buffer = "(Buf)",
-    tmux = "(TMUX)",
     treesitter = "(TS)",
     lazydev = "(VIM)",
+    crates = "(Crate)",
+    nvim_lua = "(Lua)",
   }
 
   local duplicates = {
@@ -191,10 +200,6 @@ function M.setup()
           vim_item.kind_hl_group = "CmpItemKindConstant"
         end
 
-        if entry.source.name == "emoji" then
-          vim_item.kind = Icons.misc.Smiley
-          vim_item.kind_hl_group = "CmpItemKindEmoji"
-        end
         vim_item.menu = source_names[entry.source.name]
         vim_item.dup = duplicates[entry.source.name] or nil
         return vim_item
@@ -210,27 +215,12 @@ function M.setup()
       documentation = cmp_window.bordered(),
     },
     sources = {
-      {
-        name = "nvim_lsp",
-        entry_filter = function(entry, ctx)
-          local kind = require("cmp.types.lsp").CompletionItemKind[entry:get_kind()]
-          if kind == "Snippet" and ctx.prev_context.filetype == "java" then
-            return false
-          end
-          return true
-        end,
-      },
-      { name = "treesitter" },
-      { name = "lazydev" },
+      { name = "nvim_lsp" },
       { name = "buffer" },
+      { name = "path" },
+      { name = "luasnip" },
       { name = "crates" },
       { name = "nvim_lua" },
-      { name = "luasnip" },
-      { name = "path" },
-      { name = "calc" },
-      { name = "emoji" },
-      { name = "tmux" },
-      { name = "crates" },
     },
     mapping = cmp_mapping.preset.insert {
       ["<C-k>"] = cmp_mapping(cmp_mapping.select_prev_item(), { "i", "c" }),
@@ -312,7 +302,7 @@ function M.setup()
   cmp.event:on("menu_opened", function()
     vim.b.copilot_suggestion_hidden = true
   end)
-  
+
   cmp.event:on("menu_closed", function()
     vim.b.copilot_suggestion_hidden = false
   end)

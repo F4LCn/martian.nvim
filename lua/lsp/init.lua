@@ -143,13 +143,7 @@ end
 
 function M.get_plugin_config()
   return {
-    {
-      "williamboman/mason-lspconfig.nvim",
-      cmd = { "LspInstall", "LspUninstall" },
-      lazy = true,
-      event = "User FileOpened",
-      dependencies = "mason.nvim",
-    },
+
     {
       "p00f/clangd_extensions.nvim",
       opts = {
