@@ -9,6 +9,7 @@ M.servers = {
   "tsgo",
   "pylsp",
   "zls",
+  "tsgo",
 }
 
 local function add_lsp_buffer_options(bufnr)
