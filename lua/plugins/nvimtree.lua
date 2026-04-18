@@ -254,10 +254,6 @@ function M.setup()
         watcher = false,
       },
     },
-    system_open = {
-      cmd = nil,
-      args = {},
-    },
   })
 end
 

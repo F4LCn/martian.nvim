@@ -19,19 +19,36 @@ function M.setup()
     matchup = {
       enable = false, -- mandatory, false will disable the whole extension
     },
-    highlight = {
-      enable = true, -- false will disable the whole extension
-      additional_vim_regex_highlighting = false,
-      disable = function(lang, buf)
-        if vim.tbl_contains({ "latex" }, lang) then
-          return true
-        end
+    init = function()
+      vim.api.nvim_create_autocmd('FileType', {
+        callback = function()
+          if vim.tbl_contains({ "latex" }, lang) then
+            return true
+          end
 
-        local status_ok, big_file_detected = pcall(vim.api.nvim_buf_get_var, buf, "bigfile_disable_treesitter")
-        return status_ok and big_file_detected
-      end,
-    },
-    indent = { enable = true, disable = { "yaml", "python" } },
+          local status_ok, big_file_detected = pcall(vim.api.nvim_buf_get_var, buf, "bigfile_disable_treesitter")
+          if status_ok and big_file_detected then
+            return
+          end
+
+          pcall(vim.treesitter.start)
+          vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        end,
+      })
+    end,
+    -- highlight = {
+    --   enable = true, -- false will disable the whole extension
+    --   additional_vim_regex_highlighting = false,
+    --   disable = function(lang, buf)
+    --     if vim.tbl_contains({ "latex" }, lang) then
+    --       return true
+    --     end
+
+    --     local status_ok, big_file_detected = pcall(vim.api.nvim_buf_get_var, buf, "bigfile_disable_treesitter")
+    --     return status_ok and big_file_detected
+    --   end,
+    -- },
+    -- indent = { enable = true, disable = { "yaml", "python" } },
     autotag = { enable = false },
     textobjects = {
       swap = {
@@ -94,6 +111,7 @@ function M.get_plugin_config()
   return {
     {
       "nvim-treesitter/nvim-treesitter",
+      branch = "main",
       config = M.setup,
       build = ":TSUpdate",
       cmd = {
@@ -117,6 +135,7 @@ function M.get_plugin_config()
         }
       end
     },
+    { 'nvim-treesitter/nvim-treesitter-textobjects' },
   }
 end
 

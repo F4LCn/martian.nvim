@@ -171,7 +171,7 @@ function M.load_keymap()
   -- register converted which-key leader mappings (migrated from plugins/which-key)
   local normal_wk = {
     ["<leader>w"] = { "<cmd>w!<CR>", { desc = "Save" } },
-    ["<leader>/"] = { "<Plug>(comment_toggle_linewise_current)", { desc = "Comment toggle current line" } },
+    ["<leader>/"] = { function() return MiniComment.operator() .. "_" end, { desc = "Comment toggle current line", expr = true } },
 
     ["<leader>fb"] = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", { desc = "Find in buffer" } },
     ["<leader>ft"] = { "<cmd>Telescope live_grep<cr>", { desc = "Find Text" } },
@@ -219,7 +219,7 @@ function M.load_keymap()
     ["<leader>tr"] = { "<cmd>Trouble references toggle<cr>", { desc = "references" } },
     ["<leader>te"] = { "<cmd>Trouble diagnostics toggle filter.severity=vim.diagnostic.severity.ERROR<cr>", { desc = "references" } },
     ["<leader>tc"] = { "<cmd>Trouble todo<cr>", { desc = "comments" } },
-    ["<leader>tt"] = { "<cmd>Trouble todo filter = {tag={BUG, FIXME, TODO}}<cr>", { desc = "todo" } },
+    ["<leader>tt"] = { "<cmd>Trouble todo filter = {tag={BUG, FIX, TODO}}<cr>", { desc = "todo" } },
     ["<leader>ts"] = { "<cmd>Trouble symbols toggle pinned=true win.relative=win win.position=right win.size=0.3<cr>", { desc = "symbols" } },
 
 
@@ -244,7 +244,7 @@ function M.load_keymap()
 
 
   local visual_wk = {
-    ["<leader>/"] = { "<Plug>(comment_toggle_linewise_visual)", { desc = "Comment toggle linewise (visual)" } },
+    ["<leader>/"] = { function() return MiniComment.operator() end, { desc = "Comment toggle linewise (visual)", expr = true } },
     ["<leader>ca"] = { "<cmd>lua vim.lsp.buf.code_action()<cr>", { desc = "Code Action" } },
   }
 

@@ -5,7 +5,8 @@ local autocmds = require "autocmds"
 M.servers = {
   "clangd",
   "lua_ls",
-  "ts_ls",
+  -- "ts_ls",
+  "tsgo",
   "pylsp",
   "zls",
 }

@@ -22,7 +22,6 @@ local modules = {
   "plugins.dim",
   "plugins.cmp",
   "lsp",
-  "plugins.copilot",
 }
 
 function M:configs()
