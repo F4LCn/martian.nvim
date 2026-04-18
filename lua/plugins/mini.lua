@@ -2,9 +2,31 @@ local M = {}
 
 function M.setup()
   local mini_ai_ok, mini_ai = pcall(require, "mini.ai")
+  local mini_comment_ok, mini_comment = pcall(require, "mini.comment")
   local mini_surround_ok, mini_surround = pcall(require, "mini.surround")
   if mini_ai_ok then
     mini_ai.setup()
+  end
+  if mini_comment_ok then
+    mini_comment.setup({
+      options = {
+        custom_commentstring = function()
+          local ok, ts_context_commentstring = pcall(require, "ts_context_commentstring")
+          if not ok then
+            return vim.bo.commentstring
+          end
+
+          return ts_context_commentstring.calculate_commentstring() or vim.bo.commentstring
+        end,
+        ignore_blank_line = true,
+      },
+      mappings = {
+        comment = "gc",
+        comment_line = "gcc",
+        comment_visual = "gc",
+        textobject = "",
+      },
+    })
   end
   if mini_surround_ok then
     mini_surround.setup()
